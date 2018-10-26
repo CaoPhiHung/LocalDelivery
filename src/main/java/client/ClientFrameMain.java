@@ -1,4 +1,4 @@
-package main.java.client.ui;
+package main.java.client;
 
 public class ClientFrameMain {
 }

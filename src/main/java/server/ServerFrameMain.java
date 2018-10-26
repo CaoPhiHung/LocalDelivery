@@ -1,4 +1,4 @@
-package main.java.server.ui;
+package main.java.server;
 
 public class ServerFrameMain {
 }
