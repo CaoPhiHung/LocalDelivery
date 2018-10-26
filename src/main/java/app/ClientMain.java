@@ -1,9 +1,13 @@
 package main.java.app;
 
+import main.java.client.ClientFrameMain;
+
 public class ClientMain {
 
     public static void main(String[] args) {
-        System.out.println("Hello World");
+
+        ClientFrameMain cfm = new ClientFrameMain();
+//        cfm.displayWindow(true);
     }
 
 }
