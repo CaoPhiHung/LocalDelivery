@@ -7,7 +7,6 @@ public class ClientMain {
     public static void main(String[] args) {
 
         ClientFrameMain cfm = new ClientFrameMain();
-//        cfm.displayWindow(true);
     }
 
 }
