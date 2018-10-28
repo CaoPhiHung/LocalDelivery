@@ -9,9 +9,6 @@ import java.awt.*;
 
 public class ClientFrameMain extends JFrame {
 
-    private int appWidth = 500;
-    private int appHeight = 300;
-
     /*
         scene:
             0 - Login
@@ -27,7 +24,7 @@ public class ClientFrameMain extends JFrame {
     ClientLoginListener cll = new ClientLoginListener(this);
 
     //Frame app
-    ClientFrameApp clientFrameApp = new ClientFrameApp();
+    ClientFrameApp clientFrameApp;
 
     public ClientFrameMain()
     {
@@ -36,7 +33,7 @@ public class ClientFrameMain extends JFrame {
 
         this.setTitle("Client Local Delivery");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(new Dimension(appWidth,appHeight));
+        this.setSize(new Dimension(clientFrameLogin.getAppWidth(),clientFrameLogin.getAppHeight()));
         this.setLocationRelativeTo(null); // Center app
         this.setVisible(true);
     }
@@ -48,7 +45,12 @@ public class ClientFrameMain extends JFrame {
             this.setContentPane(clientFrameLogin.getContentPane());
         }else if(scene == MAIN_SCENE)
         {
+            clientFrameApp = new ClientFrameApp();
+            this.setVisible(false);
+            this.setSize(new Dimension(clientFrameApp.getAppWidth(), clientFrameApp.getAppHeight()));
+            this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameApp.getContentPane());
+            this.setVisible(true);
         }
 
         this.repaint(); // Repaint to refresh screen
