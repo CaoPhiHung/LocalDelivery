@@ -23,7 +23,6 @@ public class ClientFrameLogin extends JFrame{
     private JPanel loginPanel;
     private JPanel titlePanel;
     private JPanel userWrapper;
-    private JPanel passWrapper;
     private JTextField username;
     private JPasswordField password;
     private JPanel userLineWrapper;
@@ -33,15 +32,10 @@ public class ClientFrameLogin extends JFrame{
     /**
      * Constructor
      */
-    public ClientFrameLogin()
-    {
-        this.setContentPane(mainPanel);
-    }
-
-    public void setListener(ClientLoginListener cll)
+    public ClientFrameLogin(ClientLoginListener cll)
     {
         this.cll = cll;
-        assignListeners();
+        this.setContentPane(mainPanel);
     }
 
     /**
@@ -55,9 +49,10 @@ public class ClientFrameLogin extends JFrame{
 
         titleLabel = new JLabelC("LOCAL DELIVERY");
         titleLabel.setSize(new Dimension(200,300));
+
     }
 
-    private void assignListeners()
+    public void assignListeners()
     {
         loginBtn.addActionListener(cll);
     }

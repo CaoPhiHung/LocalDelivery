@@ -14,6 +14,7 @@ public class JPanelBackground extends JPanel {
 
     private Image bgImage;
     private Image scaled;
+    private float alpha = 0.5f;
 
     public JPanelBackground(URL path)
     {
@@ -50,12 +51,19 @@ public class JPanelBackground extends JPanel {
 
         // It needs to be calculated first
         // When first initiate , no dimension yet
+//        Graphics2D g2 = (Graphics2D) g;
+//        AlphaComposite alcom = AlphaComposite.getInstance(
+//                AlphaComposite.SRC_OVER, alpha);
+//        g2.dra
+//        g2.setComposite(alcom);
+
         if(scaled != null && scaled.getWidth(this) > 0)
         {
             g.drawImage(scaled, 0, 0, this);
         }else
         {
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLUE);
+            g.fillRect(0,0,getWidth(),getHeight());
         }
 
     }

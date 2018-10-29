@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClientLoginListener implements ActionListener {
+public class ClientAppListener implements ActionListener {
 
-    private JFrame jf;
-    public ClientLoginListener(JFrame jf)
+    JFrame jf;
+
+    public ClientAppListener(JFrame jf)
     {
         this.jf = jf;
     }
@@ -21,13 +22,11 @@ public class ClientLoginListener implements ActionListener {
         {
             JButton clickedBtn = (JButton)e.getSource();
 
-            if(clickedBtn.getText().equals("Login"))
+            if(clickedBtn.getText().equals("Back"))
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
                 cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu
             }
         }
-
     }
-
 }

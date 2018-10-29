@@ -1,5 +1,7 @@
 package main.java.client.ui;
 
+import main.java.client.listeners.ClientAppListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,8 +19,11 @@ public class ClientFrameApp extends JFrame{
     private JPanel infoArea;
     private JLabel quantityLabel;
 
-    public ClientFrameApp()
+    private ClientAppListener cal;
+
+    public ClientFrameApp(ClientAppListener cal)
     {
+        this.cal = cal;
         this.setContentPane(mainPanel);
     }
 
@@ -39,12 +44,19 @@ public class ClientFrameApp extends JFrame{
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+
+        //Declare
         shoppingArea = new JPanel();
+        backBtn = new JButton();
+
         for(int i = 0; i < 20; i++)
         {
             shoppingArea.add(new JButton("test"));
         }
+    }
 
+    public void assignListeners()
+    {
+        backBtn.addActionListener(this.cal);
     }
 }
