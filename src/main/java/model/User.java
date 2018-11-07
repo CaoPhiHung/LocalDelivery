@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class User implements Serializable {
 
-	public int userId;
+	public String username;
 	public String name;
 	public String address;
 	public String email;

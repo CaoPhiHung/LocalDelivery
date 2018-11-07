@@ -22,21 +22,17 @@ public class ServerThread implements Runnable{
 	
 	@Override
 	public void run() {
-
+		User user = null;
 		try {
 			System.out.println("Sending message to client - " + (new Date()).toString());
-
-			ObjectInputStream in = new ObjectInputStream(this.cSocket.getInputStream());
 			ObjectOutputStream out = new ObjectOutputStream(this.cSocket.getOutputStream());
-
-			User user = (User)in.readObject();
-//			User user = new User();
-			user.name = "Hung";			
-//			out.writeObject(user);
-//			out.flush();
-			System.out.println("Username:  " + user.password);
-	        in.close();
-	        out.close();
+			ObjectInputStream in = new ObjectInputStream(this.cSocket.getInputStream());
+			
+			while ((user = (User)in.readObject()) != null) {
+				user.email = "Hung@gmail.com";	
+				out.writeObject(user);
+				System.out.println("This is my email - Server : " + user.email);
+			}
 	        cSocket.close();
 	        
 		} catch (Exception e) {

@@ -6,10 +6,14 @@ import java.util.Date;
 
 public class ServerMain {
 	public static final int PORT =8881;
-	public static final String IP = "192.168.0.14";
+	public static final String IP = "140.161.81.28";
 	
     public static void main(String[] args) {
-    	
+    	new ServerMain().startServer();
+
+    }
+    
+    private void startServer() {
 		InetAddress ip;
 		
         try {
@@ -19,7 +23,6 @@ public class ServerMain {
             System.out.println("Main Server done");
             
             ServerSocket serverSocket = new ServerSocket(PORT);
-            
             
             ServerWaitingClient swc = new ServerWaitingClient(serverSocket);
             Thread tr = new Thread(swc);
@@ -31,8 +34,6 @@ public class ServerMain {
             System.out.println(e);
         }
     }
-    
-    
 
 
 }

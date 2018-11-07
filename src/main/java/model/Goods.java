@@ -5,6 +5,7 @@ public class Goods {
 	private int goodsId;
 	private String name;
 	private double price;
-	private double quantity;
+	private int quantity;
+	private String imgPath;
 	
 }
