@@ -1,9 +1,11 @@
 package main.java.client.ui;
 
 import main.java.client.listeners.ClientAppListener;
+import main.java.component.JPanelItem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class ClientFrameApp extends JFrame{
 
@@ -16,8 +18,17 @@ public class ClientFrameApp extends JFrame{
     private JPanel buttonWrapper;
     private JButton backBtn;
     private JButton checkoutButton;
-    private JPanel infoArea;
+    private JPanel quantityWrapper;
     private JLabel quantityLabel;
+    private JLabel quantityValue;
+    private JPanel InfoArea;
+    private JPanel locationArea;
+    private JPanel userArea;
+    private JPanel userInfoPanel;
+    private JPanel userWrapper;
+    private JPanel locationWrapper;
+    private JTextField latitudeBox;
+    private JTextField longitudeBox;
 
     private ClientAppListener cal;
 
@@ -46,12 +57,14 @@ public class ClientFrameApp extends JFrame{
     private void createUIComponents() {
 
         //Declare
-        shoppingArea = new JPanel();
+        shoppingArea = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backBtn = new JButton();
+        URL url = this.getClass().getResource("../../../resources/images/orange_pic.png");
 
-        for(int i = 0; i < 20; i++)
+        for(int i = 0; i < 10; i++)
         {
-            shoppingArea.add(new JButton("test"));
+
+            shoppingArea.add(new JPanelItem(url,120,120));
         }
     }
 

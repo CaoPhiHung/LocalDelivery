@@ -59,6 +59,8 @@ public class ClientFrameMain extends JFrame {
     {
         if(scene == LOGIN_SCENE)
         {
+            this.setSize(new Dimension(clientFrameLogin.getAppWidth(), clientFrameLogin.getAppHeight()));
+            this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameLogin.getContentPane());
         }else if(scene == MENU_SCENE)
         {

@@ -40,13 +40,15 @@ public class ClientFrameMenu extends JFrame{
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+
         orderGoodsButton = new JButton();
+        logOutButton = new JButton();
 
     }
 
     public void assignListeners()
     {
         orderGoodsButton.addActionListener(this.cml);
+        logOutButton.addActionListener(this.cml);
     }
 }

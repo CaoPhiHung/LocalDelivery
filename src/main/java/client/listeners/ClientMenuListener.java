@@ -25,6 +25,10 @@ public class ClientMenuListener implements ActionListener {
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main
+            }else if(clickedBtn.getText().equals("Log out"))
+            {
+                ClientFrameMain cfm = (ClientFrameMain)jf;
+                cfm.setScene(ClientFrameMain.LOGIN_SCENE); // Change to main
             }
         }
     }

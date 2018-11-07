@@ -62,7 +62,7 @@ public class JPanelBackground extends JPanel {
             g.drawImage(scaled, 0, 0, this);
         }else
         {
-            g.setColor(Color.BLUE);
+//            g.setColor(Color.BLUE);
             g.fillRect(0,0,getWidth(),getHeight());
         }
 

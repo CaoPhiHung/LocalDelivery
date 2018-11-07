@@ -42,8 +42,7 @@ public class ClientFrameLogin extends JFrame{
      * Custom UI components when creating form
      */
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        String path = System.getProperty("user.dir") + "/src/main/resources/images/background.jpg";
+//        String path = System.getProperty("user.dir") + "/src/main/resources/images/background.jpg";
         URL url = this.getClass().getResource("../../../resources/images/background.jpg");
         mainPanel = new JPanelBackground(url);
 
