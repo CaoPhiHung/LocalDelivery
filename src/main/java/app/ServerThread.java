@@ -8,6 +8,7 @@ import main.java.model.EventAction;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Order;
+import main.java.model.OrderDetail;
 import main.java.model.User;
 import main.service.FileHandling;
 
@@ -40,7 +41,19 @@ public class ServerThread implements Runnable{
 					}	
 					break;
 				case 1:
-
+					if ((event.goods_list = getAllGoods()) != null) {
+						out.writeObject(event);
+					}
+					break;
+				case 2:
+					if ((event.order_list = getAllOrders(event.requireId)) != null) {
+						out.writeObject(event);
+					}
+					break;
+				case 3:
+					if ((event.order_detail_list = getAllOrderDetails(event.requireId)) != null) {
+						out.writeObject(event);
+					}
 					break;
 				default:
 					break;
@@ -74,10 +87,17 @@ public class ServerThread implements Runnable{
 	}
 	
 	
-	public GenericDLinkedList<Order> getAllOrders(){
+	public GenericDLinkedList<Order> getAllOrders(int userId){
 		fh.setReadType(2);
-		fh.readFile("Goods.txt");
+		fh.setCheckedUserId(userId);
+		fh.readFile("Order.txt");
 		return fh.order_list;
 	}
 	
+	public GenericDLinkedList<OrderDetail> getAllOrderDetails(int orderId){
+		fh.setReadType(3);
+		fh.setCheckedOrderId(orderId);
+		fh.readFile("OrderDetail.txt");
+		return fh.order_detail_list;
+	}
 }

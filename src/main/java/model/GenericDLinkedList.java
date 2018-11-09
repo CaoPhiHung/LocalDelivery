@@ -1,5 +1,8 @@
 package main.java.model;
-public class GenericDLinkedList<T> {
+
+import java.io.Serializable;
+
+public class GenericDLinkedList<T> implements Serializable {
 	public int searchType  = 0;
 	private T data;
 	private GenericNode<T> next;

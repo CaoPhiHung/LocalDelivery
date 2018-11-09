@@ -1,23 +1,33 @@
 package main.service;
 
 import java.io.FileReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Order;
+import main.java.model.OrderDetail;
 import main.java.model.User;
 
 public class FileHandling {
 	
 	private int readType;
+	private int checkUserId;
+	private int checkOrderId;
+	
 	public GenericDLinkedList<User> user_list = new GenericDLinkedList<User>();
-	public GenericDLinkedList<Goods> goods_list = new GenericDLinkedList<Goods>();;
-	public GenericDLinkedList<Order> order_list = new GenericDLinkedList<Order>();;
+	public GenericDLinkedList<Goods> goods_list = new GenericDLinkedList<Goods>();
+	public GenericDLinkedList<Order> order_list = new GenericDLinkedList<Order>();
+	public GenericDLinkedList<OrderDetail> order_detail_list = new GenericDLinkedList<OrderDetail>();
 	
 	public void setReadType(int type){
 		this.readType = type;
+	}
+	
+	public void setCheckedUserId(int id){
+		this.checkUserId = id;
 	}
 	
 	/**
@@ -50,10 +60,26 @@ public class FileHandling {
 						goods_list.add(newGoods);
 						break;
 					case 2:
-						Order newOrder = new Order();
-						order_list.add(newOrder);
+						int userid = Integer.parseInt(parts[1]);
+						if(userid == this.checkUserId) {
+							int id = Integer.parseInt(parts[0]);
+							Date date = Date.valueOf(parts[2]);
+							double price1 = Double.parseDouble(parts[3]);
+							Order newOrder = new Order(id, userid, date , price1);
+							order_list.add(newOrder);
+						}
 						break;
-		
+					case 3:
+						int orderId = Integer.parseInt(parts[1]);
+						if(orderId == this.checkOrderId) {
+							int id = Integer.parseInt(parts[0]);
+							int goodsid = Integer.parseInt(parts[2]);
+							int quantity1 = Integer.parseInt(parts[3]);
+							OrderDetail newOrderDetail = new OrderDetail(id, orderId, goodsid, quantity1);
+							order_detail_list.add(newOrderDetail);
+						}
+
+						break;
 					default:
 						break;
 				}
@@ -90,6 +116,11 @@ public class FileHandling {
 	
 	public static void main (String [] args){
 		
+	}
+
+	public void setCheckedOrderId(int orderId) {
+		// TODO Auto-generated method stub
+		this.checkOrderId = orderId;
 	}
 	
 }

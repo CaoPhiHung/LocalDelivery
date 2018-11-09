@@ -1,6 +1,8 @@
 package main.java.model;
-	
-public class GenericNode<T> {
+
+import java.io.Serializable;
+
+public class GenericNode<T> implements Serializable {
 		
 		public T data;
 		public GenericNode<T> next;

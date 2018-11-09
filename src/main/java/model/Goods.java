@@ -1,6 +1,8 @@
 package main.java.model;
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable {
 
 	private int goodsId;
 	private String name;
