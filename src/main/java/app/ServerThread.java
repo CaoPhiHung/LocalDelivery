@@ -49,16 +49,25 @@ public class ServerThread implements Runnable{
 				case 1:
 					if ((event.goods_list = getAllGoods()) != null) {
 						out.writeObject(event);
+					}else {
+						event.goods_list = null;
+                        out.writeObject(event);
 					}
 					break;
 				case 2:
 					if ((event.order_list = getAllOrders(event.requireId)) != null) {
 						out.writeObject(event);
+					}else {
+						event.order_list = null;
+                        out.writeObject(event);
 					}
 					break;
 				case 3:
 					if ((event.order_detail_list = getAllOrderDetails(event.requireId)) != null) {
 						out.writeObject(event);
+					}else {
+						event.order_detail_list = null;
+                        out.writeObject(event);
 					}
 					break;
 				default:
