@@ -19,6 +19,9 @@ public class ClientFrameOrder extends JFrame{
     private JPanel userInfoList;
     private JPanel controlArea;
     private JButton backButton;
+    private JPanel userArea;
+    private JPanel userWrapper;
+    private JPanel locationWrapper;
     private ClientOrderListener col;
 
     public ClientFrameOrder(ClientOrderListener col)
