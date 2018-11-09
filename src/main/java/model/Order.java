@@ -11,8 +11,9 @@ public class Order implements Serializable {
 	public int userId;
 	public Date date;
 	public double totalPrice;
+	public String destination;
 	
-	public Order(int id, int userId, Date date, double totalPrice) {
+	public Order(int id, int userId, Date date, double totalPrice, String destination) {
 		this.orderId = id;
 		this.userId = userId;
 		this.date = date;

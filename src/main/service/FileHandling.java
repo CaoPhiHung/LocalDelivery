@@ -65,7 +65,7 @@ public class FileHandling {
 							int id = Integer.parseInt(parts[0]);
 							Date date = Date.valueOf(parts[2]);
 							double price1 = Double.parseDouble(parts[3]);
-							Order newOrder = new Order(id, userid, date , price1);
+							Order newOrder = new Order(id, userid, date , price1, parts[4]);
 							order_list.add(newOrder);
 						}
 						break;
