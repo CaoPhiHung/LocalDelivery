@@ -70,4 +70,14 @@ public class ClientFrameLogin extends JFrame{
     public void setAppHeight(int appHeight) {
         this.appHeight = appHeight;
     }
+
+    public String getUsernameValue()
+    {
+        return username.getText();
+    }
+
+    public char[] getPasswordValue()
+    {
+        return password.getPassword();
+    }
 }

@@ -1,5 +1,4 @@
 package main.java.client;
-
 import main.java.client.listeners.ClientAppListener;
 import main.java.client.listeners.ClientLoginListener;
 import main.java.client.listeners.ClientMenuListener;
@@ -8,6 +7,7 @@ import main.java.client.ui.ClientFrameApp;
 import main.java.client.ui.ClientFrameLogin;
 import main.java.client.ui.ClientFrameMenu;
 import main.java.client.ui.ClientFrameOrder;
+import main.java.model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +26,8 @@ public class ClientFrameMain extends JFrame {
     public static int MENU_SCENE = 1;
     public static int MAIN_SCENE = 2;
     public static int ORDER_SCENE = 3;
+
+    User loginUser;
 
     //Frame Login
     ClientLoginListener cll = new ClientLoginListener(this);
@@ -89,4 +91,19 @@ public class ClientFrameMain extends JFrame {
     }
 
 
+    public ClientFrameLogin getClientFrameLogin() {
+        return clientFrameLogin;
+    }
+
+    public ClientFrameApp getClientFrameApp() {
+        return clientFrameApp;
+    }
+
+    public ClientFrameMenu getClientFrameMenu() {
+        return clientFrameMenu;
+    }
+
+    public ClientFrameOrder getClientFrameOrder() {
+        return clientFrameOrder;
+    }
 }
