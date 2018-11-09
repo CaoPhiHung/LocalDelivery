@@ -2,13 +2,11 @@
     Author: Tan Thinh Ngo
  */
 
-package main.java.component;
+package main.java.component.customJPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.ImageObserver;
 import java.net.URL;
-import java.sql.SQLOutput;
 
 public class JPanelBackground extends JPanel {
 

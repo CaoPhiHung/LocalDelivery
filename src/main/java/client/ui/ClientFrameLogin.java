@@ -2,12 +2,10 @@ package main.java.client.ui;
 
 import main.java.client.listeners.ClientLoginListener;
 import main.java.component.JLabelC;
-import main.java.component.JPanelBackground;
+import main.java.component.customJPanel.JPanelBackground;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class ClientFrameLogin extends JFrame{
@@ -36,6 +34,7 @@ public class ClientFrameLogin extends JFrame{
     {
         this.cll = cll;
         this.setContentPane(mainPanel);
+        assignListeners();
     }
 
     /**
@@ -51,7 +50,7 @@ public class ClientFrameLogin extends JFrame{
 
     }
 
-    public void assignListeners()
+    private void assignListeners()
     {
         loginBtn.addActionListener(cll);
     }

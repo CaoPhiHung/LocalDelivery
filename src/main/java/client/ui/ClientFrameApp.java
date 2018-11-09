@@ -1,7 +1,7 @@
 package main.java.client.ui;
 
 import main.java.client.listeners.ClientAppListener;
-import main.java.component.JPanelItem;
+import main.java.component.customJPanel.JPanelItemControl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +36,7 @@ public class ClientFrameApp extends JFrame{
     {
         this.cal = cal;
         this.setContentPane(mainPanel);
+        assignListeners();
     }
 
     public int getAppWidth() {
@@ -63,8 +64,7 @@ public class ClientFrameApp extends JFrame{
 
         for(int i = 0; i < 10; i++)
         {
-
-            shoppingArea.add(new JPanelItem(url,120,120));
+            shoppingArea.add(new JPanelItemControl(url,120,120));
         }
     }
 

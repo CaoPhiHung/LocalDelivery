@@ -21,14 +21,17 @@ public class ClientMenuListener implements ActionListener {
         {
             JButton clickedBtn = (JButton)e.getSource();
 
-            if(clickedBtn.getText().equals("Order goods"))
+            if(clickedBtn.getText().equals("Order goods")) {
+                ClientFrameMain cfm = (ClientFrameMain) jf;
+                cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
+            }else if(clickedBtn.getText().equals("View Orders"))
             {
-                ClientFrameMain cfm = (ClientFrameMain)jf;
-                cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main
+                ClientFrameMain cfm = (ClientFrameMain) jf;
+                cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
             }else if(clickedBtn.getText().equals("Log out"))
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
-                cfm.setScene(ClientFrameMain.LOGIN_SCENE); // Change to main
+                cfm.setScene(ClientFrameMain.LOGIN_SCENE); // Change to login scene
             }
         }
     }

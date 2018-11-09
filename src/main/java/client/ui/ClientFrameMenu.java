@@ -21,6 +21,7 @@ public class ClientFrameMenu extends JFrame{
     {
         this.cml = cml;
         this.setContentPane(mainPanel);
+        assignListeners();
     }
 
     public int getAppWidth() {
@@ -42,13 +43,15 @@ public class ClientFrameMenu extends JFrame{
     private void createUIComponents() {
 
         orderGoodsButton = new JButton();
+        viewOrdersButton = new JButton();
         logOutButton = new JButton();
 
     }
 
-    public void assignListeners()
+    private void assignListeners()
     {
         orderGoodsButton.addActionListener(this.cml);
+        viewOrdersButton.addActionListener(this.cml);
         logOutButton.addActionListener(this.cml);
     }
 }
