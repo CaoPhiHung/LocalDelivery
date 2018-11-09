@@ -18,6 +18,7 @@ public class Order implements Serializable {
 		this.userId = userId;
 		this.date = date;
 		this.totalPrice = totalPrice;
+		this.destination = destination;
 	}
 	
 }
