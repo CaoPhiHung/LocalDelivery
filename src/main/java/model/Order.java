@@ -5,9 +5,12 @@ import java.util.Date;
 
 public class Order {
 
-	private int orderId;
-	private  ArrayList<Goods> good_list;
-	private int userId;
-	private Date date;
+	public int orderId;
+	public  ArrayList<Goods> good_list;
+	public int userId;
+	public Date date;
+	
+	
+	
 	
 }

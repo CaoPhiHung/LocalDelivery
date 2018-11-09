@@ -8,4 +8,12 @@ public class Goods {
 	private int quantity;
 	private String imgPath;
 	
+	public Goods(int goodsId, String name, double price, int quantity, String imgPath){
+		this.goodsId = goodsId;
+		this.name= name;
+		this.price = price;
+		this.quantity = quantity;
+		this.imgPath= imgPath;
+	}
+	
 }

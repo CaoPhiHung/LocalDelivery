@@ -1,39 +1,51 @@
 package main.java.app;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
+import main.java.model.EventAction;
+import main.java.model.GenericDLinkedList;
+import main.java.model.Goods;
+import main.java.model.Order;
 import main.java.model.User;
+import main.service.FileHandling;
 
 public class ServerThread implements Runnable{
 
 	Socket cSocket; 
-	public boolean listen = true;
+	private GenericDLinkedList<User> user_list;
+	private GenericDLinkedList<Goods> goods_list;
+	private GenericDLinkedList<Order> orders_list;
+	private FileHandling fh = new FileHandling();
 	
 	public ServerThread(Socket cSocket) {
 		this.cSocket = cSocket;
+		this.user_list = this.getAllUsers();
 	}
 	
 	@Override
 	public void run() {
-		User user = null;
+		EventAction event = null;
 		try {
 			System.out.println("Sending message to client - " + (new Date()).toString());
 			ObjectOutputStream out = new ObjectOutputStream(this.cSocket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(this.cSocket.getInputStream());
 			
-			while ((user = (User)in.readObject()) != null) {
-				user.email = "Hung@gmail.com";	
-				out.writeObject(user);
-				System.out.println("This is my email - Server : " + user.email);
+			if((event = (EventAction)in.readObject()) != null){
+				switch (event.eventType) {
+				case 0:
+					if((event.user = checkAuthenticate((User)event.user)) != null){
+						out.writeObject(event);
+					}	
+					break;
+				case 1:
+
+					break;
+				default:
+					break;
+				}
 			}
-	        cSocket.close();
 	        
 		} catch (Exception e) {
 			System.out.println(e);
@@ -41,5 +53,31 @@ public class ServerThread implements Runnable{
 
 	}
 	
-
+	public User checkAuthenticate(User checkedUser){
+		User returnUser = (User)this.user_list.search(checkedUser).data;
+			
+		return returnUser;
+	}
+	
+	
+	public GenericDLinkedList<User> getAllUsers(){
+		fh.setReadType(0);
+		fh.readFile("User.txt");
+		return fh.user_list;
+	}
+	
+	
+	public GenericDLinkedList<Goods>  getAllGoods(){
+		fh.setReadType(1);
+		fh.readFile("Goods.txt");
+		return fh.goods_list;
+	}
+	
+	
+	public GenericDLinkedList<Order> getAllOrders(){
+		fh.setReadType(2);
+		fh.readFile("Goods.txt");
+		return fh.order_list;
+	}
+	
 }
