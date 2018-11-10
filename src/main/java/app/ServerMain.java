@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class ServerMain {
 	public static final int PORT =8881;
-	public static final String IP = "169.254.215.101";
+	public static final String IP = "140.161.81.28";
 	
     public static void main(String[] args) {
     	new ServerMain().startServer();
