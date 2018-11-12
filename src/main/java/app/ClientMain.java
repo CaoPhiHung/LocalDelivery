@@ -25,7 +25,6 @@ public class ClientMain {
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-
 	
     public static void main(String[] args) throws IOException {
 
@@ -57,8 +56,6 @@ public class ClientMain {
 				return this.order_detail_list;
 			}
 
-			
-	        
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -86,8 +83,6 @@ public class ClientMain {
 				return this.goods_list;
 			}
 
-			
-	        
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,7 +90,6 @@ public class ClientMain {
 		
 		socket.close();
 		return null;
-		
     } 
     
     public GenericDLinkedList<Order> getAllOrderList(int userId) throws IOException {
@@ -125,6 +119,5 @@ public class ClientMain {
 		
 		socket.close();
 		return null;
-		
     } 
 }

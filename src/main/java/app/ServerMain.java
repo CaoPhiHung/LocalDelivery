@@ -27,10 +27,8 @@ public class ServerMain {
             ServerWaitingClient swc = new ServerWaitingClient(serverSocket);
             Thread tr = new Thread(swc);
             tr.start();
-            
           
         } catch (Exception e) {
- 
             System.out.println(e);
         }
     }
