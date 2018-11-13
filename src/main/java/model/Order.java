@@ -20,5 +20,20 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 		this.destination = destination;
 	}
-	
+
+    @Override
+    public String toString() {
+	    String toReturn = "orderId: " + orderId +
+                "- userId:" + userId +
+                "- date:" + date.toString() +
+                "- totalPrice: " + totalPrice +
+                "- destination: " + destination;
+        return toReturn;
+    }
+
+    public String displayOrder()
+    {
+        String toReturn = "oID: " + orderId + "date: " + date.toString();
+        return toReturn;
+    }
 }

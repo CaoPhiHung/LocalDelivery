@@ -1,7 +1,9 @@
 package main.java.app;
+
+import main.java.server.ServerFrameMain;
+
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Date;
 
 public class ServerMain {
@@ -9,11 +11,10 @@ public class ServerMain {
 	public static String IP;
 	
     public static void main(String[] args) {
-    	new ServerMain().startServer();
-
+    	startServer();
     }
     
-    private void startServer() {
+    private static void startServer() {
 		InetAddress ip;
 		
         try {
@@ -28,6 +29,8 @@ public class ServerMain {
             ServerWaitingClient swc = new ServerWaitingClient(serverSocket);
             Thread tr = new Thread(swc);
             tr.start();
+
+            ServerFrameMain sfm = new ServerFrameMain();
           
         } catch (Exception e) {
             System.out.println(e);

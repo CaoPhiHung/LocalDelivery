@@ -43,7 +43,7 @@ public class ClientLoginListener implements ActionListener {
                         System.out.println(newUser.toString());
 
                         //Set user
-                        cfm.setLoginUser(newUser);
+                        cfm.getModel().setLoginUser(newUser);
 
                         // Is it user? -> menu
                         cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu

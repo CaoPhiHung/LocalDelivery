@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import main.java.client.listeners.ClientAppListener;
 import main.java.component.customJPanel.JPanelItemControl;
+import main.java.model.ClientModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,8 @@ public class ClientFrameApp extends JFrame {
 
     private int appWidth = 800;
     private int appHeight = 600;
+
+    private ClientModel model;
 
     private JPanel mainPanel;
     private JPanel shoppingArea;
@@ -34,8 +37,9 @@ public class ClientFrameApp extends JFrame {
 
     private ClientAppListener cal;
 
-    public ClientFrameApp(ClientAppListener cal) {
+    public ClientFrameApp(ClientModel mo, ClientAppListener cal) {
         this.cal = cal;
+        this.model = mo;
         $$$setupUI$$$();
         this.setContentPane(mainPanel);
         assignListeners();

@@ -3,6 +3,7 @@ package main.java.client.ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import main.java.client.listeners.ClientMenuListener;
+import main.java.model.ClientModel;
 
 import javax.swing.*;
 import java.awt.*;

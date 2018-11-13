@@ -31,26 +31,25 @@ public class ClientMenuListener implements ActionListener {
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
             }else if(clickedBtn.getText().equals("View Orders"))
             {
-                ClientFrameMain cfm = (ClientFrameMain) jf;
-                cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
 
+                ClientFrameMain cfm = (ClientFrameMain) jf;
                 OrderService os = new OrderService();
                 OrderDetailService ods = new OrderDetailService();
                 GoodsService gs = new GoodsService();
-                User user = cfm.getLoginUser();
+
 
                 try {
+                    User user = cfm.getModel().getLoginUser();
 
                     // View orders
-                    cfm.setOrderList(os.getAllOrderList(user.userId));
-                    cfm.setOrderListDetail(ods.getAllOrderDetailList(1));
+                    cfm.getModel().setOrderList(os.getAllOrderList(user.userId));
+                    cfm.getModel().setOrderListDetail(ods.getAllOrderDetailList(1));
 
                     // Order goods
-                    cfm.setGoodsList(gs.getAllGoodsList());
+                    cfm.getModel().setGoodsList(gs.getAllGoodsList());
 
-                    System.out.println(cfm.getOrderList().size());
-                    System.out.println(cfm.getOrderListDetail().size());
-                    System.out.println(cfm.getGoodsList().size());
+
+                    cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
 
                 }catch(IOException ioe)
                 {

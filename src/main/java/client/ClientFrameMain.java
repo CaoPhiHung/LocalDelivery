@@ -21,17 +21,13 @@ public class ClientFrameMain extends JFrame {
             1 - Menu
             2- Main
      */
-    private int scene = 0;
 
     public static int LOGIN_SCENE = 0;
     public static int MENU_SCENE = 1;
     public static int MAIN_SCENE = 2;
     public static int ORDER_SCENE = 3;
 
-    private User loginUser = null;
-    private GenericDLinkedList<Order> order_list = null;
-    private GenericDLinkedList<OrderDetail> order_list_detail = null;
-    private GenericDLinkedList<Goods> goodsList = null;
+    ClientModel model;
 
     //Frame Login
     ClientLoginListener cll = new ClientLoginListener(this);
@@ -51,12 +47,9 @@ public class ClientFrameMain extends JFrame {
 
 
     public ClientFrameMain() {
-        clientFrameMenu = new ClientFrameMenu(cml);
-        clientFrameLogin = new ClientFrameLogin(cll);
-        clientFrameApp = new ClientFrameApp(cal);
-        clientFrameOrder = new ClientFrameOrder(col);
 
         setScene(LOGIN_SCENE); // Login scene by default
+        model = new ClientModel();
 
         this.setTitle("Client Local Delivery");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,18 +60,22 @@ public class ClientFrameMain extends JFrame {
 
     public void setScene(int scene) {
         if (scene == LOGIN_SCENE) {
+            clientFrameLogin = new ClientFrameLogin(cll);
             this.setSize(new Dimension(clientFrameLogin.getAppWidth(), clientFrameLogin.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameLogin.getContentPane());
         } else if (scene == MENU_SCENE) {
+            clientFrameMenu = new ClientFrameMenu(cml);
             this.setSize(new Dimension(clientFrameMenu.getAppWidth(), clientFrameMenu.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameMenu.getContentPane());
         } else if (scene == MAIN_SCENE) {
+            clientFrameApp = new ClientFrameApp(this.model, cal);
             this.setSize(new Dimension(clientFrameApp.getAppWidth(), clientFrameApp.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameApp.getContentPane());
         } else if (scene == ORDER_SCENE) {
+            clientFrameOrder = new ClientFrameOrder(this.model, col);
             this.setSize(new Dimension(clientFrameOrder.getAppWidth(), clientFrameOrder.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameOrder.getContentPane());
@@ -104,36 +101,8 @@ public class ClientFrameMain extends JFrame {
         return clientFrameOrder;
     }
 
-    public User getLoginUser() {
-        return loginUser;
-    }
-
-    public void setLoginUser(User loginUser) {
-        this.loginUser = loginUser;
-    }
-
-    public GenericDLinkedList<Order> getOrderList() {
-        return order_list;
-    }
-
-    public void setOrderList(GenericDLinkedList<Order> order_list) {
-        this.order_list = order_list;
-    }
-
-    public GenericDLinkedList<OrderDetail> getOrderListDetail() {
-        return order_list_detail;
-    }
-
-    public void setOrderListDetail(GenericDLinkedList<OrderDetail> order_list_detail) {
-        this.order_list_detail = order_list_detail;
-    }
-
-    public GenericDLinkedList<Goods> getGoodsList() {
-        return goodsList;
-    }
-
-    public void setGoodsList(GenericDLinkedList<Goods> goodsList) {
-        this.goodsList = goodsList;
+    public ClientModel getModel() {
+        return model;
     }
 
     {

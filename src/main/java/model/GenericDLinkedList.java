@@ -73,6 +73,10 @@ public class GenericDLinkedList<T> implements Serializable {
 		
 		return found;
 	}
+
+	public GenericNode<T> getHead() {
+        return head;
+    }
 	
 //	public void print() {
 //        GenericNode<T> tmpNode = head;
