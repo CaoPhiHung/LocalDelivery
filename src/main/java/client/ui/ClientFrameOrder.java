@@ -75,6 +75,8 @@ public class ClientFrameOrder extends JFrame {
             }
         }
 
+        this.listOrder.addListSelectionListener(col);
+
         // Add list
         this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         URL url = this.getClass().getResource("../../../resources/images/orange_pic.png");

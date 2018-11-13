@@ -3,10 +3,12 @@ package main.java.client.listeners;
 import main.java.client.ClientFrameMain;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClientOrderListener implements ActionListener {
+public class ClientOrderListener implements ActionListener, ListSelectionListener {
 
     JFrame jf;
 
@@ -28,5 +30,17 @@ public class ClientOrderListener implements ActionListener {
                 cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu
             }
         }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
+        if(e.getSource() instanceof JList && !e.getValueIsAdjusting())
+        {
+            JList jl = (JList)e.getSource();
+            int ind = jl.getSelectedIndex();
+            System.out.println("Index: " + jl.getModel().getElementAt(ind));
+        }
+
     }
 }
