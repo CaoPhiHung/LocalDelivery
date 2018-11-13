@@ -4,6 +4,8 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import main.java.client.listeners.ClientOrderListener;
 import main.java.component.customJPanel.JPanelItemDisplay;
+import main.java.model.User;
+import main.java.service.OrderService;
 
 import javax.swing.*;
 import java.awt.*;

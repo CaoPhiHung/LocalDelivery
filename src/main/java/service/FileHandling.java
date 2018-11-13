@@ -61,7 +61,11 @@ public class FileHandling {
 						break;
 					case 2:
 						int userid = Integer.parseInt(parts[1]);
+                        System.out.println("Userid: " + userid);
+                        System.out.println("Check user id : " + this.checkUserId);
+
 						if(userid == this.checkUserId) {
+                            System.out.println("here");
 							int id = Integer.parseInt(parts[0]);
 							Date date = Date.valueOf(parts[2]);
 							double price1 = Double.parseDouble(parts[3]);

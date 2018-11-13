@@ -16,7 +16,7 @@ public class OrderDetailService {
     private ObjectOutputStream oos;
 	private GenericDLinkedList<OrderDetail> order_detail_list;
 	
-    private GenericDLinkedList<OrderDetail> getAllOrderDetailList(int id) throws IOException {
+    public GenericDLinkedList<OrderDetail> getAllOrderDetailList(int id) throws IOException {
     	System.out.println("Trying to connect - " + ServerMain.IP + ":" + ServerMain.PORT 
 				+ " , " + (new Date()).toString());
 

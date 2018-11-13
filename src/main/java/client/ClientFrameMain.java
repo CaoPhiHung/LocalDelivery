@@ -8,7 +8,7 @@ import main.java.client.ui.ClientFrameApp;
 import main.java.client.ui.ClientFrameLogin;
 import main.java.client.ui.ClientFrameMenu;
 import main.java.client.ui.ClientFrameOrder;
-import main.java.model.User;
+import main.java.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,10 @@ public class ClientFrameMain extends JFrame {
     public static int MAIN_SCENE = 2;
     public static int ORDER_SCENE = 3;
 
-    User loginUser;
+    private User loginUser = null;
+    private GenericDLinkedList<Order> order_list = null;
+    private GenericDLinkedList<OrderDetail> order_list_detail = null;
+    private GenericDLinkedList<Goods> goodsList = null;
 
     //Frame Login
     ClientLoginListener cll = new ClientLoginListener(this);
@@ -99,6 +102,38 @@ public class ClientFrameMain extends JFrame {
 
     public ClientFrameOrder getClientFrameOrder() {
         return clientFrameOrder;
+    }
+
+    public User getLoginUser() {
+        return loginUser;
+    }
+
+    public void setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    public GenericDLinkedList<Order> getOrderList() {
+        return order_list;
+    }
+
+    public void setOrderList(GenericDLinkedList<Order> order_list) {
+        this.order_list = order_list;
+    }
+
+    public GenericDLinkedList<OrderDetail> getOrderListDetail() {
+        return order_list_detail;
+    }
+
+    public void setOrderListDetail(GenericDLinkedList<OrderDetail> order_list_detail) {
+        this.order_list_detail = order_list_detail;
+    }
+
+    public GenericDLinkedList<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(GenericDLinkedList<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 
     {

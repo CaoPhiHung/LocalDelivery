@@ -42,13 +42,15 @@ public class ClientLoginListener implements ActionListener {
                         System.out.println("new user????");
                         System.out.println(newUser.toString());
 
+                        //Set user
+                        cfm.setLoginUser(newUser);
+
                         // Is it user? -> menu
                         cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu
                     }else
                     {
                         System.out.println("No user existed");
                     }
-
 
                 }catch(IOException ioe)
                 {

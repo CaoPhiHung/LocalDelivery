@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class ServerMain {
 	public static final int PORT =8881;
-	public static final String IP = "140.161.81.28";
+	public static String IP;
 	
     public static void main(String[] args) {
     	new ServerMain().startServer();
@@ -18,6 +18,7 @@ public class ServerMain {
 		
         try {
             ip = InetAddress.getLocalHost();
+            IP = ip.getHostAddress();
             System.out.println("IP address of the server: " + ip.getHostAddress());
             System.out.println("Creating a socket - " + (new Date()).toString());
             System.out.println("Main Server done");

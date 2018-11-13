@@ -57,6 +57,7 @@ public class ServerThread implements Runnable{
 				case 2:
 					if ((event.order_list = getAllOrders(event.requireId)) != null) {
 						out.writeObject(event);
+                        System.out.println("Size: " + event.order_list.size());
 					}else {
 						event.order_list = null;
                         out.writeObject(event);
