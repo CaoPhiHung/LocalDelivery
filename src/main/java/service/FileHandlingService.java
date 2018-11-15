@@ -5,13 +5,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import main.java.model.GenericBinarySearchTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Order;
 import main.java.model.OrderDetail;
 import main.java.model.User;
 
-public class FileHandling {
+public class FileHandlingService {
 	
 	private int readType;
 	private int checkUserId;
@@ -19,7 +20,7 @@ public class FileHandling {
 	
 	public GenericDLinkedList<User> user_list = new GenericDLinkedList<User>();
 	public GenericDLinkedList<Goods> goods_list = new GenericDLinkedList<Goods>();
-	public GenericDLinkedList<Order> order_list = new GenericDLinkedList<Order>();
+	public GenericBinarySearchTree<Order> order_list = new GenericBinarySearchTree<Order>();
 	public GenericDLinkedList<OrderDetail> order_detail_list = new GenericDLinkedList<OrderDetail>();
 	
 	public void setReadType(int type){
@@ -50,14 +51,14 @@ public class FileHandling {
 					case 0:
 						int user_id = Integer.parseInt(parts[0]);
 						User newUser = new User(user_id, parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
-						user_list.add(newUser);
+						user_list.addAtTheEnd(newUser);
 						break;
 					case 1:
 						int goods_id = Integer.parseInt(parts[0]);
 						double price = Double.parseDouble(parts[2]);
 						int quantity = Integer.parseInt(parts[3]);
 						Goods newGoods = new Goods(goods_id, parts[1], price, quantity, parts[4]);
-						goods_list.add(newGoods);
+						goods_list.addAtTheEnd(newGoods);
 						break;
 					case 2:
 						int userid = Integer.parseInt(parts[1]);
@@ -70,7 +71,7 @@ public class FileHandling {
 							Date date = Date.valueOf(parts[2]);
 							double price1 = Double.parseDouble(parts[3]);
 							Order newOrder = new Order(id, userid, date , price1, parts[4]);
-							order_list.add(newOrder);
+							order_list.insert(newOrder);
 						}
 						break;
 					case 3:
@@ -80,7 +81,7 @@ public class FileHandling {
 							int goodsid = Integer.parseInt(parts[2]);
 							int quantity1 = Integer.parseInt(parts[3]);
 							OrderDetail newOrderDetail = new OrderDetail(id, orderId, goodsid, quantity1);
-							order_detail_list.add(newOrderDetail);
+							order_detail_list.addAtTheEnd(newOrderDetail);
 						}
 
 						break;
@@ -105,7 +106,7 @@ public class FileHandling {
 		return this.goods_list;
 	}
 	
-	public GenericDLinkedList<Order> getOrderList(){
+	public GenericBinarySearchTree<Order> getOrderList(){
 		return this.order_list;
 	}
 	

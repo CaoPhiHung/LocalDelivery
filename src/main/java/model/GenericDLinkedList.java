@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class GenericDLinkedList<T> implements Serializable {
 	public int searchType  = 0;
-	private T data;
-	private GenericNode<T> next;
-	private GenericNode<T> prev;
 	
 	private GenericNode<T> head;
 	private GenericNode<T> tail;
@@ -32,7 +29,7 @@ public class GenericDLinkedList<T> implements Serializable {
 	       return count;
 	}
 	
-	public void add(T genericNode)
+	public void addAtTheEnd(T genericNode)
     {
       if (isEmpty()) 
       {
@@ -78,30 +75,7 @@ public class GenericDLinkedList<T> implements Serializable {
         return head;
     }
 	
-//	public void print() {
-//        GenericNode<T> tmpNode = head;
-//
-//        while (tmpNode != null) {
-//            System.out.println(tmpNode.data.toString() + " <-> ");
-//            tmpNode = tmpNode.next;
-//        }
-//        System.out.print("null");
-//        System.out.println("");
-//    }
-	
-//	public void print(int index) {
-//		if (index < 0 || index >= size()){
-//	          String message = String.valueOf(index);
-//	          throw new IndexOutOfBoundsException(message);
-//	       }
-//		
-//		GenericNode<T> target = head;
-//		
-//		for (int k = 1; k <= index; k++)
-//	           target = target.next;
-//		
-//		System.out.println(target.data.toString() + " <-> " 
-//		+ target.next.data.toString());
-//	}
-	
+	public void setHead(GenericNode<T> head) {
+        this.head = head;
+    }
 }

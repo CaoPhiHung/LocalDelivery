@@ -9,12 +9,12 @@ import java.net.Socket;
 import java.util.Date;
 
 public class OrderService {
-	private GenericDLinkedList<Order> order_list;
+	private GenericBinarySearchTree<Order> order_list;
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    public GenericDLinkedList<Order> getAllOrderList(int userId) throws IOException {
+    public GenericBinarySearchTree<Order> getAllOrderList(int userId) throws IOException {
     	System.out.println("Trying to connect - " + ServerMain.IP + ":" + ServerMain.PORT 
 				+ " , " + (new Date()).toString());
 

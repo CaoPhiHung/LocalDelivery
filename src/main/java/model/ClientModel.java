@@ -6,7 +6,7 @@ package main.java.model;
 public class ClientModel{
 
     private User loginUser;
-    private GenericDLinkedList<Order> orderList;
+    private GenericBinarySearchTree<Order> orderList;
     private GenericDLinkedList<OrderDetail> orderListDetail;
     private GenericDLinkedList<Goods> goodsList;
 
@@ -26,11 +26,11 @@ public class ClientModel{
         this.loginUser = loginUser;
     }
 
-    public GenericDLinkedList<Order> getOrderList() {
+    public GenericBinarySearchTree<Order> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(GenericDLinkedList<Order> orderList) {
+    public void setOrderList(GenericBinarySearchTree<Order> orderList) {
         this.orderList = orderList;
     }
 

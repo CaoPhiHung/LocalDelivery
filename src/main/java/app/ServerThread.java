@@ -5,20 +5,19 @@ import java.net.Socket;
 import java.util.Date;
 
 import main.java.model.EventAction;
+import main.java.model.GenericBinarySearchTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Order;
 import main.java.model.OrderDetail;
 import main.java.model.User;
-import main.java.service.FileHandling;
+import main.java.service.FileHandlingService;
 
 public class ServerThread implements Runnable{
 
 	Socket cSocket; 
 	private GenericDLinkedList<User> user_list;
-	private GenericDLinkedList<Goods> goods_list;
-	private GenericDLinkedList<Order> orders_list;
-	private FileHandling fh = new FileHandling();
+	private FileHandlingService fh = new FileHandlingService();
 	
 	public ServerThread(Socket cSocket) {
 		this.cSocket = cSocket;
@@ -56,8 +55,8 @@ public class ServerThread implements Runnable{
 					break;
 				case 2:
 					if ((event.order_list = getAllOrders(event.requireId)) != null) {
+						event.order_list.display(event.order_list.getRoot());
 						out.writeObject(event);
-                        System.out.println("Size: " + event.order_list.size());
 					}else {
 						event.order_list = null;
                         out.writeObject(event);
@@ -108,7 +107,7 @@ public class ServerThread implements Runnable{
 	}
 	
 	
-	public GenericDLinkedList<Order> getAllOrders(int userId){
+	public GenericBinarySearchTree<Order> getAllOrders(int userId){
 		fh.setReadType(2);
 		fh.setCheckedUserId(userId);
 		fh.readFile("Order.txt");
