@@ -38,7 +38,7 @@
                   <text value="Username:"/>
                 </properties>
               </component>
-              <component id="2c38b" class="javax.swing.JTextField" binding="username">
+              <component id="2c38b" class="javax.swing.JTextField" binding="username" custom-create="true">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -56,7 +56,7 @@
                   <text value="Password:"/>
                 </properties>
               </component>
-              <component id="ff5aa" class="javax.swing.JPasswordField" binding="password">
+              <component id="ff5aa" class="javax.swing.JPasswordField" binding="password" custom-create="true">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -103,7 +103,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="3e916" class="javax.swing.JButton" binding="loginBtn">
+          <component id="3e916" class="javax.swing.JButton" binding="loginBtn" custom-create="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="160" height="-1"/>
@@ -111,8 +111,23 @@
               </grid>
             </constraints>
             <properties>
-              <opaque value="false"/>
+              <autoscrolls value="false"/>
+              <background color="-1293483"/>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="false"/>
+              <doubleBuffered value="false"/>
+              <enabled value="true"/>
+              <focusPainted value="true"/>
+              <focusable value="true"/>
+              <foreground color="-16777216"/>
+              <hideActionText value="false"/>
+              <opaque value="true"/>
+              <requestFocusEnabled value="false"/>
+              <rolloverEnabled value="false"/>
+              <selected value="false"/>
               <text value="Login"/>
+              <verifyInputWhenFocusTarget value="true"/>
+              <visible value="true"/>
             </properties>
           </component>
         </children>

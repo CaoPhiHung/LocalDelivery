@@ -12,7 +12,6 @@ import java.awt.*;
 public class ServerFrameApp extends JFrame {
     public JPanel mainPanel;
     public JList listOrder;
-    public JPanel exitPanel;
     public JButton exitBtn;
     public JPanel rightPanel;
     public JComboBox userCombo;
@@ -20,6 +19,10 @@ public class ServerFrameApp extends JFrame {
     public JButton viewMapButton;
     public JPanel detailsPanel;
     public JPanel viewMapPanel;
+    public JPanel exitArea;
+    public JPanel topArea;
+    public JPanel exitWrapper;
+    public JPanel listOrderWrapper;
 
     private int appWidth = 800;
     private int appHeight = 600;
@@ -31,6 +34,7 @@ public class ServerFrameApp extends JFrame {
         $$$setupUI$$$();
         setContentPane(mainPanel);
         assignListeners();
+
     }
 
     public int getAppWidth() {
@@ -50,13 +54,17 @@ public class ServerFrameApp extends JFrame {
     }
 
     private void createUIComponents() {
+        mainPanel = new JPanel();
+        mainPanel.setOpaque(true);
+        mainPanel.setBackground(Color.BLUE);
+
+
         rightPanel = new JPanel();
         exitBtn = new JButton("Exit");
 //        mapPanel.add(new JFrame());
     }
 
-    private void assignListeners()
-    {
+    private void assignListeners() {
         exitBtn.addActionListener(this.msl);
     }
 
@@ -69,35 +77,95 @@ public class ServerFrameApp extends JFrame {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
-        mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
-        exitPanel = new JPanel();
-        exitPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(exitPanel, BorderLayout.SOUTH);
-        exitBtn.setText("Exit");
-        exitPanel.add(exitBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.setAutoscrolls(false);
+        mainPanel.setBackground(new Color(-1315854));
+        mainPanel.setDoubleBuffered(true);
+        mainPanel.setEnabled(true);
+        mainPanel.setFocusCycleRoot(false);
+        mainPanel.setFocusTraversalPolicyProvider(false);
+        mainPanel.setFocusable(false);
+        mainPanel.setInheritsPopupMenu(false);
+        mainPanel.setOpaque(true);
+        mainPanel.setRequestFocusEnabled(false);
+        mainPanel.setVerifyInputWhenFocusTarget(false);
+        mainPanel.setVisible(true);
         rightPanel.setLayout(new BorderLayout(0, 0));
+        rightPanel.setOpaque(false);
         mainPanel.add(rightPanel, BorderLayout.CENTER);
         viewMapPanel = new JPanel();
         viewMapPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        viewMapPanel.setDoubleBuffered(false);
+        viewMapPanel.setEnabled(true);
+        viewMapPanel.setFocusable(false);
+        viewMapPanel.setOpaque(true);
+        viewMapPanel.setRequestFocusEnabled(false);
+        viewMapPanel.setVerifyInputWhenFocusTarget(false);
+        viewMapPanel.setVisible(true);
         rightPanel.add(viewMapPanel, BorderLayout.SOUTH);
         viewMapButton = new JButton();
         viewMapButton.setText("View Map");
         viewMapPanel.add(viewMapButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         detailsPanel = new JPanel();
         detailsPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        detailsPanel.setOpaque(true);
         rightPanel.add(detailsPanel, BorderLayout.CENTER);
         leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanel.setLayout(new BorderLayout(0, 0));
+        leftPanel.setOpaque(false);
         mainPanel.add(leftPanel, BorderLayout.WEST);
-        leftPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
+        topArea = new JPanel();
+        topArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanel.add(topArea, BorderLayout.NORTH);
         userCombo = new JComboBox();
-        leftPanel.add(userCombo, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, -1), null, 0, false));
+        topArea.add(userCombo, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, -1), null, 0, false));
+        final JLabel label1 = new JLabel();
+        Font label1Font = this.$$$getFont$$$("Ayuthaya", -1, 12, label1.getFont());
+        if (label1Font != null) label1.setFont(label1Font);
+        label1.setText("User List");
+        topArea.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        exitWrapper = new JPanel();
+        exitWrapper.setLayout(new GridLayoutManager(1, 1, new Insets(10, 0, 10, 0), -1, 100));
+        leftPanel.add(exitWrapper, BorderLayout.SOUTH);
+        exitArea = new JPanel();
+        exitArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        exitWrapper.add(exitArea, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        exitBtn.setBackground(new Color(-1293483));
+        exitBtn.setBorderPainted(false);
+        exitBtn.setContentAreaFilled(true);
+        exitBtn.setForeground(new Color(-1));
+        exitBtn.setOpaque(true);
+        exitBtn.setText("Exit");
+        exitArea.add(exitBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(120, 25), null, 0, false));
+        listOrderWrapper = new JPanel();
+        listOrderWrapper.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        leftPanel.add(listOrderWrapper, BorderLayout.CENTER);
+        listOrderWrapper.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         listOrder = new JList();
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         listOrder.setModel(defaultListModel1);
+        listOrder.setOpaque(true);
         listOrder.setPreferredSize(new Dimension(200, 0));
-        leftPanel.add(listOrder, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        listOrderWrapper.add(listOrder, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

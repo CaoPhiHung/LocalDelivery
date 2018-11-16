@@ -48,13 +48,19 @@ public class ClientFrameLogin extends JFrame {
         System.out.println(url);
         mainPanel = new JPanelBackground(url);
 
+        loginBtn = new JButton();
+        username = new JTextField();
+        password = new JPasswordField();
         titleLabel = new JLabelC("LOCAL DELIVERY");
         titleLabel.setSize(new Dimension(200, 300));
 
     }
 
     private void assignListeners() {
+
         loginBtn.addActionListener(cll);
+        username.addActionListener(cll);
+        password.addActionListener(cll);
     }
 
     public int getAppWidth() {
@@ -103,13 +109,11 @@ public class ClientFrameLogin extends JFrame {
         usrLabel = new JLabel();
         usrLabel.setText("Username:");
         userLineWrapper.add(usrLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        username = new JTextField();
         username.setOpaque(false);
         userLineWrapper.add(username, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         passLabel = new JLabel();
         passLabel.setText("Password:");
         userLineWrapper.add(passLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        password = new JPasswordField();
         password.setOpaque(false);
         userLineWrapper.add(password, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         titlePanel = new JPanel();
@@ -123,9 +127,23 @@ public class ClientFrameLogin extends JFrame {
         loginPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         loginPanel.setOpaque(false);
         mainPanel.add(loginPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        loginBtn = new JButton();
-        loginBtn.setOpaque(false);
+        loginBtn.setAutoscrolls(false);
+        loginBtn.setBackground(new Color(-1293483));
+        loginBtn.setBorderPainted(true);
+        loginBtn.setContentAreaFilled(false);
+        loginBtn.setDoubleBuffered(false);
+        loginBtn.setEnabled(true);
+        loginBtn.setFocusPainted(true);
+        loginBtn.setFocusable(true);
+        loginBtn.setForeground(new Color(-16777216));
+        loginBtn.setHideActionText(false);
+        loginBtn.setOpaque(true);
+        loginBtn.setRequestFocusEnabled(false);
+        loginBtn.setRolloverEnabled(false);
+        loginBtn.setSelected(false);
         loginBtn.setText("Login");
+        loginBtn.setVerifyInputWhenFocusTarget(true);
+        loginBtn.setVisible(true);
         loginPanel.add(loginBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(160, -1), new Dimension(160, -1), null, 0, false));
     }
 
