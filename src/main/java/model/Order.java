@@ -13,6 +13,7 @@ public class Order implements Comparable<Order>,Serializable {
 	public Date date;
 	public double totalPrice;
 	public String destination;
+	public ArrayList<Integer> destinationArray;
 	private int compareType = 0;
 	
 	public Order(int userId, double totalPrice, String destination) {
@@ -25,6 +26,9 @@ public class Order implements Comparable<Order>,Serializable {
 		this.date = date;
 		this.totalPrice = totalPrice;
 		this.destination = destination;
+		String parts[] = this.destination.split("-");
+		this.destinationArray.add(Integer.parseInt(parts[0]));
+		this.destinationArray.add(Integer.parseInt(parts[1]));
 	}
 	
 
