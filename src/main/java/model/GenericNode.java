@@ -2,7 +2,7 @@ package main.java.model;
 
 import java.io.Serializable;
 
-public class GenericNode<T> implements Serializable {
+public class GenericNode<T> implements Comparable<T> ,Serializable {
 		
 		public T data;
 		public GenericNode<T> next;
@@ -23,6 +23,12 @@ public class GenericNode<T> implements Serializable {
 			this.data = data;
 			this.next = next;
 			this.prev = prev;
+		}
+
+		@Override
+		public int compareTo(T o) {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 	

@@ -67,8 +67,8 @@ public class ClientFrameOrder extends JFrame {
         this.listOrder = new JList(listModel);
         backButton = new JButton("Back");
 
-        if (this.model.getOrderList().getHead() != null) {
-            GenericNode<Order> gnGood = this.model.getOrderList().getHead();
+        if (this.model.getOrderList().getRoot() != null) {
+            GenericNode<Order> gnGood = this.model.getOrderList().getRoot();
             while (gnGood != null) {
                 listModel.addElement(gnGood.data.displayOrder());
                 gnGood = gnGood.next;

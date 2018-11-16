@@ -9,14 +9,13 @@ import java.net.Socket;
 import java.util.Date;
 
 public class OrderService {
-	private GenericDLinkedList<Order> order_list;
+	private GenericBinarySearchTree<Order> order_list;
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    public GenericDLinkedList<Order> getAllOrderList(int userId) throws IOException {
-    	System.out.println("Trying to connect - " + ServerMain.IP + ":" + ServerMain.PORT 
-				+ " , " + (new Date()).toString());
+    public GenericBinarySearchTree<Order> getAllOrderList(int userId) throws IOException {
+    	System.out.println("Trying to connect server ");
 
 		try {
 			socket = new Socket(ServerMain.IP, ServerMain.PORT);
@@ -41,6 +40,33 @@ public class OrderService {
 		
 		socket.close();
 		return null;
+		
+    }
+    
+    public int createNewOrder(Order order) throws IOException {
+    	System.out.println("Trying to connect server ");
+		try {
+			socket = new Socket(ServerMain.IP, ServerMain.PORT);
+			ois = new ObjectInputStream(socket.getInputStream());
+	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			
+	    	EventAction event = new EventAction();
+	    	event.eventType = 4;
+	    	event.newOrder = order;
+			oos.writeObject(event);
+
+			if((event = (EventAction)ois.readObject()) != null) {
+				socket.close();
+				return event.statusCode;
+			}
+  
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		socket.close();
+		return 0;
 		
     }
 }
