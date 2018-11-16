@@ -1,18 +1,23 @@
 package main.java.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Order implements Comparable<Order>,Serializable {
 
 	public int orderId;
-	public  ArrayList<Goods> good_list;
 	public int userId;
 	public Date date;
 	public double totalPrice;
 	public String destination;
 	private int compareType = 0;
+	
+	public Order(int userId, double totalPrice, String destination) {
+		this(0, userId, new Date(), totalPrice, destination);
+	}
 	
 	public Order(int id, int userId, Date date, double totalPrice, String destination) {
 		this.orderId = id;
@@ -21,6 +26,8 @@ public class Order implements Comparable<Order>,Serializable {
 		this.totalPrice = totalPrice;
 		this.destination = destination;
 	}
+	
+
 
     @Override
     public String toString() {
@@ -58,6 +65,11 @@ public class Order implements Comparable<Order>,Serializable {
 	
 	public void setCompareType(int compareType){
 		this.compareType = compareType;
+	}
+	
+	public String getStringCurrentDate(Date date){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(date);
 	}
 	
 }
