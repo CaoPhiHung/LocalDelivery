@@ -1,5 +1,7 @@
 package main.java.model;
 
+import java.util.ArrayList;
+
 /**
  * This model is used in Client Frame Main
  */
@@ -9,6 +11,7 @@ public class ClientModel{
     private GenericBinarySearchTree<Order> orderList;
     private GenericDLinkedList<OrderDetail> orderListDetail;
     private GenericDLinkedList<Goods> goodsList;
+    private ArrayList<Integer> orderIdList;
 
     public ClientModel()
     {
@@ -16,6 +19,7 @@ public class ClientModel{
         orderList = null;
         orderListDetail = null;
         goodsList = null;
+        orderIdList = new ArrayList<>();
     }
 
     public User getLoginUser() {
@@ -48,5 +52,13 @@ public class ClientModel{
 
     public void setGoodsList(GenericDLinkedList<Goods> goodsList) {
         this.goodsList = goodsList;
+    }
+
+    public ArrayList<Integer> getOrderIdList() {
+        return orderIdList;
+    }
+
+    public void setOrderIdList(ArrayList<Integer> orderIdList) {
+        this.orderIdList = orderIdList;
     }
 }

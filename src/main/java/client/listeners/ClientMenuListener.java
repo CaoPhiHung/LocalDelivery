@@ -48,7 +48,6 @@ public class ClientMenuListener implements ActionListener {
                     // Order goods
                     cfm.getModel().setGoodsList(gs.getAllGoodsList());
 
-
                     cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
 
                 }catch(IOException ioe)

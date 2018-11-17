@@ -6,11 +6,14 @@ import main.java.client.ClientFrameMain;
 import main.java.client.listeners.ClientOrderListener;
 import main.java.component.customJPanel.JPanelItemDisplay;
 import main.java.model.*;
+import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class ClientFrameOrder extends JFrame {
 
@@ -63,27 +66,62 @@ public class ClientFrameOrder extends JFrame {
     private void createUIComponents() {
 
         System.out.println("Called in ClientFrame Order");
+        this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         DefaultListModel listModel = new DefaultListModel();
         this.listOrder = new JList(listModel);
         backButton = new JButton("Back");
+
+        model.setOrderIdList(new ArrayList<>());
 
         if (this.model.getOrderList().getRoot() != null) {
             GenericNode<Order> gnGood = this.model.getOrderList().getRoot();
             while (gnGood != null) {
                 listModel.addElement(gnGood.data.displayOrder());
+                model.getOrderIdList().add(gnGood.data.orderId);
                 gnGood = gnGood.next;
             }
         }
 
         this.listOrder.addListSelectionListener(col);
+    }
 
-        // Add list
-        this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        URL url = this.getClass().getResource("../../../resources/images/orange_pic.png");
+    public void updateDetailsItem(int orderIndex) {
+        try {
+            OrderDetailService ods = new OrderDetailService();
+            GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(this.model.getOrderIdList().get(orderIndex));
+            GenericNode<OrderDetail> singleOD = odlist.getHead();
 
-        for (int i = 0; i < 10; i++) {
-            this.userItemList.add(new JPanelItemDisplay(url, 120, 120, i + ""));
+//            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            this.userItemList.removeAll();
+
+            while (singleOD != null) {
+                OrderDetail eachOD = singleOD.data;
+
+                // Display order detail
+                System.out.println(eachOD.displayOrderDetail());
+
+                // Display good inside
+                GenericNode<Goods> singleGood = this.model.getGoodsList().getHead();
+                while (singleGood != null) {
+                    if (singleGood.data.getGoodsId() == eachOD.goodsId) {
+                        URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
+                        System.out.println("Url: " + url);
+                        this.userItemList.add(new JPanelItemDisplay(url, 120, 120, singleGood.data.getQuantity() + ""));
+
+                        System.out.println(singleGood.data.displayGoods());
+                        break;
+                    }
+                    singleGood = singleGood.next;
+                }
+
+                singleOD = singleOD.next;
+            }
+            this.userItemList.updateUI();
+        } catch (IOException ioe) {
+            System.out.println("Error in Updating Details Item");
         }
+
+
     }
 
     /**

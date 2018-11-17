@@ -15,6 +15,12 @@ public class OrderDetail implements Serializable {
 		this.goodsId = goodsId;
 		this.quantity = quantity;
 	}
+
+    public String displayOrderDetail()
+    {
+        String toReturn = "odID: " + orderDetailId + "- quantity: " + quantity + "- goodsId: " + goodsId;
+        return toReturn;
+    }
 	
 	
 }
