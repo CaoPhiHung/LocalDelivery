@@ -66,7 +66,7 @@ public class ClientFrameApp extends JFrame {
         //Declare
         shoppingArea = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backBtn = new JButton();
-        URL url = this.getClass().getResource("../../../resources/images/orange_pic.png");
+        URL url = this.getClass().getResource("../../../resources/images/orange.png");
 
         for (int i = 0; i < 10; i++) {
             shoppingArea.add(new JPanelItemControl(url, 120, 120));

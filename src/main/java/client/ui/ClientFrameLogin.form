@@ -36,7 +36,7 @@
                 </constraints>
                 <properties>
                   <font name="Courier" size="16" style="1"/>
-                  <foreground color="-1"/>
+                  <foreground color="-593420"/>
                   <opaque value="false"/>
                   <text value="Username:"/>
                 </properties>
@@ -48,6 +48,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <background color="-593420"/>
                   <font name="Anonymous Pro for Powerline" size="12"/>
                   <opaque value="true"/>
                 </properties>
@@ -59,7 +60,7 @@
                 <properties>
                   <enabled value="true"/>
                   <font name="Courier" size="16" style="1"/>
-                  <foreground color="-1"/>
+                  <foreground color="-593420"/>
                   <text value="Password:"/>
                 </properties>
               </component>
@@ -70,6 +71,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <background color="-593420"/>
                   <font name="Anonymous Pro for Powerline" size="12"/>
                   <opaque value="true"/>
                 </properties>
@@ -97,7 +99,7 @@
             <properties>
               <enabled value="true"/>
               <font name="Toppan Bunkyu Midashi Gothic" size="48" style="1"/>
-              <foreground color="-13412353"/>
+              <foreground color="-270858"/>
               <opaque value="false"/>
               <verifyInputWhenFocusTarget value="true"/>
             </properties>
@@ -123,14 +125,14 @@
             </constraints>
             <properties>
               <autoscrolls value="false"/>
-              <background color="-11784468"/>
+              <background color="-9998707"/>
               <borderPainted value="false"/>
               <contentAreaFilled value="true"/>
               <doubleBuffered value="false"/>
               <enabled value="true"/>
               <focusPainted value="true"/>
               <focusable value="true"/>
-              <foreground color="-197380"/>
+              <foreground color="-593420"/>
               <hideActionText value="false"/>
               <opaque value="true"/>
               <requestFocusEnabled value="false"/>

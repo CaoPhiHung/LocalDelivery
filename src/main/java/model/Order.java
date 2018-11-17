@@ -41,7 +41,7 @@ public class Order implements Comparable<Order>,Serializable {
 
     public String displayOrder()
     {
-        String toReturn = "oID: " + orderId + "date: " + date.toString() + "desti: " + destination;
+        String toReturn = date.toString();
         return toReturn;
     }
 

@@ -2,12 +2,11 @@ package main.java.client.ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import main.java.client.ClientFrameMain;
+import com.intellij.uiDesigner.core.Spacer;
 import main.java.client.listeners.ClientOrderListener;
 import main.java.component.customJPanel.JPanelItemDisplay;
 import main.java.model.*;
 import main.java.service.OrderDetailService;
-import main.java.service.OrderService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,13 +24,14 @@ public class ClientFrameOrder extends JFrame {
     private JPanel mainPanel;
     private JList listOrder;
     private JPanel userPanel;
+    private JPanel userItemArea;
     private JPanel userItemList;
     private JPanel userInfoList;
     private JPanel controlArea;
     private JButton backButton;
-    private JPanel userArea;
-    private JPanel userWrapper;
+    private JPanel itemLabelArea;
     private JPanel locationWrapper;
+    public JLabel itemLabel;
     private ClientOrderListener col;
 
     public ClientFrameOrder(ClientModel mo, ClientOrderListener col) {
@@ -106,7 +106,8 @@ public class ClientFrameOrder extends JFrame {
                     if (singleGood.data.getGoodsId() == eachOD.goodsId) {
                         URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
                         System.out.println("Url: " + url);
-                        this.userItemList.add(new JPanelItemDisplay(url, 120, 120, singleGood.data.getQuantity() + ""));
+                        this.userItemList.add(new JPanelItemDisplay(url, 120, 120,
+                                singleGood.data.getQuantity() + "", new Color(183, 190, 243)));
 
                         System.out.println(singleGood.data.displayGoods());
                         break;
@@ -135,41 +136,94 @@ public class ClientFrameOrder extends JFrame {
         createUIComponents();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
+        mainPanel.setBackground(new Color(-4735245));
         listOrder.setPreferredSize(new Dimension(200, 0));
         mainPanel.add(listOrder, BorderLayout.WEST);
         userPanel = new JPanel();
         userPanel.setLayout(new BorderLayout(0, 0));
+        userPanel.setBackground(new Color(-12762020));
+        userPanel.setOpaque(true);
         mainPanel.add(userPanel, BorderLayout.CENTER);
         userInfoList = new JPanel();
-        userInfoList.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        userInfoList.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        userInfoList.setOpaque(false);
         userPanel.add(userInfoList, BorderLayout.NORTH);
-        userArea = new JPanel();
-        userArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        userInfoList.add(userArea, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        userWrapper = new JPanel();
-        userWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
-        userArea.add(userWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        label1.setText("User:");
-        userWrapper.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setText("Temp");
-        userWrapper.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        itemLabelArea = new JPanel();
+        itemLabelArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        itemLabelArea.setOpaque(false);
+        userInfoList.add(itemLabelArea, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        itemLabel = new JLabel();
+        Font itemLabelFont = this.$$$getFont$$$("Anonymous Pro for Powerline", Font.BOLD, 18, itemLabel.getFont());
+        if (itemLabelFont != null) itemLabel.setFont(itemLabelFont);
+        itemLabel.setForeground(new Color(-270858));
+        itemLabel.setOpaque(false);
+        itemLabel.setText("GOODS ORDERED");
+        itemLabelArea.add(itemLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        userInfoList.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        userItemArea = new JPanel();
+        userItemArea.setLayout(new BorderLayout(0, 0));
+        userItemArea.setOpaque(false);
+        userPanel.add(userItemArea, BorderLayout.CENTER);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setOpaque(false);
+        userItemArea.add(panel1, BorderLayout.SOUTH);
         locationWrapper = new JPanel();
         locationWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
-        userArea.add(locationWrapper, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setText("Location:");
-        locationWrapper.add(label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
-        final JLabel label4 = new JLabel();
-        label4.setText("(0,0)");
-        locationWrapper.add(label4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        userPanel.add(userItemList, BorderLayout.CENTER);
+        locationWrapper.setOpaque(false);
+        panel1.add(locationWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JLabel label1 = new JLabel();
+        label1.setForeground(new Color(-270858));
+        label1.setOpaque(false);
+        label1.setText("Location:");
+        locationWrapper.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
+        final JLabel label2 = new JLabel();
+        label2.setForeground(new Color(-270858));
+        label2.setOpaque(false);
+        label2.setText("(0,0)");
+        locationWrapper.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel1.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        userItemList.setOpaque(false);
+        userItemArea.add(userItemList, BorderLayout.CENTER);
         controlArea = new JPanel();
-        controlArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        controlArea.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        controlArea.setOpaque(false);
         mainPanel.add(controlArea, BorderLayout.SOUTH);
+        backButton.setBackground(new Color(-12762020));
+        backButton.setBorderPainted(false);
+        backButton.setDefaultCapable(false);
+        backButton.setFocusTraversalPolicyProvider(false);
+        Font backButtonFont = this.$$$getFont$$$("Ayuthaya", -1, 16, backButton.getFont());
+        if (backButtonFont != null) backButton.setFont(backButtonFont);
+        backButton.setForeground(new Color(-593420));
+        backButton.setOpaque(true);
         backButton.setText("Back");
-        controlArea.add(backButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        controlArea.add(backButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        controlArea.add(spacer3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
+        final Spacer spacer4 = new Spacer();
+        controlArea.add(spacer4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

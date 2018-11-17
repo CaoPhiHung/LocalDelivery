@@ -70,7 +70,7 @@ public class ClientFrameMain extends JFrame {
             this.setSize(new Dimension(clientFrameMenu.getAppWidth(), clientFrameMenu.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameMenu.getContentPane());
-            this.setResizable(true);
+            this.setResizable(false);
         } else if (scene == MAIN_SCENE) {
             clientFrameApp = new ClientFrameApp(this.model, cal);
             this.setSize(new Dimension(clientFrameApp.getAppWidth(), clientFrameApp.getAppHeight()));

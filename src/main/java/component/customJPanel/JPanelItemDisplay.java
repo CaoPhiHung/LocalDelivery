@@ -20,6 +20,13 @@ public class JPanelItemDisplay extends JPanelWithImage {
         this.add(wrapper,BorderLayout.SOUTH);
     }
 
+    public JPanelItemDisplay(URL url, int w, int h, String quantity, Color bg)
+    {
+        this(url,w,h,quantity);
+        this.setOpaque(true);
+        this.setBackground(bg);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
