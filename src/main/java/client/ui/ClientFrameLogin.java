@@ -12,8 +12,8 @@ import java.net.URL;
 
 public class ClientFrameLogin extends JFrame {
 
-    private int appWidth = 500;
-    private int appHeight = 300;
+    private int appWidth = 800;
+    private int appHeight = 500;
 
     private JPanel mainPanel;
     private JButton loginBtn;
@@ -107,20 +107,36 @@ public class ClientFrameLogin extends JFrame {
         userLineWrapper.setOpaque(false);
         userWrapper.add(userLineWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         usrLabel = new JLabel();
+        Font usrLabelFont = this.$$$getFont$$$("Courier", Font.BOLD, 16, usrLabel.getFont());
+        if (usrLabelFont != null) usrLabel.setFont(usrLabelFont);
+        usrLabel.setForeground(new Color(-1));
+        usrLabel.setOpaque(false);
         usrLabel.setText("Username:");
         userLineWrapper.add(usrLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        username.setOpaque(false);
-        userLineWrapper.add(username, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        Font usernameFont = this.$$$getFont$$$("Anonymous Pro for Powerline", -1, 12, username.getFont());
+        if (usernameFont != null) username.setFont(usernameFont);
+        username.setOpaque(true);
+        userLineWrapper.add(username, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
         passLabel = new JLabel();
+        passLabel.setEnabled(true);
+        Font passLabelFont = this.$$$getFont$$$("Courier", Font.BOLD, 16, passLabel.getFont());
+        if (passLabelFont != null) passLabel.setFont(passLabelFont);
+        passLabel.setForeground(new Color(-1));
         passLabel.setText("Password:");
         userLineWrapper.add(passLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        password.setOpaque(false);
-        userLineWrapper.add(password, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        Font passwordFont = this.$$$getFont$$$("Anonymous Pro for Powerline", -1, 12, password.getFont());
+        if (passwordFont != null) password.setFont(passwordFont);
+        password.setOpaque(true);
+        userLineWrapper.add(password, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
         titlePanel = new JPanel();
         titlePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         titlePanel.setOpaque(false);
         mainPanel.add(titlePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         titleLabel.setEnabled(true);
+        Font titleLabelFont = this.$$$getFont$$$("Toppan Bunkyu Midashi Gothic", Font.BOLD, 48, titleLabel.getFont());
+        if (titleLabelFont != null) titleLabel.setFont(titleLabelFont);
+        titleLabel.setForeground(new Color(-13412353));
+        titleLabel.setOpaque(false);
         titleLabel.setVerifyInputWhenFocusTarget(true);
         titlePanel.add(titleLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(37, 74), null, 0, false));
         loginPanel = new JPanel();
@@ -128,14 +144,14 @@ public class ClientFrameLogin extends JFrame {
         loginPanel.setOpaque(false);
         mainPanel.add(loginPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         loginBtn.setAutoscrolls(false);
-        loginBtn.setBackground(new Color(-1293483));
-        loginBtn.setBorderPainted(true);
-        loginBtn.setContentAreaFilled(false);
+        loginBtn.setBackground(new Color(-11784468));
+        loginBtn.setBorderPainted(false);
+        loginBtn.setContentAreaFilled(true);
         loginBtn.setDoubleBuffered(false);
         loginBtn.setEnabled(true);
         loginBtn.setFocusPainted(true);
         loginBtn.setFocusable(true);
-        loginBtn.setForeground(new Color(-16777216));
+        loginBtn.setForeground(new Color(-197380));
         loginBtn.setHideActionText(false);
         loginBtn.setOpaque(true);
         loginBtn.setRequestFocusEnabled(false);
@@ -145,6 +161,25 @@ public class ClientFrameLogin extends JFrame {
         loginBtn.setVerifyInputWhenFocusTarget(true);
         loginBtn.setVisible(true);
         loginPanel.add(loginBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(160, -1), new Dimension(160, -1), null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

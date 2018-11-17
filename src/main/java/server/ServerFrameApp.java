@@ -3,6 +3,7 @@ package main.java.server;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import main.java.component.customJButton.JButtonColor;
 import main.java.server.listeners.MainServerListener;
 
 import javax.swing.*;
@@ -60,7 +61,7 @@ public class ServerFrameApp extends JFrame {
 
 
         rightPanel = new JPanel();
-        exitBtn = new JButton("Exit");
+        exitBtn = new JButtonColor("Exit", Color.RED, Color.WHITE);
 //        mapPanel.add(new JFrame());
     }
 
@@ -130,13 +131,11 @@ public class ServerFrameApp extends JFrame {
         exitArea = new JPanel();
         exitArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         exitWrapper.add(exitArea, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        exitBtn.setBackground(new Color(-1293483));
-        exitBtn.setBorderPainted(false);
-        exitBtn.setContentAreaFilled(true);
-        exitBtn.setForeground(new Color(-1));
-        exitBtn.setOpaque(true);
+        Font exitBtnFont = this.$$$getFont$$$("Inconsolata for Powerline", Font.BOLD, 14, exitBtn.getFont());
+        if (exitBtnFont != null) exitBtn.setFont(exitBtnFont);
         exitBtn.setText("Exit");
-        exitArea.add(exitBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(120, 25), null, 0, false));
+        exitBtn.setVerifyInputWhenFocusTarget(false);
+        exitArea.add(exitBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         listOrderWrapper = new JPanel();
         listOrderWrapper.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         leftPanel.add(listOrderWrapper, BorderLayout.CENTER);

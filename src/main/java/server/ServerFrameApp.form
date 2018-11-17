@@ -110,19 +110,14 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d6639" class="javax.swing.JButton" binding="exitBtn" custom-create="true">
+                  <component id="615ff" class="javax.swing.JButton" binding="exitBtn" custom-create="true">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="120" height="25"/>
-                      </grid>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-1293483"/>
-                      <borderPainted value="false"/>
-                      <contentAreaFilled value="true"/>
-                      <foreground color="-1"/>
-                      <opaque value="true"/>
+                      <font name="Inconsolata for Powerline" size="14" style="1"/>
                       <text value="Exit"/>
+                      <verifyInputWhenFocusTarget value="false"/>
                     </properties>
                   </component>
                 </children>
