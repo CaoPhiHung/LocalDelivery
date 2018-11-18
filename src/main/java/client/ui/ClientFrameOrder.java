@@ -32,6 +32,8 @@ public class ClientFrameOrder extends JFrame {
     private JPanel itemLabelArea;
     private JPanel locationWrapper;
     public JLabel itemLabel;
+    public JLabel locationLabel;
+    public JLabel locationValue;
     private ClientOrderListener col;
 
     public ClientFrameOrder(ClientModel mo, ClientOrderListener col) {
@@ -66,6 +68,9 @@ public class ClientFrameOrder extends JFrame {
     private void createUIComponents() {
 
         System.out.println("Called in ClientFrame Order");
+        locationWrapper = new JPanel();
+        locationWrapper.setVisible(false);
+        locationValue = new JLabel("N/A");
         this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         DefaultListModel listModel = new DefaultListModel();
         this.listOrder = new JList(listModel);
@@ -86,9 +91,27 @@ public class ClientFrameOrder extends JFrame {
     }
 
     public void updateDetailsItem(int orderIndex) {
+        System.out.println("Clicked index: " + orderIndex);
         try {
+            int orderId = this.model.getOrderIdList().get(orderIndex);
+
+            System.out.println("existed orderId?? " + orderId);
+            GenericNode<Order> temp = this.model.getOrderList().getRoot();
+            Order tempOrder = null;
+            while (temp != null) {
+                if (temp.data.orderId == orderId) {
+                    tempOrder = temp.data;
+                    break;
+                }
+                temp = temp.next;
+            }
+            if (tempOrder != null) {
+                locationValue.setText(tempOrder.destination.replace('-', ','));
+                locationWrapper.setVisible(true);
+            }
+
             OrderDetailService ods = new OrderDetailService();
-            GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(this.model.getOrderIdList().get(orderIndex));
+            GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(orderId);
             GenericNode<OrderDetail> singleOD = odlist.getHead();
 
 //            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -98,15 +121,16 @@ public class ClientFrameOrder extends JFrame {
                 OrderDetail eachOD = singleOD.data;
 
                 // Display order detail
-                System.out.println(eachOD.displayOrderDetail());
+//                System.out.println(eachOD.displayOrderDetail());
 
                 // Display good inside
                 GenericNode<Goods> singleGood = this.model.getGoodsList().getHead();
                 while (singleGood != null) {
                     if (singleGood.data.getGoodsId() == eachOD.goodsId) {
                         URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
-                        System.out.println("Url: " + url);
-                        this.userItemList.add(new JPanelItemDisplay(url, 120, 120,
+
+                        this.userItemList.add(new JPanelItemDisplay(url, 130, 150,
+                                singleGood.data.getName() + "($" + singleGood.data.getPrice() + ")",
                                 singleGood.data.getQuantity() + "", new Color(183, 190, 243)));
 
                         System.out.println(singleGood.data.displayGoods());
@@ -120,6 +144,8 @@ public class ClientFrameOrder extends JFrame {
             this.userItemList.updateUI();
         } catch (IOException ioe) {
             System.out.println("Error in Updating Details Item");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
 
@@ -149,7 +175,7 @@ public class ClientFrameOrder extends JFrame {
         userInfoList.setOpaque(false);
         userPanel.add(userInfoList, BorderLayout.NORTH);
         itemLabelArea = new JPanel();
-        itemLabelArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        itemLabelArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         itemLabelArea.setOpaque(false);
         userInfoList.add(itemLabelArea, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         itemLabel = new JLabel();
@@ -160,7 +186,9 @@ public class ClientFrameOrder extends JFrame {
         itemLabel.setText("GOODS ORDERED");
         itemLabelArea.add(itemLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        userInfoList.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        itemLabelArea.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        userInfoList.add(spacer2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
         userItemArea = new JPanel();
         userItemArea.setLayout(new BorderLayout(0, 0));
         userItemArea.setOpaque(false);
@@ -169,22 +197,20 @@ public class ClientFrameOrder extends JFrame {
         panel1.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.setOpaque(false);
         userItemArea.add(panel1, BorderLayout.SOUTH);
-        locationWrapper = new JPanel();
         locationWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         locationWrapper.setOpaque(false);
         panel1.add(locationWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        label1.setForeground(new Color(-270858));
-        label1.setOpaque(false);
-        label1.setText("Location:");
-        locationWrapper.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setForeground(new Color(-270858));
-        label2.setOpaque(false);
-        label2.setText("(0,0)");
-        locationWrapper.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        panel1.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        locationLabel = new JLabel();
+        locationLabel.setForeground(new Color(-270858));
+        locationLabel.setOpaque(false);
+        locationLabel.setText("Location:");
+        locationWrapper.add(locationLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
+        locationValue.setForeground(new Color(-270858));
+        locationValue.setOpaque(false);
+        locationValue.setText("(0,0)");
+        locationWrapper.add(locationValue, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        panel1.add(spacer3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
         userItemList.setOpaque(false);
         userItemArea.add(userItemList, BorderLayout.CENTER);
         controlArea = new JPanel();
@@ -199,12 +225,12 @@ public class ClientFrameOrder extends JFrame {
         if (backButtonFont != null) backButton.setFont(backButtonFont);
         backButton.setForeground(new Color(-593420));
         backButton.setOpaque(true);
-        backButton.setText("Back");
+        backButton.setText("Return to menu");
         controlArea.add(backButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
-        final Spacer spacer3 = new Spacer();
-        controlArea.add(spacer3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
         final Spacer spacer4 = new Spacer();
-        controlArea.add(spacer4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
+        controlArea.add(spacer4, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
+        final Spacer spacer5 = new Spacer();
+        controlArea.add(spacer5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 10), null, 0, false));
     }
 
     /**

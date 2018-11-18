@@ -64,25 +64,25 @@ public class ClientFrameMain extends JFrame {
             this.setSize(new Dimension(clientFrameLogin.getAppWidth(), clientFrameLogin.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameLogin.getContentPane());
-            this.setResizable(false);
+            this.setResizable(true);
         } else if (scene == MENU_SCENE) {
             clientFrameMenu = new ClientFrameMenu(cml);
-            this.setSize(new Dimension(clientFrameMenu.getAppWidth(), clientFrameMenu.getAppHeight()));
-            this.setLocationRelativeTo(null); // Center app
+//            this.setSize(new Dimension(clientFrameMenu.getAppWidth(), clientFrameMenu.getAppHeight()));
+//            this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameMenu.getContentPane());
-            this.setResizable(false);
+//            this.setResizable(false);
         } else if (scene == MAIN_SCENE) {
             clientFrameApp = new ClientFrameApp(this.model, cal);
-            this.setSize(new Dimension(clientFrameApp.getAppWidth(), clientFrameApp.getAppHeight()));
-            this.setLocationRelativeTo(null); // Center app
+//            this.setSize(new Dimension(clientFrameApp.getAppWidth(), clientFrameApp.getAppHeight()));
+//            this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameApp.getContentPane());
-            this.setResizable(true);
+//            this.setResizable(true);
         } else if (scene == ORDER_SCENE) {
             clientFrameOrder = new ClientFrameOrder(this.model, col);
-            this.setSize(new Dimension(clientFrameOrder.getAppWidth(), clientFrameOrder.getAppHeight()));
-            this.setLocationRelativeTo(null); // Center app
+//            this.setSize(new Dimension(clientFrameOrder.getAppWidth(), clientFrameOrder.getAppHeight()));
+//            this.setLocationRelativeTo(null); // Center app
             this.setContentPane(clientFrameOrder.getContentPane());
-            this.setResizable(true);
+//            this.setResizable(true);
         }
         this.setVisible(true);
 //        this.repaint(); // Repaint to refresh screen

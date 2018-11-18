@@ -27,7 +27,7 @@ public class ClientOrderListener implements ActionListener, ListSelectionListene
         {
             JButton clickedBtn = (JButton)e.getSource();
 
-            if(clickedBtn.getText().equals("Back"))
+            if(clickedBtn.getText().equals("Return to menu"))
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
                 cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu

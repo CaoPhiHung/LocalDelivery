@@ -1,3 +1,5 @@
-1,Orange - Whole White Sesame,84,30,orange.png
-2,Wine - Rosso Del Veronese Igt,71,98,wine.png
-3,Rice - Wild,44,93,rice.png
+1,Orange,4,30,orange.png
+2,Wine,12,98,wine.png
+3,Rice,15,93,rice.png
+4,Apple,4.5,30,apple.png
+5,Banana,3,43,banana.png
