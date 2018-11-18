@@ -15,10 +15,6 @@ public class JPanelItemDisplay extends JPanelWithImage {
     {
         super(url,w,h);
 
-        //Set background item
-        this.jpPic.setOpaque(true);
-        this.jpPic.setBackground(new Color(246,241,244));
-
         //Display title
         itemTitle = new JLabel(title);
         itemTitle.setOpaque(false);

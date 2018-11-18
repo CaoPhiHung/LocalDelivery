@@ -2,13 +2,20 @@ package main.java.client.ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import main.java.client.listeners.ClientAppListener;
 import main.java.component.customJPanel.JPanelItemControl;
+import main.java.component.customJPanel.JPanelItemDisplay;
 import main.java.model.ClientModel;
+import main.java.model.GenericNode;
+import main.java.model.Goods;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class ClientFrameApp extends JFrame {
 
@@ -34,12 +41,17 @@ public class ClientFrameApp extends JFrame {
     private JPanel locationWrapper;
     private JTextField latitudeBox;
     private JTextField longitudeBox;
+    public JScrollPane shoppingAreaScroll;
 
     private ClientAppListener cal;
+
+    private ArrayList<JPanelItemControl> listItemDisplay;
 
     public ClientFrameApp(ClientModel mo, ClientAppListener cal) {
         this.cal = cal;
         this.model = mo;
+        listItemDisplay = new ArrayList<>();
+
         $$$setupUI$$$();
         this.setContentPane(mainPanel);
         assignListeners();
@@ -63,18 +75,55 @@ public class ClientFrameApp extends JFrame {
 
     private void createUIComponents() {
 
-        //Declare
-        shoppingArea = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        backBtn = new JButton();
-        URL url = this.getClass().getResource("../../../resources/images/orange.png");
+        int numItem = 0;
 
-        for (int i = 0; i < 10; i++) {
-            shoppingArea.add(new JPanelItemControl(url, 120, 120));
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        formatter.setCommitsOnValidEdit(true);
+
+        latitudeBox = new JFormattedTextField(formatter);
+        longitudeBox = new JFormattedTextField(formatter);
+        ((JFormattedTextField) latitudeBox).setValue(0);
+        ((JFormattedTextField) longitudeBox).setValue(0);
+
+        //Declare
+        buttonArea = new JPanel();
+        shoppingArea = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        backBtn = new JButton();
+        URL url;
+
+        //Display Good
+        GenericNode<Goods> goodRoot = this.model.getGoodsList().getHead();
+        while (goodRoot != null) {
+            Goods tempGood = goodRoot.data;
+            url = this.getClass().getResource("../../../resources/images/" + tempGood.getImgPath());
+            JPanelItemControl tempJpcontrol = new JPanelItemControl(url, 130, 150, tempGood);
+            listItemDisplay.add(tempJpcontrol);
+            shoppingArea.add(tempJpcontrol);
+
+            numItem++;
+            goodRoot = goodRoot.next;
         }
+
+        shoppingArea.setPreferredSize(new Dimension(this.getWidth(), numItem * 35));
+        System.out.println("Shopping height: " + shoppingArea.getPreferredSize().height);
+
+        shoppingAreaScroll = new JScrollPane(shoppingArea);
+        shoppingAreaScroll.setPreferredSize(new Dimension(this.getWidth(), 50));
     }
 
     public void assignListeners() {
         backBtn.addActionListener(this.cal);
+        checkoutButton.addActionListener(this.cal);
+    }
+
+    public ArrayList<JPanelItemControl> getListItemDisplay() {
+        return listItemDisplay;
     }
 
     /**
@@ -88,58 +137,128 @@ public class ClientFrameApp extends JFrame {
         createUIComponents();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
-        buttonArea = new JPanel();
-        buttonArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setBackground(new Color(-4735245));
+        buttonArea.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        buttonArea.setOpaque(false);
         mainPanel.add(buttonArea, BorderLayout.SOUTH);
         buttonWrapper = new JPanel();
         buttonWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        buttonWrapper.setOpaque(false);
         buttonArea.add(buttonWrapper, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        backBtn.setText("Back");
-        buttonWrapper.add(backBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        backBtn.setBackground(new Color(-12762020));
+        backBtn.setBorderPainted(false);
+        backBtn.setDefaultCapable(false);
+        Font backBtnFont = this.$$$getFont$$$("Ayuthaya", -1, 16, backBtn.getFont());
+        if (backBtnFont != null) backBtn.setFont(backBtnFont);
+        backBtn.setForeground(new Color(-593420));
+        backBtn.setOpaque(true);
+        backBtn.setText("Return to menu");
+        buttonWrapper.add(backBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 1, false));
         checkoutButton = new JButton();
+        checkoutButton.setBackground(new Color(-16753659));
+        checkoutButton.setBorderPainted(false);
+        checkoutButton.setDefaultCapable(false);
+        Font checkoutButtonFont = this.$$$getFont$$$("Ayuthaya", -1, 16, checkoutButton.getFont());
+        if (checkoutButtonFont != null) checkoutButton.setFont(checkoutButtonFont);
+        checkoutButton.setForeground(new Color(-593420));
+        checkoutButton.setOpaque(true);
         checkoutButton.setText("Checkout");
-        buttonWrapper.add(checkoutButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonWrapper.add(checkoutButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(100, 30), null, 1, false));
         userInfoPanel = new JPanel();
         userInfoPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        userInfoPanel.setBackground(new Color(-12762020));
+        userInfoPanel.setForeground(new Color(-131073));
+        userInfoPanel.setOpaque(true);
         buttonArea.add(userInfoPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         userArea = new JPanel();
         userArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        userArea.setOpaque(false);
         userInfoPanel.add(userArea, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         userWrapper = new JPanel();
         userWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        userWrapper.setOpaque(false);
         userArea.add(userWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
+        Font label1Font = this.$$$getFont$$$("Courier", -1, 14, label1.getFont());
+        if (label1Font != null) label1.setFont(label1Font);
+        label1.setForeground(new Color(-270858));
         label1.setText("User:");
         userWrapper.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
         final JLabel label2 = new JLabel();
+        Font label2Font = this.$$$getFont$$$("Courier", -1, 14, label2.getFont());
+        if (label2Font != null) label2.setFont(label2Font);
+        label2.setForeground(new Color(-270858));
         label2.setText("Temp");
         userWrapper.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         locationArea = new JPanel();
         locationArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        locationArea.setOpaque(false);
         userInfoPanel.add(locationArea, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         locationWrapper = new JPanel();
         locationWrapper.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        locationWrapper.setOpaque(false);
         locationArea.add(locationWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
+        Font label3Font = this.$$$getFont$$$("Courier", -1, 14, label3.getFont());
+        if (label3Font != null) label3.setFont(label3Font);
+        label3.setForeground(new Color(-270858));
         label3.setText("Location:");
         locationWrapper.add(label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
-        latitudeBox = new JTextField();
+        Font latitudeBoxFont = this.$$$getFont$$$("Courier", -1, 14, latitudeBox.getFont());
+        if (latitudeBoxFont != null) latitudeBox.setFont(latitudeBoxFont);
+        latitudeBox.setOpaque(false);
         locationWrapper.add(latitudeBox, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(35, -1), null, 0, false));
-        longitudeBox = new JTextField();
+        Font longitudeBoxFont = this.$$$getFont$$$("Courier", -1, 14, longitudeBox.getFont());
+        if (longitudeBoxFont != null) longitudeBox.setFont(longitudeBoxFont);
+        longitudeBox.setOpaque(false);
         locationWrapper.add(longitudeBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(35, -1), null, 0, false));
         InfoArea = new JPanel();
         InfoArea.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        InfoArea.setOpaque(false);
         userInfoPanel.add(InfoArea, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         quantityWrapper = new JPanel();
         quantityWrapper.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        quantityWrapper.setOpaque(false);
         InfoArea.add(quantityWrapper, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         quantityLabel = new JLabel();
+        Font quantityLabelFont = this.$$$getFont$$$("Courier", -1, 14, quantityLabel.getFont());
+        if (quantityLabelFont != null) quantityLabel.setFont(quantityLabelFont);
+        quantityLabel.setForeground(new Color(-270858));
         quantityLabel.setText("Quantity:");
         quantityWrapper.add(quantityLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(17, 16), null, 0, false));
         quantityValue = new JLabel();
+        Font quantityValueFont = this.$$$getFont$$$("Courier", -1, 14, quantityValue.getFont());
+        if (quantityValueFont != null) quantityValue.setFont(quantityValueFont);
+        quantityValue.setForeground(new Color(-270858));
         quantityValue.setText("Temp");
         quantityWrapper.add(quantityValue, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        mainPanel.add(shoppingArea, BorderLayout.CENTER);
+        final Spacer spacer1 = new Spacer();
+        buttonArea.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        shoppingAreaScroll.setHorizontalScrollBarPolicy(31);
+        shoppingAreaScroll.setOpaque(true);
+        mainPanel.add(shoppingAreaScroll, BorderLayout.CENTER);
+        shoppingArea.setBackground(new Color(-12762020));
+        shoppingArea.setOpaque(true);
+        shoppingAreaScroll.setViewportView(shoppingArea);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

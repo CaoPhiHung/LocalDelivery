@@ -27,16 +27,15 @@ public class ClientMenuListener implements ActionListener {
             JButton clickedBtn = (JButton)e.getSource();
 
             if(clickedBtn.getText().equals("Order goods")) {
+                getAllGoods();
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
             }else if(clickedBtn.getText().equals("View Orders"))
             {
-
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 OrderService os = new OrderService();
                 OrderDetailService ods = new OrderDetailService();
-                GoodsService gs = new GoodsService();
-
+                getAllGoods();
 
                 try {
                     User user = cfm.getModel().getLoginUser();
@@ -44,9 +43,6 @@ public class ClientMenuListener implements ActionListener {
                     // View orders
                     cfm.getModel().setOrderList(os.getAllOrderList(user.userId));
                     cfm.getModel().setOrderListDetail(ods.getAllOrderDetailList(1));
-
-                    // Order goods
-                    cfm.getModel().setGoodsList(gs.getAllGoodsList());
 
                     cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
 
@@ -62,6 +58,21 @@ public class ClientMenuListener implements ActionListener {
                 cfm.setScene(ClientFrameMain.LOGIN_SCENE); // Change to login scene
             }
         }
+    }
+
+    private void getAllGoods()
+    {
+        ClientFrameMain cfm = (ClientFrameMain) jf;
+        GoodsService gs = new GoodsService();
+
+        // Order goods
+        try {
+            cfm.getModel().setGoodsList(gs.getAllGoodsList());
+        }catch(IOException ioe)
+        {
+
+        }
+
     }
 
 }

@@ -146,13 +146,15 @@ public class ClientFrameLogin extends JFrame {
         loginPanel.setOpaque(false);
         mainPanel.add(loginPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         loginBtn.setAutoscrolls(false);
-        loginBtn.setBackground(new Color(-9998707));
+        loginBtn.setBackground(new Color(-12762020));
         loginBtn.setBorderPainted(false);
         loginBtn.setContentAreaFilled(true);
         loginBtn.setDoubleBuffered(false);
         loginBtn.setEnabled(true);
         loginBtn.setFocusPainted(true);
         loginBtn.setFocusable(true);
+        Font loginBtnFont = this.$$$getFont$$$("Ayuthaya", -1, 16, loginBtn.getFont());
+        if (loginBtnFont != null) loginBtn.setFont(loginBtnFont);
         loginBtn.setForeground(new Color(-593420));
         loginBtn.setHideActionText(false);
         loginBtn.setOpaque(true);
@@ -162,7 +164,7 @@ public class ClientFrameLogin extends JFrame {
         loginBtn.setText("Login");
         loginBtn.setVerifyInputWhenFocusTarget(true);
         loginBtn.setVisible(true);
-        loginPanel.add(loginBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(160, -1), new Dimension(160, -1), null, 0, false));
+        loginPanel.add(loginBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
     }
 
     /**
