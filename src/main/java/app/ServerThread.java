@@ -73,12 +73,15 @@ public class ServerThread implements Runnable{
 					break;
 				case 4: // create new order
 					event.statusCode = createNewOrder(event.newOrder);
+					if(event.statusCode == 1){
+						event.statusCode = createNewOrderDetail(event.newOrderDetail);
+					}
 					out.writeObject(event);
 					break;
-				case 5: // create new order detail
-					event.statusCode = createNewOrderDetail(event.newOrderDetail);
-					out.writeObject(event);
-					break;
+//				case 5: // create new order detail
+//					event.statusCode = createNewOrderDetail(event.newOrderDetail);
+//					out.writeObject(event);
+//					break;
 				default:
 					break;
 				}

@@ -24,6 +24,7 @@ public class FileHandlingService {
 	private int checkOrderId;
 	private int statusCode = 0;
 	public Order newOrder;
+	public int newOrderID;
 	public ArrayList<OrderDetail> new_order_detail_list;
 
 	
@@ -167,7 +168,8 @@ public class FileHandlingService {
 				break;
 			case 1: //order
 				String currentDate = this.newOrder.getStringCurrentDate(this.newOrder.date);
-				String newOrder = (id + 1) + ","+ this.newOrder.userId + "," + currentDate + "," 
+				this.newOrderID = id + 1;
+				String newOrder = this.newOrderID + ","+ this.newOrder.userId + "," + currentDate + "," 
 									+ this.newOrder.totalPrice + "," + this.newOrder.destination ;
 				writer.append(newOrder + "\n");
 				this.statusCode = 1;
@@ -180,7 +182,7 @@ public class FileHandlingService {
 					for (int i = 0; i < new_order_detail_list.size(); i++) {
 						id++;
 						OrderDetail od = new_order_detail_list.get(i);
-						String newOrderDetail = id + "," + od.orderId + "," + od.goodsId
+						String newOrderDetail = id + "," + this.newOrderID + "," + od.goodsId
 												+ "," + od.quantity;
 						writer.append(newOrderDetail + "\n");
 					}
