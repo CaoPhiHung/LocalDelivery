@@ -62,11 +62,14 @@ public class ClientAppListener implements ActionListener {
                         totalPrice += totalCur;
                         OrderDetail newOrderDetail = new OrderDetail(0,0,curGoods.getGoodsId(),
                                 quantity);
+                        System.out.println("Order detail: " + curGoods.getName() + " - Q: " + quantity);
 
                         tempOrdered.add(newOrderDetail);
                     }
                 }
+
                 Order newOrder = new Order(0,totalPrice,latLong);
+                System.out.println("Total price: " + totalPrice + " latlong: " + latLong);
 
                 try {
                     os.createNewOrder(newOrder, tempOrdered);
