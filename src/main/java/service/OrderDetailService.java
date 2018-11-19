@@ -47,30 +47,30 @@ public class OrderDetailService {
 		return null;
 	}
 
-    public int createNewOrder(ArrayList<OrderDetail> ods) throws IOException {
-    	System.out.println("Trying to connect server ");
-		try {
-			socket = new Socket(ServerMain.IP, ServerMain.PORT);
-			ois = new ObjectInputStream(socket.getInputStream());
-	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-			
-	    	EventAction event = new EventAction();
-	    	event.eventType = 5;
-	    	event.newOrderDetail = ods;
-			oos.writeObject(event);
-
-			if((event = (EventAction)ois.readObject()) != null) {
-				socket.close();
-				return event.statusCode;
-			}
-  
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		socket.close();
-		return 0;
-		
-    }
+//    public int createNewOrder(ArrayList<OrderDetail> ods) throws IOException {
+//    	System.out.println("Trying to connect server ");
+//		try {
+//			socket = new Socket(ServerMain.IP, ServerMain.PORT);
+//			ois = new ObjectInputStream(socket.getInputStream());
+//	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+//			
+//	    	EventAction event = new EventAction();
+//	    	event.eventType = 5;
+//	    	event.newOrderDetail = ods;
+//			oos.writeObject(event);
+//
+//			if((event = (EventAction)ois.readObject()) != null) {
+//				socket.close();
+//				return event.statusCode;
+//			}
+//  
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		socket.close();
+//		return 0;
+//		
+//    }
 }
