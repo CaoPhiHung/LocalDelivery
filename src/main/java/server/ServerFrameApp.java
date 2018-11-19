@@ -59,7 +59,7 @@ public class ServerFrameApp extends JFrame {
 
     public void refreshData()
     {
-        
+
         userListModel = new DefaultListModel();
 
     }

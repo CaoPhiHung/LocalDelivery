@@ -127,6 +127,10 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         return jcbox;
     }
 
+    public JFormattedTextField getJtf() {
+        return jtf;
+    }
+
     public Goods getGoods() {
         return goods;
     }
