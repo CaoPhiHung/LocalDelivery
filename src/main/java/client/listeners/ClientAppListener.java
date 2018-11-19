@@ -2,6 +2,10 @@ package main.java.client.listeners;
 
 import main.java.client.ClientFrameMain;
 import main.java.component.customJPanel.JPanelItemControl;
+import main.java.model.Goods;
+import main.java.model.Order;
+import main.java.model.OrderDetail;
+import main.java.service.OrderDetailService;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,11 +35,18 @@ public class ClientAppListener implements ActionListener {
             }else if(clickedBtn.getText().equals("Checkout"))
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
+                OrderDetailService ods = new OrderDetailService();
+
                 ArrayList<JPanelItemControl> arrControl = cfm.getClientFrameApp().getListItemDisplay();
+                ArrayList<OrderDetail> tempOrdered = new ArrayList<>();
+
+//                Order newOrder = new Order();
                 for(int i = 0; i < arrControl.size(); i++)
                 {
                     if(arrControl.get(i).getJcbox().isSelected())
                     {
+                        Goods curGoods = arrControl.get(i).getGoods();
+//                        OrderDetail newOrderDetail = new OrderDetail();
                         System.out.println("Selected: " + arrControl.get(i).getGoods().displayGoods());
                     }
                 }

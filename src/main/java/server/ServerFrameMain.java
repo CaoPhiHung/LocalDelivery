@@ -34,7 +34,6 @@ public class ServerFrameMain extends JFrame {
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(sfa.getContentPane());
         }
-
     }
 
     {
