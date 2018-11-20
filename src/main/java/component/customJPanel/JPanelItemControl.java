@@ -1,8 +1,12 @@
 package main.java.component.customJPanel;
 
+import main.java.client.listeners.ClientAppListener;
+import main.java.client.ui.ClientFrameApp;
 import main.java.model.Goods;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,19 +23,39 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
     private JButton jbp;
     private JButton jbn;
     private JCheckBox jcbox;
+    private JCheckBox hiddenbox;
     private JLabel itemTitle;
+    private JLabel itemQuantity;
+    private JLabel itemPrice;
 
     private Goods goods;
+    private double totalPrice = 0;
 
+    private ClientAppListener cal;
+
+    public JPanelItemControl(URL url , int w, int h, Goods goods, ClientAppListener cal)
+    {
+        this(url,w,h,goods);
+        this.cal = cal;
+        this.jtf.getDocument().putProperty("itemControl",this);
+        this.jtf.getDocument().addDocumentListener(this.cal);
+
+        hiddenbox = new JCheckBox();
+        hiddenbox.addActionListener(this.cal);
+        hiddenbox.setVisible(false);
+
+    }
     public JPanelItemControl(URL url, int w, int h, Goods goods) {
         super(url, w, h);
         this.goods = goods;
+
+        NumberFormat curFormat = NumberFormat.getCurrencyInstance();
 
         this.setOpaque(true);
         this.setBackground(new Color(183,190,243));
 
         controlsWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        controlsWrapper.setOpaque(true);
+        controlsWrapper.setOpaque(false);
         controlsWrapper.setBackground(new Color	(183,190,243));
 
         // Create formatter for textfield
@@ -54,7 +78,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         jtf = new JFormattedTextField(formatter);
         jtf.setValue(0);
         jtf.setHorizontalAlignment(JTextField.CENTER);
-        jtf.setOpaque(true);
+        jtf.setOpaque(false);
         jtf.setForeground(new Color(61,68,92));
         jtf.setFont(new Font("Courier", Font.PLAIN,12));
 
@@ -72,15 +96,27 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
 
         //Add checkbox
         JPanel cboxWrapper = new JPanel(new BorderLayout());
-        cboxWrapper.setOpaque(true);
-        cboxWrapper.setBackground(new Color(183,190,243));
+        cboxWrapper.setOpaque(false);
 
         jcbox = new JCheckBox();
         jcbox.setHorizontalAlignment(JCheckBox.CENTER);
         jcbox.setOpaque(false);
         jcbox.addActionListener(this);
-//        jcbox.setForeground(new Color(61,68,92));
-        cboxWrapper.add(jcbox);
+
+        itemQuantity = new JLabel("Quantity: " + goods.getQuantity());
+        itemQuantity.setHorizontalAlignment(JCheckBox.CENTER);
+        itemQuantity.setOpaque(false);
+        itemQuantity.addMouseListener(this);
+
+        itemPrice = new JLabel(" (" + curFormat.format(goods.getPrice()) + ")");
+        itemPrice.setHorizontalAlignment(JCheckBox.CENTER);
+        itemPrice.setOpaque(false);
+        itemPrice.setFont(new Font("Courier", Font.ITALIC,14));
+        itemPrice.addMouseListener(this);
+
+        cboxWrapper.add(jcbox, BorderLayout.SOUTH);
+        cboxWrapper.add(itemQuantity, BorderLayout.CENTER);
+        cboxWrapper.add(itemPrice, BorderLayout.NORTH);
 
         //Display title
         itemTitle = new JLabel(goods.getName());
@@ -89,6 +125,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         itemTitle.setHorizontalAlignment(JLabel.CENTER);
         itemTitle.setVerticalAlignment(JLabel.TOP);
         itemTitle.setFont(new Font("Courier", Font.BOLD,14));
+        itemTitle.addMouseListener(this);
 
         JPanel tempoSouth = new JPanel(new BorderLayout());
         tempoSouth.setOpaque(false);
@@ -97,30 +134,6 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         tempoSouth.add(itemTitle, BorderLayout.NORTH);
 
         this.add(tempoSouth,BorderLayout.SOUTH);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() instanceof JButton)
-        {
-            JButton clickedBtn = (JButton)e.getSource();
-
-            if(clickedBtn.getText().equals("<"))
-            {
-                int cur = (int)jtf.getValue();
-                if(cur > 0)
-                {
-                    jtf.setValue(cur - 1);
-                }
-            }else if(clickedBtn.getText().equals(">"))
-            {
-                int cur = (int)jtf.getValue();
-                jtf.setValue(cur + 1);
-            }
-        }else if(e.getSource() instanceof JCheckBox)
-        {
-
-        }
     }
 
     public JCheckBox getJcbox() {
@@ -146,9 +159,55 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         jb.repaint();
     }
 
+    /**
+     * ACTION LISTENER
+     */
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() instanceof JButton)
+        {
+            JButton clickedBtn = (JButton)e.getSource();
+
+            if(clickedBtn.getText().equals("<"))
+            {
+                int cur = (int)jtf.getValue();
+                if(cur > 0)
+                {
+                    jtf.setValue(cur - 1);
+                }
+            }else if(clickedBtn.getText().equals(">"))
+            {
+                int cur = (int)jtf.getValue();
+                jtf.setValue(cur + 1);
+            }
+
+            this.cal.updateTotalPrice();
+        }else if(e.getSource() instanceof JCheckBox)
+        {
+            JCheckBox cbChosen = (JCheckBox)e.getSource();
+            this.hiddenbox.doClick();
+
+            if(cbChosen.isSelected())
+            {
+                this.setBackground(new Color(251,221,246));
+            }else
+            {
+                this.setBackground(new Color(183,190,243));
+            }
+        }
+    }
+
+    /**
+     * MOUSE LISTENER
+     */
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() instanceof JPanelBackground)
+        {
+            this.jcbox.doClick();
+        }else if(e.getSource() instanceof JLabel)
         {
             this.jcbox.doClick();
         }
@@ -172,5 +231,13 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
