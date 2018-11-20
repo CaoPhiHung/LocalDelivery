@@ -14,6 +14,7 @@ public class JButtonColor extends JButton {
 
     public JButtonColor(String text, Color bgColor, Color textColor)
     {
+        super(text);
         this.bgColor = bgColor;
         this.txtColor = textColor;
         this.setOpaque(true);

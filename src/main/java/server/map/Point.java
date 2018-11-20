@@ -1,4 +1,4 @@
-package src;
+package main.java.server.map;
 
 import java.awt.Color;
 import java.util.ArrayList;

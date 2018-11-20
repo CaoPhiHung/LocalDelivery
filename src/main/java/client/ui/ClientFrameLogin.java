@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import main.java.client.listeners.ClientLoginListener;
 import main.java.component.JLabelC;
+import main.java.component.customJButton.JButtonColor;
 import main.java.component.customJPanel.JPanelBackground;
 
 import javax.swing.*;

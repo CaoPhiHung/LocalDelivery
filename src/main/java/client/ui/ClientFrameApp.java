@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import main.java.client.listeners.ClientAppListener;
+import main.java.component.customJButton.JButtonColor;
 import main.java.component.customJPanel.JPanelItemControl;
 import main.java.model.ClientModel;
 import main.java.model.GenericNode;

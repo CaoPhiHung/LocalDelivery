@@ -1,4 +1,4 @@
-package src;
+package main.java.server.map;
 
 import java.io.File;
 import java.io.FileWriter;

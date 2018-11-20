@@ -42,7 +42,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="b4efa" class="javax.swing.JButton" binding="viewMapButton" default-binding="true">
+              <component id="b4efa" class="javax.swing.JButton" binding="viewMapButton" custom-create="true" default-binding="true">
                 <constraints>
                   <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -134,7 +134,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="c93ca" class="javax.swing.JComboBox" binding="userCombo">
+              <component id="c93ca" class="javax.swing.JComboBox" binding="userCombo" custom-create="true">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="200" height="-1"/>

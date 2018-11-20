@@ -3,12 +3,18 @@ package main.java.server;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import main.java.app.ServerThread;
 import main.java.component.customJButton.JButtonColor;
+import main.java.model.GenericDLinkedList;
+import main.java.model.GenericNode;
+import main.java.model.User;
 import main.java.server.listeners.MainServerListener;
+import main.java.service.FileHandlingService;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ServerFrameApp extends JFrame {
     public JPanel mainPanel;
@@ -25,16 +31,19 @@ public class ServerFrameApp extends JFrame {
     public JPanel exitWrapper;
     public JPanel listOrderWrapper;
     public JButton refreshBtn;
+    private ArrayList<User> userList;
 
     private int appWidth = 800;
     private int appHeight = 600;
 
     MainServerListener msl;
-
     DefaultListModel userListModel;
+    private FileHandlingService fh;
 
     public ServerFrameApp(MainServerListener msl) {
         this.msl = msl;
+        fh = new FileHandlingService();
+
         $$$setupUI$$$();
         setContentPane(mainPanel);
         assignListeners();
@@ -57,11 +66,8 @@ public class ServerFrameApp extends JFrame {
         this.appHeight = appHeight;
     }
 
-    public void refreshData()
-    {
-
+    public void refreshData() {
         userListModel = new DefaultListModel();
-
     }
 
     private void createUIComponents() {
@@ -69,15 +75,35 @@ public class ServerFrameApp extends JFrame {
         mainPanel.setOpaque(true);
         mainPanel.setBackground(Color.BLUE);
 
-
         rightPanel = new JPanel();
         exitBtn = new JButtonColor("Exit", Color.RED, Color.WHITE);
         refreshBtn = new JButtonColor("Refresh", Color.RED, Color.WHITE);
-//        mapPanel.add(new JFrame());
+
+        //Combo list
+        userCombo = new JComboBox();
+        userCombo.addItem("Select user");
+
+        userList = new ArrayList<>();
+        userList.add(null);
+
+        fh.setReadType(0);
+        fh.readFile("User.txt");
+        GenericNode<User> nodeUser = fh.user_list.getHead();
+        while (nodeUser != null) {
+            userCombo.addItem(nodeUser.data.fullname);
+            userList.add(nodeUser.data);
+            nodeUser = nodeUser.next;
+        }
+
+        // View Map
+        viewMapButton = new JButton("View Map");
+
     }
 
     private void assignListeners() {
         exitBtn.addActionListener(this.msl);
+        userCombo.addActionListener(this.msl);
+        viewMapButton.addActionListener(this.msl);
     }
 
     /**
@@ -116,7 +142,6 @@ public class ServerFrameApp extends JFrame {
         viewMapPanel.setVerifyInputWhenFocusTarget(false);
         viewMapPanel.setVisible(true);
         rightPanel.add(viewMapPanel, BorderLayout.SOUTH);
-        viewMapButton = new JButton();
         viewMapButton.setBackground(new Color(-270858));
         viewMapButton.setBorderPainted(false);
         Font viewMapButtonFont = this.$$$getFont$$$("Ayuthaya", -1, 12, viewMapButton.getFont());
@@ -158,7 +183,6 @@ public class ServerFrameApp extends JFrame {
         topArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         topArea.setOpaque(false);
         leftPanel.add(topArea, BorderLayout.NORTH);
-        userCombo = new JComboBox();
         Font userComboFont = this.$$$getFont$$$("Courier", -1, 12, userCombo.getFont());
         if (userComboFont != null) userCombo.setFont(userComboFont);
         userCombo.setForeground(new Color(-9998707));

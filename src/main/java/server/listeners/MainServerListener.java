@@ -1,6 +1,7 @@
 package main.java.server.listeners;
 
 import main.java.server.ServerFrameMain;
+import main.java.server.map.Maze;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,16 @@ public class MainServerListener implements ActionListener {
                 sfm.setVisible(false);
                 sfm.dispose();
                 System.exit(0);
+            }else if(clickedBtn.getText().equals("View Map"))
+            {
+                Maze m = new Maze();
+                
             }
+        }else if(e.getSource() instanceof JCheckBox)
+        {
+            JComboBox cbox = (JComboBox)e.getSource();
+
+            System.out.println(cbox.getSelectedIndex());
         }
     }
 
