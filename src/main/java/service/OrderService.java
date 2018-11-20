@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class OrderService {
@@ -29,6 +30,7 @@ public class OrderService {
 
 			if((event = (EventAction)ois.readObject()) != null) {
 				this.order_list = event.order_list;
+				System.out.println("order Size: " + this.order_list.size());
 				socket.close();
 				return this.order_list;
 			}
@@ -43,7 +45,7 @@ public class OrderService {
 		
     }
     
-    public int createNewOrder(Order order) throws IOException {
+    public int createNewOrder(Order order, ArrayList<OrderDetail> ods) throws IOException {
     	System.out.println("Trying to connect server ");
 		try {
 			socket = new Socket(ServerMain.IP, ServerMain.PORT);
@@ -53,6 +55,7 @@ public class OrderService {
 	    	EventAction event = new EventAction();
 	    	event.eventType = 4;
 	    	event.newOrder = order;
+	    	event.newOrderDetail = ods;
 			oos.writeObject(event);
 
 			if((event = (EventAction)ois.readObject()) != null) {

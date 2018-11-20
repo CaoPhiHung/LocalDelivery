@@ -40,9 +40,10 @@ public class ClientConnectService {
                 this.user = event.user;
                 socket.close();
                 return this.user;
+            }else
+            {
+                socket.close();
             }
-
-
 
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
@@ -52,7 +53,7 @@ public class ClientConnectService {
             ex.getMessage();
         }
 
-        socket.close();
+//        socket.close();
         return null;
 
     }

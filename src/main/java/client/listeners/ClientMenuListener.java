@@ -1,7 +1,7 @@
 package main.java.client.listeners;
 
 import main.java.client.ClientFrameMain;
-import main.java.model.User;
+import main.java.model.*;
 import main.java.service.GoodsService;
 import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
@@ -27,27 +27,39 @@ public class ClientMenuListener implements ActionListener {
             JButton clickedBtn = (JButton)e.getSource();
 
             if(clickedBtn.getText().equals("Order goods")) {
+                getAllGoods();
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
             }else if(clickedBtn.getText().equals("View Orders"))
             {
-
+                System.out.println("View Orders");
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 OrderService os = new OrderService();
                 OrderDetailService ods = new OrderDetailService();
-                GoodsService gs = new GoodsService();
-
+                getAllGoods();
 
                 try {
                     User user = cfm.getModel().getLoginUser();
 
                     // View orders
                     cfm.getModel().setOrderList(os.getAllOrderList(user.userId));
-                    cfm.getModel().setOrderListDetail(ods.getAllOrderDetailList(1));
 
-                    // Order goods
-                    cfm.getModel().setGoodsList(gs.getAllGoodsList());
+                    cfm.getModel().setOrderListDetail(new GenericDLinkedList<>()); // Not null
 
+                        //Check
+                    GenericNode<Order> ord = cfm.getModel().getOrderList().getRoot();
+                    while(ord != null)
+                    {
+                        System.out.println(ord.data.displayOrder());
+                        ord = ord.next;
+                    }
+
+                    GenericNode<OrderDetail> ordDe = cfm.getModel().getOrderListDetail().getHead();
+                    while(ordDe != null)
+                    {
+                        System.out.println(ordDe.data.displayOrderDetail());
+                        ordDe = ordDe.next;
+                    }
 
                     cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
 
@@ -63,6 +75,21 @@ public class ClientMenuListener implements ActionListener {
                 cfm.setScene(ClientFrameMain.LOGIN_SCENE); // Change to login scene
             }
         }
+    }
+
+    private void getAllGoods()
+    {
+        ClientFrameMain cfm = (ClientFrameMain) jf;
+        GoodsService gs = new GoodsService();
+
+        // Order goods
+        try {
+            cfm.getModel().setGoodsList(gs.getAllGoodsList());
+        }catch(IOException ioe)
+        {
+
+        }
+
     }
 
 }

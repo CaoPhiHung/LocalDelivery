@@ -41,7 +41,7 @@ public class Order implements Comparable<Order>,Serializable {
 
     public String displayOrder()
     {
-        String toReturn = "oID: " + orderId + "date: " + date.toString();
+        String toReturn = date.toString();
         return toReturn;
     }
 
@@ -68,7 +68,7 @@ public class Order implements Comparable<Order>,Serializable {
 	}
 	
 	public String getStringCurrentDate(Date date){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return dateFormat.format(date);
 	}
 	

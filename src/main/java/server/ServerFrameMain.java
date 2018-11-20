@@ -1,18 +1,22 @@
 package main.java.server;
 
+import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import main.java.server.listeners.MainServerListener;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ServerFrameMain extends JFrame {
 
+    public JPanel mainPanel;
+    MainServerListener msl;
     ServerFrameApp sfa;
 
     public static int MAIN_SCENE = 0;
 
     public ServerFrameMain() {
-        sfa = new ServerFrameApp();
+        setScene(MAIN_SCENE);
 
         this.setTitle("Local Delivery - Server");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +27,13 @@ public class ServerFrameMain extends JFrame {
 
     public void setScene(int scene) {
 
+        if (scene == MAIN_SCENE) {
+            msl = new MainServerListener(this);
+            sfa = new ServerFrameApp(msl);
+            this.setSize(new Dimension(sfa.getAppWidth(), sfa.getAppHeight()));
+            this.setLocationRelativeTo(null); // Center app
+            this.setContentPane(sfa.getContentPane());
+        }
     }
 
     {
@@ -40,7 +51,14 @@ public class ServerFrameMain extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(0, 0));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return mainPanel;
     }
 }

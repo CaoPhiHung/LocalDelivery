@@ -31,5 +31,4 @@ public class GenericNode<T> implements Comparable<T> ,Serializable {
 			return 0;
 		}
 
-	
 }

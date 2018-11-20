@@ -1,12 +1,15 @@
 package main.java.client.listeners;
 
 import main.java.client.ClientFrameMain;
+import main.java.model.*;
+import main.java.service.OrderDetailService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ClientOrderListener implements ActionListener, ListSelectionListener {
 
@@ -24,7 +27,7 @@ public class ClientOrderListener implements ActionListener, ListSelectionListene
         {
             JButton clickedBtn = (JButton)e.getSource();
 
-            if(clickedBtn.getText().equals("Back"))
+            if(clickedBtn.getText().equals("Return to menu"))
             {
                 ClientFrameMain cfm = (ClientFrameMain)jf;
                 cfm.setScene(ClientFrameMain.MENU_SCENE); // Change to Menu
@@ -37,9 +40,10 @@ public class ClientOrderListener implements ActionListener, ListSelectionListene
 
         if(e.getSource() instanceof JList && !e.getValueIsAdjusting())
         {
+            ClientFrameMain cfm = (ClientFrameMain)jf;
             JList jl = (JList)e.getSource();
             int ind = jl.getSelectedIndex();
-            System.out.println("Index: " + jl.getModel().getElementAt(ind));
+            cfm.getClientFrameOrder().updateDetailsItem(ind);
         }
 
     }

@@ -1,6 +1,11 @@
 package src;
 
+
 import java.awt.FileDialog;
+
+import javax.swing.*;
+import java.awt.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,6 +19,7 @@ public class Import {
 	
 	public static ArrayList<String> alsImport() {
 		//For testing reset button
+
 //		FileDialog fd = new FileDialog(new JFrame());
 //		fd.setVisible(true);
 //		File[] f = fd.getFiles();

@@ -5,41 +5,110 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-4735245"/>
+      <opaque value="true"/>
+    </properties>
     <border type="none"/>
     <children>
-      <grid id="75972" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="75972" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <opaque value="false"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="8bc13" class="javax.swing.JButton" binding="viewOrdersButton" custom-create="true" default-binding="true">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="1" use-parent-layout="false">
+                <preferred-size width="200" height="50"/>
+              </grid>
             </constraints>
             <properties>
+              <alignmentY value="0.0"/>
+              <autoscrolls value="false"/>
+              <background color="-12762020"/>
+              <borderPainted value="false"/>
+              <defaultCapable value="false"/>
+              <font name="Ayuthaya" size="16"/>
+              <foreground color="-593420"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
               <text value="View Orders"/>
             </properties>
           </component>
           <component id="f41c8" class="javax.swing.JButton" binding="orderGoodsButton" custom-create="true" default-binding="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="1" use-parent-layout="false">
+                <preferred-size width="200" height="50"/>
+              </grid>
             </constraints>
             <properties>
+              <alignmentY value="0.0"/>
+              <autoscrolls value="false"/>
+              <background color="-12762020"/>
+              <borderPainted value="false"/>
+              <defaultCapable value="false"/>
+              <font name="Ayuthaya" size="16"/>
+              <foreground color="-593420"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
               <text value="Order goods"/>
             </properties>
           </component>
           <component id="5ff27" class="javax.swing.JButton" binding="logOutButton" custom-create="true" default-binding="true">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="1" use-parent-layout="false">
+                <preferred-size width="200" height="50"/>
+              </grid>
             </constraints>
             <properties>
+              <alignmentY value="0.0"/>
+              <autoscrolls value="false"/>
+              <background color="-12762020"/>
+              <borderPainted value="false"/>
+              <defaultCapable value="false"/>
+              <font name="Ayuthaya" size="16"/>
+              <foreground color="-593420"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
               <text value="Log out"/>
             </properties>
           </component>
+          <vspacer id="4d187">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <vspacer id="c2b8c">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="2423d" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Courier" size="48" style="1"/>
+              <foreground color="-9998707"/>
+              <text value="MENU"/>
+            </properties>
+          </component>
+          <vspacer id="ce90">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="50"/>
+              </grid>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>
