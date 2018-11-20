@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ClientFrameOrder extends JFrame {
@@ -130,6 +131,7 @@ public class ClientFrameOrder extends JFrame {
 //            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
             this.userItemList.removeAll();
 
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
             while (singleOD != null) {
                 OrderDetail eachOD = singleOD.data;
 
@@ -143,8 +145,8 @@ public class ClientFrameOrder extends JFrame {
                         URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
 
                         this.userItemList.add(new JPanelItemDisplay(url, 130, 150,
-                                singleGood.data.getName() + "($" + singleGood.data.getPrice() + ")",
-                                singleGood.data.getQuantity() + "", new Color(183, 190, 243)));
+                                singleGood.data.getName() + " (" + formatter.format(singleGood.data.getPrice()) + ")",
+                                eachOD.quantity + "", new Color(183, 190, 243)));
 
                         System.out.println(singleGood.data.displayGoods());
                         break;
