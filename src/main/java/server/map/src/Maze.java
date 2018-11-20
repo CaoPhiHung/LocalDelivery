@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +13,17 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.sun.glass.events.WindowEvent;
+import com.sun.org.apache.bcel.internal.util.JavaWrapper;
+
+import sun.management.jdp.JdpGenericPacket;
 
 public class Maze {
 	public boolean bFounded;
@@ -65,7 +75,7 @@ public class Maze {
 			iStep++;
 			aliPathCount.set(1, iStep);
 			pInput.bReachToPath = true;
-			System.out.println(Point.iPathCount(Maze.alpPoints));
+//			System.out.println(Point.iPathCount(Maze.alpPoints));
 			return aliPathCount;
 		}
 		else {
@@ -135,6 +145,7 @@ public class Maze {
 		aliPathCount.set(0,0);
 		return aliPathCount;	
 	}
+	
 		
 	public static ArrayList<Point> alpPointsToGoal ( ArrayList<Point> aliInput, ArrayList<Integer> aliPath ){
 		ArrayList<Point> alpToGoal = new ArrayList<>();
@@ -152,6 +163,7 @@ public class Maze {
 		aliInt.add(0);
 		aliInt.add(0);
 		 ArrayList<Integer> iAResult =  Maze.findMazePath( Maze.alpPoints.get(0),aliInt);
+		 System.out.println(Integer.toString(iAResult.get(1)));
 		 if ( iAResult.get(0) == 0) {
 			 JOptionPane.showMessageDialog(null,"There is no pathway to the target"
 			 		+ ", please select another target!");
@@ -215,4 +227,150 @@ public class Maze {
 		     exp.printStackTrace();
 		 }
 	 }
+	
+	public static boolean bIsInteger (String sInput) {
+		try {
+			int i = Integer.parseInt(sInput);
+//			if (Integer.parseInt(sInput) == (int)sInput) {
+				return true;
+//			}
+//			return false;
+			
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static void typeTarget () {
+		JFrame frTypeTarget = new JFrame("Target input: ");
+		frTypeTarget.setVisible(true);
+		frTypeTarget.setSize(400,100);
+		frTypeTarget.setLocation(500,400);
+		frTypeTarget.setDefaultCloseOperation(1);
+		JPanel pnInput = new JPanel();
+		frTypeTarget.getContentPane().add(pnInput);
+		pnInput.setLayout(new GridLayout(3, 2));
+		JLabel lbX = new JLabel("The row of target is: ");
+		JTextField txfiX = new JTextField();
+		txfiX.setText(Integer.toString(Maze.iXTarget));
+		JLabel lbY = new JLabel("The column of target is: ");
+		JTextField txfiY = new JTextField();
+		txfiY.setText(Integer.toString(Maze.iYTarget));
+		pnInput.add(lbX);
+		pnInput.add(txfiX);
+		pnInput.add(lbY);
+		pnInput.add(txfiY);
+		JButton btnDone = new JButton("Done");
+		pnInput.add(btnDone);
+		btnDone.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String sX = txfiX.getText();
+				String sY = txfiY.getText();
+				if (!sX.isEmpty() && !sY.isEmpty()) {
+					if (bIsInteger(sX) && bIsInteger(sY)) {
+						int iX = Integer.parseInt(sX);
+						int iY = Integer.parseInt(sY);
+						if(iX <= Maze.ROW && iY  <= Maze.COLUMN) {
+							Maze.resetMaze(Maze.alpPoints);
+							Point pTarget = Point.pFindPoint(iX,iY, Maze.alpPoints);
+							if (pTarget.sStatus.compareTo("barrier") == 0) {
+								for (int i = iX - 1; i <= iX + 1; ++i) {
+									for (int y = iY - 1; y <= iY +1; ++y) {
+										Point pTry = Point.pFindPoint(i, y, Maze.alpPoints);
+										if (pTry != null && pTry.sStatus.compareTo("normal") == 0) {
+											Point.Target(pTry);
+											Maze.iXTarget = i;
+											Maze.iYTarget = y;
+											frTypeTarget.setVisible(false);
+											JOptionPane.showMessageDialog(frTypeTarget, 
+													"The target inputed from user(" + Integer.toString(iX)
+													+ "," + Integer.toString(iY) +
+													") is a wall, so we moved it to the nearest avaiable house"
+													+"which is(" + Integer.toString(i) + "," +
+													Integer.toString(y) + ")");
+											return;
+										}
+									}
+								}
+							}
+							else if (pTarget.sStatus.compareTo("normal") == 0) {
+								Point.Target(pTarget);
+								Maze.iXTarget = iX;
+								Maze.iYTarget = iY;
+								frTypeTarget.setVisible(false);	
+							}
+							else {
+								JOptionPane.showMessageDialog(frTypeTarget, "Unable to locate this address");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog(frTypeTarget, "X and/or Y is oversize of the map, please double check!");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(frTypeTarget, "Input should be integer, please!");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(frTypeTarget, "Input cannot be empty, please!");
+				}
+			}
+		});
+	}
+	
+	public static void setTargetFromAL( ArrayList<String> aliInput) {
+		try {
+			String sX = aliInput.get(0);
+			String sY = aliInput.get(1);
+			if (!sX.isEmpty() && !sY.isEmpty()) {
+				if (bIsInteger(sX) && bIsInteger(sY)) {
+					int iX = Integer.parseInt(sX);
+					int iY = Integer.parseInt(sY);
+					if(iX <= Maze.ROW && iY  <= Maze.COLUMN) {
+						Maze.resetMaze(Maze.alpPoints);
+						Point pTarget = Point.pFindPoint(iX,iY, Maze.alpPoints);
+						if (pTarget.sStatus.compareTo("barrier") == 0) {
+							for (int i = iX - 1; i <= iX + 1; ++i) {
+								for (int y = iY - 1; y <= iY +1; ++y) {
+									Point pTry = Point.pFindPoint(i, y, Maze.alpPoints);
+									if (pTry != null && pTry.sStatus.compareTo("normal") == 0) {
+										Point.Target(pTry);
+										Maze.iXTarget = i;
+										Maze.iYTarget = y;
+										JOptionPane.showMessageDialog(null, "The target inputed from user(" + Integer.toString(iX)
+												+ "," + Integer.toString(iY) +
+												") is a wall, so we moved it to the nearest avaiable house"
+												+"which is(" + Integer.toString(i) + "," +
+												Integer.toString(y) + ")");
+										return;
+									}
+								}
+							}
+						}
+						else if (pTarget.sStatus.compareTo("normal") == 0) {
+							Point.Target(pTarget);
+							Maze.iXTarget = iX;
+							Maze.iYTarget = iY;	
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Unable to locate this address");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "X and/or Y is oversize of the map, please double check!");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Input should be integer, please!");
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Input cannot be empty, please!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

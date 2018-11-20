@@ -3,12 +3,18 @@ package src;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIDefaults;
+
+import javafx.scene.layout.Border;
 
 public class Draw {
 	
@@ -31,6 +37,13 @@ public class Draw {
 				pTemp.iY = x;
 				pTemp.sStatus = "normal";
 				pTemp.coBg = Color.CYAN;
+				pTemp.btnT.setBorderPainted(true);
+				
+				//Try to reset button shape
+				  UIDefaults def = new UIDefaults();
+				  def.put("Button.contentMargins", new Insets(0,0,0,0));
+				  pTemp.btnT.putClientProperty("Nimbus.Overrides", def);
+				  
 				pTemp.btnT.setBackground(pTemp.coBg);
 				Point.modifyPoint(pTemp,alsResult);
 				jpMap.add(pTemp.btnT);
@@ -130,10 +143,12 @@ public class Draw {
 		Maze.pnlPoint = new JPanel();
 		Maze.pnlPoint.setLayout(new GridLayout(Maze.ROW,Maze.COLUMN));
 		Maze.frame.add(Maze.pnlPoint,BorderLayout.CENTER);
+		Maze.frame.setExtendedState(Maze.frame.MAXIMIZED_BOTH);
+		
 		Draw.drawPoints(Maze.ROW, Maze.COLUMN, Maze.pnlPoint, alsResult, Maze.alpPoints);
 		JButton btnSolve = new JButton("Solve");
 		JPanel pnlButtons = new JPanel();
-		pnlButtons.setLayout(new GridLayout(3, 3));
+		pnlButtons.setLayout(new GridLayout(4, 4));
 		pnlButtons.add(btnSolve );
 		Maze.frame.getContentPane().add(pnlButtons, BorderLayout.SOUTH);
 		btnSolve.addActionListener(new ActionListener() {
@@ -153,7 +168,7 @@ public class Draw {
 		btnImport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Import here
+				//Import function
 				Maze.importMaze();
 			}
 		});
@@ -167,11 +182,11 @@ public class Draw {
 		btnReset.addActionListener(new ActionListener() {
 			@Override	
 			public void actionPerformed(ActionEvent arg0) {
-				//Reset here
+				//Reset function
 				Maze.resetMaze(Maze.alpPoints);
 			}
 		});
-		
+		//Export to JPEG
 		JButton btnExportToJPEG = new JButton("Export to jpeg file");
 		btnExportToJPEG.addActionListener(new ActionListener() {
 			
@@ -181,6 +196,36 @@ public class Draw {
 			}
 		});
 		pnlButtons.add(btnExportToJPEG);
+		//Type target
+		JButton btnTypeTarget = new JButton("Type target point");
+		pnlButtons.add(btnTypeTarget);
+		btnTypeTarget.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TypeTarget is for the case user type it here
+//				Maze.typeTarget();
+				
+				//SetTargetFromAL is for the case we get input from file
+				ArrayList<String> alsInput = new ArrayList<>();
+				alsInput.add("3");
+				alsInput.add("5");
+				Maze.setTargetFromAL(alsInput);
+				
+			}
+		});
+		//Close
+		JButton btnClose = new JButton("Close");
+		pnlButtons.add(btnClose);
+		btnClose.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		
 		
 		return Maze.alpPoints;	
 		

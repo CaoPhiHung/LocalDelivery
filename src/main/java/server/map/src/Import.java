@@ -1,10 +1,14 @@
 package src;
 
+import java.awt.FileDialog;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
 
 public class Import {
 	
@@ -12,16 +16,15 @@ public class Import {
 		//For testing reset button
 //		FileDialog fd = new FileDialog(new JFrame());
 //		fd.setVisible(true);
-//		
-//		
 //		File[] f = fd.getFiles();
-		
+//		
 //		if(f.length > 0){
 //		    System.out.println(fd.getFiles()[0].getAbsolutePath());
 //		}
 		
-		File[] f = new File[1]; 
-		f[0] =	new File("T:\\src\\main\\java\\server\\map\\mapDB\\map2018-11-05-12-36-833.txt");	
+		File[] f = new File[1];
+		String sCurDir = System.getProperty("user.dir");
+		f[0] =	new File(sCurDir + "/main/java/server/map/mapDB/map2018-11-20-12-24-939_ideal.txt");
 		
 		String sFileContent = "";
 		try {
