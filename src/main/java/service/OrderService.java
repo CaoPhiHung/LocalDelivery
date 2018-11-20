@@ -30,6 +30,7 @@ public class OrderService {
 
 			if((event = (EventAction)ois.readObject()) != null) {
 				this.order_list = event.order_list;
+				System.out.println("order Size: " + this.order_list.size());
 				socket.close();
 				return this.order_list;
 			}

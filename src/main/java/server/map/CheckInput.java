@@ -58,21 +58,21 @@ public class CheckInput {
 	
 	public static void loadingMap(JFrame frame, int ROW, int COLUMN) {
 		//For testing Reset button
-		int iInputMaze = JOptionPane.showConfirmDialog(null, "Do you want to load map file?\n Otherwise please"
-				+ " put input for the maze!");
-		if (iInputMaze == JOptionPane.YES_OPTION) {
-			Draw.drawMaze(true);
-		}
-		else if (iInputMaze == JOptionPane.NO_OPTION) {
-			ArrayList<Integer> aliRowCol = aliGetRowCol();
-			Maze.ROW = aliRowCol.get(0);
-			Maze.COLUMN = aliRowCol.get(1);
-			Draw.drawMaze(false);
-		}
-		else if (iInputMaze == JOptionPane.CANCEL_OPTION) {
-			System.exit(0);
-		}
+//		int iInputMaze = JOptionPane.showConfirmDialog(null, "Do you want to load map file?\n Otherwise please"
+//				+ " put input for the maze!");
+//		if (iInputMaze == JOptionPane.YES_OPTION) {
+//			Draw.drawMaze(true);
+//		}
+//		else if (iInputMaze == JOptionPane.NO_OPTION) {
+//			ArrayList<Integer> aliRowCol = aliGetRowCol();
+//			Maze.ROW = aliRowCol.get(0);
+//			Maze.COLUMN = aliRowCol.get(1);
+//			Draw.drawMaze(false);
+//		}
+//		else if (iInputMaze == JOptionPane.CANCEL_OPTION) {
+//			System.exit(0);
+//		}
 		
-//		Draw.drawMaze(true);
+		Draw.drawMaze(true);
 	}
 }

@@ -33,6 +33,7 @@ public class OrderDetailService {
 
 			if((event = (EventAction)ois.readObject()) != null) {
 				this.order_detail_list = event.order_detail_list;
+				System.out.println("Orderdetail : " + this.order_detail_list.size());
 				socket.close();
 				return this.order_detail_list;
 			}

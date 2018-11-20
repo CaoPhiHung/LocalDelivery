@@ -6,6 +6,7 @@ import main.java.server.map.Maze;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainServerListener implements ActionListener {
 
@@ -29,7 +30,18 @@ public class MainServerListener implements ActionListener {
             }else if(clickedBtn.getText().equals("View Map"))
             {
                 Maze m = new Maze();
-                
+                m.initialize();
+                Maze.frame.setVisible(true);
+                Maze.frame.setLocationRelativeTo(null);
+
+                //Fake location
+                ArrayList<String> arrLoc = new ArrayList<>();
+                arrLoc.add("3");
+                arrLoc.add("5");
+                Maze.setTargetFromAL(arrLoc);
+                Maze.solveMaze(Maze.alpPoints);
+
+
             }
         }else if(e.getSource() instanceof JCheckBox)
         {

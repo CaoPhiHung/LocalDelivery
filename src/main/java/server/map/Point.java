@@ -71,7 +71,7 @@ public class Point {
 				if (pInput.iY == Integer.parseInt(asLine[1])) {
 					pInput.sStatus = asLine[2];
 					if (pInput.sStatus.compareTo("barrier")==0) {
-						pInput.coBg = Color.RED;
+						pInput.coBg = Color.red;
 						pInput.btnT.setBackground(pInput.coBg);
 						return;
 					}
@@ -147,7 +147,36 @@ public class Point {
 		int iEdgeX = Math.abs(pA.iX - pB.iX);
 		int iEdgeY = Math.abs(pA.iY - pB.iY);
 		dResult = Math.sqrt(Math.pow(iEdgeX, 2) + Math.pow(iEdgeY, 2));
+		dResult = iEdgeX * iEdgeY;
 		return dResult;
+	}
+	
+	public static boolean bBarrierBetweenX(int iSame, int iPointStart, int iPointTarget) {
+		if (iPointStart > iPointTarget) {
+			int iTemp = iPointStart;
+			iPointStart = iPointTarget;
+			iPointTarget = iTemp;
+		}
+		for (int i = iPointStart + 1; i < iPointTarget; ++i) {
+			Point pTemp = Point.pFindPoint(iSame, i, Maze.alpPoints);
+			if (pTemp.sStatus.compareTo("barrier") == 0)
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean bBarrierBetweenY(int iSame, int iPointStart, int iPointTarget) {
+		if (iPointStart > iPointTarget) {
+			int iTemp = iPointStart;
+			iPointStart = iPointTarget;
+			iPointTarget = iTemp;
+		}
+		for (int i = iPointStart + 1; i < iPointTarget; ++i) {
+			Point pTemp = Point.pFindPoint(i, iSame, Maze.alpPoints);
+			if (pTemp.sStatus.compareTo("barrier") == 0)
+				return true;
+		}
+		return false;
 	}
 	
 	public static Point pNearest (ArrayList<Point> alpInput) {
@@ -155,11 +184,39 @@ public class Point {
 		Point pTarget = new Point();
 		pTarget.iX = Maze.iXTarget;
 		pTarget.iY = Maze.iYTarget;
-		for (int i= 1; i < alpInput.size(); ++i) {
-			double a = dDistance(alpInput.get(i), pTarget);
-			double b = dDistance(pTemp, pTarget);
-			if (dDistance(alpInput.get(i), pTarget) < dDistance(pTemp, pTarget)) {
-				pTemp = alpInput.get(i);
+		if (alpInput.size() == 3) {
+			if (dDistance(alpInput.get(0), pTarget) > dDistance(alpInput.get(1), pTarget)) {
+				alpInput.remove(alpInput.get(0));
+			}
+			else if (dDistance(alpInput.get(1), pTarget) > dDistance(alpInput.get(2), pTarget)) {
+				alpInput.remove(alpInput.get(1));
+			}
+			else {
+				alpInput.remove(alpInput.get(2));
+			}
+		}
+		if (alpInput.size() == 2) {
+			boolean bX = bBarrierBetweenX(pTarget.iX, alpInput.get(0).iY,pTarget.iY);
+			boolean bY = bBarrierBetweenY(pTarget.iY, alpInput.get(0).iX,pTarget.iX);
+			if ((alpInput.get(0).iX == pTarget.iX && bBarrierBetweenX(pTarget.iX, alpInput.get(0).iY,pTarget.iY)) ||
+					(alpInput.get(0).iY == pTarget.iY && bBarrierBetweenY(pTarget.iY, alpInput.get(0).iX,pTarget.iX ))	){
+					return alpInput.get(1);
+			}
+			else if ((alpInput.get(1).iX == pTarget.iX && bBarrierBetweenX(pTarget.iX, alpInput.get(1).iY,pTarget.iY)) ||
+					(alpInput.get(1).iY == pTarget.iY && bBarrierBetweenY(pTarget.iY, alpInput.get(1).iX,pTarget.iX ))	) {
+				return alpInput.get(0);
+			}
+			else {
+				if (alpInput.get(0).iX == 5 && alpInput.get(0).iY == 12) {
+					System.out.println("");
+				}
+				for (int i= 1; i < alpInput.size(); ++i) {
+					double a = dDistance(alpInput.get(i), pTarget);
+					double b = dDistance(pTemp, pTarget);
+					if (dDistance(alpInput.get(i), pTarget) <= dDistance(pTemp, pTarget)) {
+						pTemp = alpInput.get(i);
+					}
+				}	
 			}
 		}
 		return pTemp;

@@ -2,8 +2,10 @@ package main.java.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,12 +66,9 @@ public class FileHandlingService {
 	 * @param filename
 	 */
 	public <T> void readFile(String filename){
-		
-		String myCurrentDir = System.getProperty("user.dir") ;
-        filename = myCurrentDir + "/src/main/resources/db/" + filename;
 
 		try {
-			FileReader f = new FileReader(filename);
+			FileReader f = new FileReader(getFilePath(filename));
 			Scanner s = new Scanner(f);
 			while (s.hasNext()) {
 				String[] parts = s.nextLine().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
@@ -96,7 +95,7 @@ public class FileHandlingService {
                             System.out.println("here");
 							int id = Integer.parseInt(parts[0]);
 
-							Date date = new SimpleDateFormat("yyyy-mm-dd").parse(parts[2]);
+							Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(parts[2]);
 
 							double price1 = Double.parseDouble(parts[3]);
 							Order newOrder = new Order(id, userid, date , price1, parts[4]);
@@ -109,6 +108,7 @@ public class FileHandlingService {
 							int id = Integer.parseInt(parts[0]);
 							int goodsid = Integer.parseInt(parts[2]);
 							int quantity1 = Integer.parseInt(parts[3]);
+							
 							OrderDetail newOrderDetail = new OrderDetail(id, orderId, goodsid, quantity1);
 							order_detail_list.addAtTheEnd(newOrderDetail);
 						}
@@ -144,25 +144,24 @@ public class FileHandlingService {
 	 * @param filename
 	 */
 	public void writeFile(String filename){
-		String myCurrentDir = System.getProperty("user.dir") ;
-        filename = myCurrentDir + "/src/main/resources/db/" + filename;
+
         String lastLine = "", sCurrentLine;
         int id = 0;
         try {
 
-        	BufferedReader br = new BufferedReader(new FileReader(filename));
+        	BufferedReader br = new BufferedReader(new FileReader(getFilePath(filename)));
         	while ((sCurrentLine = br.readLine()) != null) 
             {
                 lastLine = sCurrentLine;
             }
         	
-        	if(lastLine != null){
+        	if(!lastLine.isEmpty() && lastLine.trim() != ""){
 		    	String[] parts = lastLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 		    	id = Integer.parseInt(parts[0]);
 		    	br.close();
         	}
         	
-        	BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(filename), true));
     	    switch (readType) {
 			case 0: // user
 				break;
@@ -184,6 +183,7 @@ public class FileHandlingService {
 						OrderDetail od = new_order_detail_list.get(i);
 						String newOrderDetail = id + "," + this.newOrderID + "," + od.goodsId
 												+ "," + od.quantity;
+						updateGoods(od.goodsId, od.quantity, "Goods.txt");
 						writer.append(newOrderDetail + "\n");
 					}
 					this.statusCode = 1;
@@ -196,7 +196,58 @@ public class FileHandlingService {
 			// TODO: handle exception
 		}
 	}
+	
+	private String getFilePath(String filename){
+		String myCurrentDir = System.getProperty("user.dir") ;
+        filename = myCurrentDir + "/src/main/resources/db/" + filename;
+        return filename;
+	}
+	
+	private void update(String toUpdate, String updated, String filename) throws IOException {
+		
+		BufferedReader file = new BufferedReader(new FileReader(getFilePath(filename)));
+	    String line;
+	    String input = "";
 
+	    while ((line = file.readLine()) != null)
+	    	input += line + System.lineSeparator();
+
+	    input = input.replace(toUpdate, updated);
+
+	    FileOutputStream os = new FileOutputStream(getFilePath(filename));
+	    os.write(input.getBytes());
+
+	    file.close();
+	    os.close();
+	}
+
+	private void updateGoods(int goodsId, int orderQuantity , String filename){
+		try {
+			FileReader f = new FileReader(getFilePath(filename));
+			Scanner s = new Scanner(f);
+			boolean found = false;
+			int quantity = 0;
+			String toUpdate = "";
+			String updated = "";
+			while (s.hasNext() && !found) {
+				toUpdate = s.nextLine();
+				String[] parts = toUpdate.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+				if(goodsId == Integer.parseInt(parts[0])){
+					quantity = Integer.parseInt(parts[3]) -  orderQuantity;
+					updated = parts[0] + "," + parts[1] + "," + parts[2] + ","
+							+ quantity + "," + parts[4];
+					found = true;
+				}
+			}
+			s.close();
+			
+			update(toUpdate, updated, filename);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public static void main(String[] args){
 		FileHandlingService fh = new FileHandlingService();
 //		fh.setReadType(1);

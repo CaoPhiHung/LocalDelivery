@@ -38,7 +38,6 @@ public class ClientFrameOrder extends JFrame {
     private ClientOrderListener col;
 
 
-
     public ClientFrameOrder(ClientModel mo, ClientOrderListener col) {
         this.col = col;
         this.model = mo;
@@ -83,14 +82,25 @@ public class ClientFrameOrder extends JFrame {
 
         if (this.model.getOrderList().getRoot() != null) {
             GenericNode<Order> gnGood = this.model.getOrderList().getRoot();
-            while (gnGood != null) {
-                listModel.addElement(gnGood.data.displayOrder());
-                model.getOrderIdList().add(gnGood.data.orderId);
-                gnGood = gnGood.next;
-            }
+//            while (gnGood != null) {
+//                listModel.addElement(gnGood.data.displayOrder());
+//                model.getOrderIdList().add(gnGood.data.orderId);
+//                gnGood = gnGood.nextEntry(this.model.getOrderList().getRoot());
+//            }
+            createOrderJFrame(gnGood, listModel);
         }
 
         this.listOrder.addListSelectionListener(col);
+    }
+
+    public void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
+        if (root != null) {
+            createOrderJFrame(root.prev, listModel);
+            listModel.addElement(root.data.displayOrder());
+//			System.out.print(" " + root.data.toString());
+            model.getOrderIdList().add(root.data.orderId);
+            createOrderJFrame(root.next, listModel);
+        }
     }
 
     public void updateDetailsItem(int orderIndex) {
