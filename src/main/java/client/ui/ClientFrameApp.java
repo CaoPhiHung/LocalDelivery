@@ -111,7 +111,7 @@ public class ClientFrameApp extends JFrame {
         }
 
         shoppingArea.setPreferredSize(new Dimension(this.getWidth(), numItem * 35));
-        System.out.println("Shopping height: " + shoppingArea.getPreferredSize().height);
+//        System.out.println("Shopping height: " + shoppingArea.getPreferredSize().height);
 
         shoppingAreaScroll = new JScrollPane(shoppingArea);
         shoppingAreaScroll.setPreferredSize(new Dimension(this.getWidth(), 50));

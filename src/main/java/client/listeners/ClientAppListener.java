@@ -6,6 +6,7 @@ import main.java.component.customJPanel.JPanelItemControl;
 import main.java.model.Goods;
 import main.java.model.Order;
 import main.java.model.OrderDetail;
+import main.java.model.User;
 import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
 
@@ -42,6 +43,7 @@ public class ClientAppListener implements ActionListener {
                 ClientFrameApp cfa = cfm.getClientFrameApp();
 
                 OrderService os = new OrderService();
+                User curUser = cfm.getModel().getLoginUser();
 
                 ArrayList<JPanelItemControl> arrControl = cfm.getClientFrameApp().getListItemDisplay();
                 ArrayList<OrderDetail> tempOrdered = new ArrayList<>();
@@ -68,11 +70,29 @@ public class ClientAppListener implements ActionListener {
                     }
                 }
 
-                Order newOrder = new Order(0,totalPrice,latLong);
+                Order newOrder = new Order(curUser.userId,totalPrice,latLong);
                 System.out.println("Total price: " + totalPrice + " latlong: " + latLong);
 
                 try {
-                    os.createNewOrder(newOrder, tempOrdered);
+                    int statusCode = os.createNewOrder(newOrder, tempOrdered);
+                    switch(statusCode)
+                    {
+                        case 1: // Success
+                            JOptionPane.showMessageDialog(null,
+                                    "New order has been added",
+                                    "Message",JOptionPane.INFORMATION_MESSAGE);
+                            break;
+
+                        case 2: // Fail
+                            JOptionPane.showMessageDialog(null,
+                                    "Cannot send new order. Please try again later",
+                                    "Message",JOptionPane.ERROR_MESSAGE);
+                            break;
+
+
+                        default:
+                            break;
+                    }
                 }catch(IOException ioe)
                 {
                     System.out.println("Cannot create new order");

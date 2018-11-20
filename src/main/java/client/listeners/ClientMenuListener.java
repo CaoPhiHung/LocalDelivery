@@ -42,6 +42,7 @@ public class ClientMenuListener implements ActionListener {
 
                     // View orders
                     cfm.getModel().setOrderList(os.getAllOrderList(user.userId));
+
                     cfm.getModel().setOrderListDetail(ods.getAllOrderDetailList(1));
 
                     cfm.setScene(ClientFrameMain.ORDER_SCENE); // Change to order scene
