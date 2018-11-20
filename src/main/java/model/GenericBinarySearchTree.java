@@ -3,11 +3,13 @@ package main.java.model;
 import java.io.Serializable;
 
 public class GenericBinarySearchTree<T extends Comparable<T>> implements Serializable {
+	
 	private GenericNode<T> root;
 	
 	public GenericNode<T> getRoot() {
 		return this.root;
 	}
+	
 	
 	public void insert(T data) {
 		GenericNode<T> newNode = new GenericNode(data);
@@ -38,6 +40,19 @@ public class GenericBinarySearchTree<T extends Comparable<T>> implements Seriali
 			}
 		}
 		
+	}
+	
+	public int size(){
+	    GenericNode<T> y = root;
+	    if (y == null) {
+	        return 0;
+	    }
+        root = y.prev;
+        int left = size();
+        root = y.next;
+        int right = size();
+        root = y;
+        return 1 + left + right;
 	}
 	
 	public void display(GenericNode<T> root){
