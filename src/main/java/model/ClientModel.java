@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ClientModel{
 
     private User loginUser;
-    private GenericBinarySearchTree<Order> orderList;
+    private GenericAVLTree<Order> orderList;
     private GenericDLinkedList<OrderDetail> orderListDetail;
     private GenericDLinkedList<Goods> goodsList;
     private ArrayList<Integer> orderIdList;
@@ -30,11 +30,11 @@ public class ClientModel{
         this.loginUser = loginUser;
     }
 
-    public GenericBinarySearchTree<Order> getOrderList() {
+    public GenericAVLTree<Order> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(GenericBinarySearchTree<Order> orderList) {
+    public void setOrderList(GenericAVLTree<Order> orderList) {
         this.orderList = orderList;
     }
 

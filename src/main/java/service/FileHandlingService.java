@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import main.java.model.GenericBinarySearchTree;
+import main.java.model.GenericAVLTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Message;
@@ -28,13 +28,12 @@ public class FileHandlingService {
 	private int statusCode = 0;
 	private ArrayList<Message> messagelist;
 	public Order newOrder;
-	public int newOrderID;
 	public ArrayList<OrderDetail> new_order_detail_list;
 
 	
 	public GenericDLinkedList<User> user_list = new GenericDLinkedList<User>();
 	public GenericDLinkedList<Goods> goods_list = new GenericDLinkedList<Goods>();
-	public GenericBinarySearchTree<Order> order_list = new GenericBinarySearchTree<Order>();
+	public GenericAVLTree<Order> order_list = new GenericAVLTree<Order>();
 	public GenericDLinkedList<OrderDetail> order_detail_list = new GenericDLinkedList<OrderDetail>();
 
 	public ArrayList<Message> getMessage(){
@@ -94,18 +93,12 @@ public class FileHandlingService {
 						break;
 					case 2:
 						int userid = Integer.parseInt(parts[1]);
-//                        System.out.println("Userid: " + userid);
-//                        System.out.println("Check user id : " + this.checkUserId);
-
 						if(userid == this.checkUserId) {
-//                            System.out.println("here");
 							int id = Integer.parseInt(parts[0]);
-
 							Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(parts[2]);
-
 							double price1 = Double.parseDouble(parts[3]);
 							Order newOrder = new Order(id, userid, date , price1, parts[4]);
-							order_list.insert(newOrder);
+							order_list.setRoot(order_list.insert( order_list.getRoot(), newOrder));
 						}
 						break;
 					case 3:
@@ -141,17 +134,12 @@ public class FileHandlingService {
 		return this.goods_list;
 	}
 	
-	public GenericBinarySearchTree<Order> getOrderList(){
+	public GenericAVLTree<Order> getOrderList(){
 		return this.order_list;
 	}
 	
-	/**
-	 * 
-	 * @param filename
-	 */
-	public void writeFile(String filename){
-
-        String lastLine = "", sCurrentLine;
+	public int getNewID(String filename){
+		String lastLine = "", sCurrentLine;
         int id = 0;
         try {
 
@@ -166,15 +154,29 @@ public class FileHandlingService {
 		    	id = Integer.parseInt(parts[0]);
 		    	br.close();
         	}
+        }catch(Exception e){
         	
+        }
+		return id;
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 */
+	public void writeFile(String filename){
+		
+        int id = 0;
+        try {
+        	id = getNewID(filename);
         	BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(filename), true));
     	    switch (readType) {
 			case 0: // user
 				break;
 			case 1: //order
 				String currentDate = this.newOrder.getStringCurrentDate(this.newOrder.date);
-				this.newOrderID = id + 1;
-				String newOrder = this.newOrderID + ","+ this.newOrder.userId + "," + currentDate + "," 
+				id ++;
+				String newOrder = id + ","+ this.newOrder.userId + "," + currentDate + "," 
 									+ this.newOrder.totalPrice + "," + this.newOrder.destination ;
 				writer.append(newOrder + System.lineSeparator());
 				this.statusCode = 1;
@@ -184,11 +186,12 @@ public class FileHandlingService {
 				break;
 			case 3: // order detail
 					this.statusCode = 1;
+					
 					ArrayList<String> newOrderDetailList = new ArrayList<>();
 					for (int i = 0; i < new_order_detail_list.size(); i++) {
 						id++;
 						OrderDetail od = new_order_detail_list.get(i);
-						String newOrderDetail = id + "," + this.newOrderID + "," + od.goodsId
+						String newOrderDetail = id + "," + (getNewID("Order.txt") + 1) + "," + od.goodsId
 												+ "," + od.quantity;
 						newOrderDetailList.add(newOrderDetail);
 						if(updateGoods(od.goodsId, od.quantity, "Goods.txt") < 0) {

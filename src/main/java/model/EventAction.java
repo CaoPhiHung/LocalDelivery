@@ -10,7 +10,7 @@ public class EventAction implements Serializable {
 	public User user;
 	public Order newOrder;
 	public ArrayList<OrderDetail> newOrderDetail;
-	public GenericBinarySearchTree<Order> order_list;
+	public GenericAVLTree<Order> order_list;
 	public GenericDLinkedList<Goods> goods_list;
 	public GenericDLinkedList<OrderDetail> order_detail_list;
 }

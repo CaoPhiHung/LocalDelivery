@@ -5,14 +5,16 @@ import java.io.Serializable;
 public class GenericNode<T> implements Comparable<T> ,Serializable {
 		
 		public T data;
-		public GenericNode<T> next;
-		public GenericNode<T> prev;
+		public int height;
+		public GenericNode<T> next, right;
+		public GenericNode<T> prev, left;
 		
 		
 		public GenericNode() {
 			this.data = null;
 			this.next = null;
 			this.prev = null;
+			this.height = 1;
 		}
 		
 		public GenericNode(T data) {
@@ -23,6 +25,7 @@ public class GenericNode<T> implements Comparable<T> ,Serializable {
 			this.data = data;
 			this.next = next;
 			this.prev = prev;
+			this.height = 1;
 		}
 
 		@Override

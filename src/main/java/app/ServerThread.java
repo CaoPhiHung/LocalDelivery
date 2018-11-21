@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import main.java.model.EventAction;
-import main.java.model.GenericBinarySearchTree;
+import main.java.model.GenericAVLTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
 import main.java.model.Order;
@@ -117,7 +117,7 @@ public class ServerThread implements Runnable{
 		return fh.goods_list;
 	}
 	
-	public GenericBinarySearchTree<Order> getAllOrders(int userId){
+	public GenericAVLTree<Order> getAllOrders(int userId){
 		fh.setReadType(2);
 		fh.setCheckedUserId(userId);
 		fh.readFile("Order.txt");

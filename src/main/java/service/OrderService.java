@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class OrderService {
-	private GenericBinarySearchTree<Order> order_list;
+	private GenericAVLTree<Order> order_list;
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    public GenericBinarySearchTree<Order> getAllOrderList(int userId) throws IOException {
+    public GenericAVLTree<Order> getAllOrderList(int userId) throws IOException {
     	System.out.println("Trying to connect server ");
 
 		try {
