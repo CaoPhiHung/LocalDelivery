@@ -15,6 +15,7 @@ import java.util.Scanner;
 import main.java.model.GenericBinarySearchTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
+import main.java.model.Message;
 import main.java.model.Order;
 import main.java.model.OrderDetail;
 import main.java.model.User;
@@ -25,6 +26,7 @@ public class FileHandlingService {
 	private int checkUserId;
 	private int checkOrderId;
 	private int statusCode = 0;
+	private ArrayList<Message> messagelist;
 	public Order newOrder;
 	public int newOrderID;
 	public ArrayList<OrderDetail> new_order_detail_list;
@@ -35,6 +37,10 @@ public class FileHandlingService {
 	public GenericBinarySearchTree<Order> order_list = new GenericBinarySearchTree<Order>();
 	public GenericDLinkedList<OrderDetail> order_detail_list = new GenericDLinkedList<OrderDetail>();
 
+	public ArrayList<Message> getMessage(){
+		return this.messagelist;
+	}
+	
 	public int getStatuscCode(){
 		return this.statusCode;
 	}
@@ -88,11 +94,11 @@ public class FileHandlingService {
 						break;
 					case 2:
 						int userid = Integer.parseInt(parts[1]);
-                        System.out.println("Userid: " + userid);
-                        System.out.println("Check user id : " + this.checkUserId);
+//                        System.out.println("Userid: " + userid);
+//                        System.out.println("Check user id : " + this.checkUserId);
 
 						if(userid == this.checkUserId) {
-                            System.out.println("here");
+//                            System.out.println("here");
 							int id = Integer.parseInt(parts[0]);
 
 							Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(parts[2]);
@@ -171,7 +177,7 @@ public class FileHandlingService {
 				String newOrder = this.newOrderID + ","+ this.newOrder.userId + "," + currentDate + "," 
 									+ this.newOrder.totalPrice + "," + this.newOrder.destination ;
 				writer.append(newOrder + "\n");
-				this.statusCode = 1;
+//				this.statusCode = 1;
 				break;
 			case 2: // goods
 				
@@ -183,8 +189,10 @@ public class FileHandlingService {
 						OrderDetail od = new_order_detail_list.get(i);
 						String newOrderDetail = id + "," + this.newOrderID + "," + od.goodsId
 												+ "," + od.quantity;
-						updateGoods(od.goodsId, od.quantity, "Goods.txt");
-						writer.append(newOrderDetail + "\n");
+						if(updateGoods(od.goodsId, od.quantity, "Goods.txt") > 0) {
+							
+							writer.append(newOrderDetail + "\n");
+						}
 					}
 					this.statusCode = 1;
 				break;
@@ -203,25 +211,32 @@ public class FileHandlingService {
         return filename;
 	}
 	
-	private void update(String toUpdate, String updated, String filename) throws IOException {
+	private int update(String toUpdate, String updated, String filename){
+		try {
+			BufferedReader file = new BufferedReader(new FileReader(getFilePath(filename)));
+		    String line;
+		    String input = "";
+
+		    while ((line = file.readLine()) != null)
+		    	input += line + System.lineSeparator();
+
+		    input = input.replace(toUpdate, updated);
+
+		    FileOutputStream os = new FileOutputStream(getFilePath(filename));
+		    os.write(input.getBytes());
+
+		    file.close();
+		    os.close();
+		    
+		    return 1;
+		} catch (IOException e) {
+			// TODO: handle exception
+			return -1;
+		}
 		
-		BufferedReader file = new BufferedReader(new FileReader(getFilePath(filename)));
-	    String line;
-	    String input = "";
-
-	    while ((line = file.readLine()) != null)
-	    	input += line + System.lineSeparator();
-
-	    input = input.replace(toUpdate, updated);
-
-	    FileOutputStream os = new FileOutputStream(getFilePath(filename));
-	    os.write(input.getBytes());
-
-	    file.close();
-	    os.close();
 	}
 
-	private void updateGoods(int goodsId, int orderQuantity , String filename){
+	private int updateGoods(int goodsId, int orderQuantity , String filename){
 		try {
 			FileReader f = new FileReader(getFilePath(filename));
 			Scanner s = new Scanner(f);
@@ -234,17 +249,27 @@ public class FileHandlingService {
 				String[] parts = toUpdate.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 				if(goodsId == Integer.parseInt(parts[0])){
 					quantity = Integer.parseInt(parts[3]) -  orderQuantity;
+					if(quantity < 0) {
+						messagelist.add(new Message(-1, goodsId, "Goods quantity is not enough!!!"));
+						return -1;
+					}
 					updated = parts[0] + "," + parts[1] + "," + parts[2] + ","
 							+ quantity + "," + parts[4];
 					found = true;
+					if(update(toUpdate, updated, filename) < 0) {
+						messagelist.add(new Message(0, goodsId, "Can not update is goods quantity!!!"));
+						return - 1;
+					}
 				}
 			}
 			s.close();
 			
-			update(toUpdate, updated, filename);
+			
+			return 1;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+			return -1;
 		}
 	}
 	
