@@ -1,7 +1,8 @@
 package main.java.server.listeners;
 
 import main.java.server.ServerFrameMain;
-import main.java.server.map.Maze;
+//import main.java.server.map.Maze;
+import main/java/server/map/Maze.java;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
