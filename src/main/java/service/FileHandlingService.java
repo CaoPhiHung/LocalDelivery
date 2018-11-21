@@ -183,18 +183,24 @@ public class FileHandlingService {
 				
 				break;
 			case 3: // order detail
-//				1,1,1,33
+					this.statusCode = 1;
+					ArrayList<String> newOrderDetailList = new ArrayList<>();
 					for (int i = 0; i < new_order_detail_list.size(); i++) {
 						id++;
 						OrderDetail od = new_order_detail_list.get(i);
 						String newOrderDetail = id + "," + this.newOrderID + "," + od.goodsId
 												+ "," + od.quantity;
-						if(updateGoods(od.goodsId, od.quantity, "Goods.txt") > 0) {
-							
-							writer.append(newOrderDetail + System.lineSeparator());
+						newOrderDetailList.add(newOrderDetail);
+						if(updateGoods(od.goodsId, od.quantity, "Goods.txt") < 0) {
+							this.statusCode = -1;
+							break;
 						}
 					}
-					this.statusCode = 1;
+					if(this.statusCode == 1 && newOrderDetailList.size() >= 1){
+						for(int i = 0; i < newOrderDetailList.size(); i++){
+							writer.append(newOrderDetailList.get(i) + System.lineSeparator());
+						}
+					}
 				break;
 			default:
 				break;
@@ -202,6 +208,7 @@ public class FileHandlingService {
     	    writer.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+			this.statusCode = -1;
 		}
 	}
 	
