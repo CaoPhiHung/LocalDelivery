@@ -3,15 +3,10 @@ package main.java.server.listeners;
 import main.java.client.ClientFrameMain;
 import main.java.model.*;
 import main.java.server.ServerFrameMain;
-<<<<<<< HEAD
-//import main.java.server.map.Maze;
-import main/java/server/map/Maze.java;
-=======
 import main.java.server.map.Maze;
 import main.java.service.GoodsService;
 import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
->>>>>>> b5640e4178344fe4f0949f6084d368fb43ae5dac
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

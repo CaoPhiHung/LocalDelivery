@@ -176,8 +176,8 @@ public class FileHandlingService {
 				this.newOrderID = id + 1;
 				String newOrder = this.newOrderID + ","+ this.newOrder.userId + "," + currentDate + "," 
 									+ this.newOrder.totalPrice + "," + this.newOrder.destination ;
-				writer.append(newOrder + "\n");
-//				this.statusCode = 1;
+				writer.append(newOrder + System.lineSeparator());
+				this.statusCode = 1;
 				break;
 			case 2: // goods
 				
@@ -191,7 +191,7 @@ public class FileHandlingService {
 												+ "," + od.quantity;
 						if(updateGoods(od.goodsId, od.quantity, "Goods.txt") > 0) {
 							
-							writer.append(newOrderDetail + "\n");
+							writer.append(newOrderDetail + System.lineSeparator());
 						}
 					}
 					this.statusCode = 1;
