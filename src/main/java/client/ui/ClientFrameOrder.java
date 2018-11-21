@@ -82,11 +82,6 @@ public class ClientFrameOrder extends JFrame {
 
         if (this.model.getOrderList().getRoot() != null) {
             GenericNode<Order> gnGood = this.model.getOrderList().getRoot();
-//            while (gnGood != null) {
-//                listModel.addElement(gnGood.data.displayOrder());
-//                model.getOrderIdList().add(gnGood.data.orderId);
-//                gnGood = gnGood.nextEntry(this.model.getOrderList().getRoot());
-//            }
             createOrderJFrame(gnGood, listModel);
         }
 
@@ -95,11 +90,10 @@ public class ClientFrameOrder extends JFrame {
 
     public void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
         if (root != null) {
-            createOrderJFrame(root.prev, listModel);
+            createOrderJFrame(root.left, listModel);
             listModel.addElement(root.data.displayOrder());
-//			System.out.print(" " + root.data.toString());
             model.getOrderIdList().add(root.data.orderId);
-            createOrderJFrame(root.next, listModel);
+            createOrderJFrame(root.right, listModel);
         }
     }
 

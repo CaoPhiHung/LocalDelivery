@@ -149,11 +149,11 @@ public class ServerFrameApp extends JFrame {
 
     private void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
         if (root != null) {
-            createOrderJFrame(root.prev, listModel);
+            createOrderJFrame(root.left, listModel);
             System.out.print("display Order: " + root.data.displayOrder());
             listModel.addElement(root.data.displayOrder());
             model.getOrderIdList().add(root.data.orderId);
-            createOrderJFrame(root.next, listModel);
+            createOrderJFrame(root.right, listModel);
         }
     }
 
