@@ -1,8 +1,8 @@
 package main.java.server;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
+import main.java.model.ClientModel;
 import main.java.server.listeners.MainServerListener;
+import main.java.server.ui.ServerFrameApp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +13,12 @@ public class ServerFrameMain extends JFrame {
     MainServerListener msl;
     ServerFrameApp sfa;
 
+    ClientModel model;
+
     public static int MAIN_SCENE = 0;
 
     public ServerFrameMain() {
+        this.model = new ClientModel();
         setScene(MAIN_SCENE);
 
         this.setTitle("Local Delivery - Server");
@@ -29,11 +32,23 @@ public class ServerFrameMain extends JFrame {
 
         if (scene == MAIN_SCENE) {
             msl = new MainServerListener(this);
-            sfa = new ServerFrameApp(msl);
+            sfa = new ServerFrameApp(msl, model);
             this.setSize(new Dimension(sfa.getAppWidth(), sfa.getAppHeight()));
             this.setLocationRelativeTo(null); // Center app
             this.setContentPane(sfa.getContentPane());
         }
+    }
+
+    public ServerFrameApp getSfa() {
+        return sfa;
+    }
+
+    public ClientModel getModel() {
+        return model;
+    }
+
+    public void setModel(ClientModel model) {
+        this.model = model;
     }
 
     {

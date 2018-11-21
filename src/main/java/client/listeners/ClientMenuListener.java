@@ -32,7 +32,6 @@ public class ClientMenuListener implements ActionListener {
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
             }else if(clickedBtn.getText().equals("View Orders"))
             {
-                System.out.println("View Orders");
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 OrderService os = new OrderService();
                 OrderDetailService ods = new OrderDetailService();
@@ -46,7 +45,7 @@ public class ClientMenuListener implements ActionListener {
 
                     cfm.getModel().setOrderListDetail(new GenericDLinkedList<>()); // Not null
 
-                        //Check
+                    //Check
                     GenericNode<Order> ord = cfm.getModel().getOrderList().getRoot();
                     while(ord != null)
                     {
