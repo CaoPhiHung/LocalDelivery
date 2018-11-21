@@ -9,12 +9,14 @@ import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainServerListener implements ActionListener {
+public class MainServerListener implements ActionListener, ListSelectionListener {
 
     JFrame jf;
 
@@ -106,4 +108,16 @@ public class MainServerListener implements ActionListener {
         }
     }
 
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
+        if(e.getSource() instanceof JList && !e.getValueIsAdjusting())
+        {
+            System.out.println("Clicked");
+            ServerFrameMain sfm = (ServerFrameMain)jf;
+            JList jl = (JList)e.getSource();
+            int ind = jl.getSelectedIndex();
+            sfm.getSfa().updateDetailsItem(ind);
+        }
+    }
 }

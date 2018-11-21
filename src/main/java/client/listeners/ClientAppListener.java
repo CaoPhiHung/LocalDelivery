@@ -138,21 +138,28 @@ public class ClientAppListener implements ActionListener, DocumentListener {
         }else if(e.getSource() instanceof JCheckBox) // hidden box
         {
             updateTotalPrice();
+        }else if(e.getSource() instanceof JFormattedTextField)
+        {
+            System.out.println("clicked jformatted");
         }
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
+        System.out.println("InsertUpdate");
         JPanelItemControl jpit = null;
 
         if(e.getDocument().getProperty("itemControl") != null)
         {
+            System.out.println("Itemcontrol not null");
             jpit = (JPanelItemControl) e.getDocument().getProperty("itemControl");
             Goods goods = jpit.getGoods();
             JFormattedTextField jft = jpit.getJtf();
 
-            int qty = (int)jft.getValue();
+            int qty = Integer.parseInt(jft.getText());
+            System.out.println("qty: " + qty);
             double tempTotal = goods.getPrice() * qty;
+            System.out.println("Has double: " + tempTotal);
             jpit.setTotalPrice(tempTotal);
         }
 
@@ -160,12 +167,12 @@ public class ClientAppListener implements ActionListener, DocumentListener {
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-
+        System.out.println("RemoveUpdate");
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-
+        System.out.println("ChangedUpdate");
     }
 
 

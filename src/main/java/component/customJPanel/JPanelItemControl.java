@@ -39,6 +39,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         this.cal = cal;
         this.jtf.getDocument().putProperty("itemControl",this);
         this.jtf.getDocument().addDocumentListener(this.cal);
+        this.jtf.addActionListener(this.cal);
 
         hiddenbox = new JCheckBox();
         hiddenbox.addActionListener(this.cal);

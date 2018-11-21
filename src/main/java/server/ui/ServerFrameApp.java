@@ -5,13 +5,18 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import main.java.app.ServerThread;
 import main.java.component.customJButton.JButtonColor;
+import main.java.component.customJPanel.JPanelItemDisplay;
 import main.java.model.*;
 import main.java.server.listeners.MainServerListener;
 import main.java.service.FileHandlingService;
+import main.java.service.OrderDetailService;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ServerFrameApp extends JFrame {
@@ -76,11 +81,13 @@ public class ServerFrameApp extends JFrame {
     }
 
     private void createUIComponents() {
-        detailsPanel = new JPanel();
+        this.detailsPanel = new JPanel();
+        this.detailsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         //List order
         listModel = new DefaultListModel();
         this.listOrder = new JList(listModel);
+        this.listOrder.addListSelectionListener(this.msl);
 
         //Location
         locationWrapper = new JPanel();
@@ -143,6 +150,67 @@ public class ServerFrameApp extends JFrame {
             model.getOrderIdList().add(root.data.orderId);
             createOrderJFrame(root.next, listModel);
         }
+    }
+
+    public void updateDetailsItem(int orderIndex) {
+        System.out.println("Clicked index: " + orderIndex);
+        try {
+            int orderId = this.model.getOrderIdList().get(orderIndex);
+
+            System.out.println("existed orderId?? " + orderId);
+            GenericNode<Order> temp = this.model.getOrderList().getRoot();
+            Order tempOrder = null;
+            while (temp != null) {
+                if (temp.data.orderId == orderId) {
+                    tempOrder = temp.data;
+                    break;
+                }
+                temp = temp.next;
+            }
+            if (tempOrder != null) {
+                locationValue.setText(tempOrder.destination.replace('-', ','));
+                locationWrapper.setVisible(true);
+            }
+
+            OrderDetailService ods = new OrderDetailService();
+            GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(orderId);
+            GenericNode<OrderDetail> singleOD = odlist.getHead();
+
+//            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            this.detailsPanel.removeAll();
+
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            while (singleOD != null) {
+                OrderDetail eachOD = singleOD.data;
+
+                // Display order detail
+//                System.out.println(eachOD.displayOrderDetail());
+
+                // Display good inside
+                GenericNode<Goods> singleGood = this.model.getGoodsList().getHead();
+                while (singleGood != null) {
+                    if (singleGood.data.getGoodsId() == eachOD.goodsId) {
+                        URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
+
+                        this.detailsPanel.add(new JPanelItemDisplay(url, 130, 150,
+                                singleGood.data.getName() + " (" + formatter.format(singleGood.data.getPrice()) + ")",
+                                eachOD.quantity + "", new Color(183, 190, 243)));
+
+                        System.out.println(singleGood.data.displayGoods());
+                        break;
+                    }
+                    singleGood = singleGood.next;
+                }
+
+                singleOD = singleOD.next;
+            }
+            this.detailsPanel.updateUI();
+        } catch (IOException ioe) {
+            System.out.println("Error in Updating Details Item");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**

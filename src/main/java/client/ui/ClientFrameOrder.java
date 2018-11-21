@@ -162,7 +162,6 @@ public class ClientFrameOrder extends JFrame {
             System.out.println(e.getMessage());
         }
 
-
     }
 
     /**
