@@ -117,12 +117,19 @@ public class ClientAppListener implements ActionListener, DocumentListener {
                                 JOptionPane.showMessageDialog(null,
                                         "New order has been added",
                                         "Message",JOptionPane.INFORMATION_MESSAGE);
+                                cfm.setScene(ClientFrameMain.MENU_SCENE);
                                 break;
 
                             case 2: // Fail
                                 JOptionPane.showMessageDialog(null,
                                         "Cannot send new order. Please try again later",
                                         "Message",JOptionPane.ERROR_MESSAGE);
+                                break;
+
+                            case -1:
+                                JOptionPane.showMessageDialog(null,
+                                        "Not enough stock. Please add the correct amount.",
+                                        "Message",JOptionPane.WARNING_MESSAGE);
                                 break;
 
                             default:

@@ -104,7 +104,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         jcbox.setOpaque(false);
         jcbox.addActionListener(this);
 
-        itemQuantity = new JLabel("Quantity: " + goods.getQuantity());
+        itemQuantity = new JLabel("Stock: " + goods.getQuantity());
         itemQuantity.setHorizontalAlignment(JCheckBox.CENTER);
         itemQuantity.setOpaque(false);
         itemQuantity.addMouseListener(this);

@@ -4,6 +4,7 @@ import main.java.client.ClientFrameMain;
 import main.java.model.*;
 import main.java.server.ServerFrameMain;
 import main.java.server.map.Maze;
+import main.java.service.FileHandlingService;
 import main.java.service.GoodsService;
 import main.java.service.OrderDetailService;
 import main.java.service.OrderService;
@@ -48,6 +49,41 @@ public class MainServerListener implements ActionListener, ListSelectionListener
                 arrLoc.add("5");
                 Maze.setTargetFromAL(arrLoc);
                 Maze.solveMaze(Maze.alpPoints);
+            }else if(clickedBtn.getText().equals("Refresh"))
+            {
+                ServerFrameMain sfm = (ServerFrameMain)jf;
+
+                FileHandlingService fh = new FileHandlingService();
+                fh.setReadType(0);
+                fh.readFile("User.txt");
+
+                //Clear ALL
+                sfm.getSfa().userCombo.removeAllItems();
+                sfm.getSfa().userCombo.addItem("Select user");
+                sfm.getSfa().getUserList().clear();
+                sfm.getSfa().getUserList().add(null);
+                sfm.getSfa().userCombo.setSelectedIndex(0);
+
+                GenericNode<User> nodeUser = fh.user_list.getHead();
+                while (nodeUser != null) {
+                    sfm.getSfa().userCombo.addItem(nodeUser.data.fullname);
+                    sfm.getSfa().getUserList().add(nodeUser.data);
+                    nodeUser = nodeUser.next;
+                }
+
+                ((DefaultListModel)sfm.getSfa().listOrder.getModel()).removeAllElements();
+                sfm.getSfa().detailsPanel.removeAll();
+                sfm.getSfa().detailsPanel.updateUI();
+
+                sfm.getSfa().locationValue.setText("N/A");
+
+            }else if(clickedBtn.getText().equals("Clear"))
+            {
+                ServerFrameMain sfm = (ServerFrameMain)jf;
+                sfm.getSfa().listOrder.clearSelection();
+                sfm.getSfa().detailsPanel.removeAll();
+                sfm.getSfa().detailsPanel.updateUI();
+                sfm.getSfa().locationValue.setText("N/A");
             }
         }else if(e.getSource() instanceof JComboBox)
         {
