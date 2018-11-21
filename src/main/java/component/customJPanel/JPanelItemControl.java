@@ -39,6 +39,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         this.cal = cal;
         this.jtf.getDocument().putProperty("itemControl",this);
         this.jtf.getDocument().addDocumentListener(this.cal);
+        this.jtf.addActionListener(this.cal);
 
         hiddenbox = new JCheckBox();
         hiddenbox.addActionListener(this.cal);
@@ -103,7 +104,7 @@ public class JPanelItemControl extends JPanelWithImage implements ActionListener
         jcbox.setOpaque(false);
         jcbox.addActionListener(this);
 
-        itemQuantity = new JLabel("Quantity: " + goods.getQuantity());
+        itemQuantity = new JLabel("Stock: " + goods.getQuantity());
         itemQuantity.setHorizontalAlignment(JCheckBox.CENTER);
         itemQuantity.setOpaque(false);
         itemQuantity.addMouseListener(this);

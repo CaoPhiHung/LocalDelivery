@@ -117,12 +117,19 @@ public class ClientAppListener implements ActionListener, DocumentListener {
                                 JOptionPane.showMessageDialog(null,
                                         "New order has been added",
                                         "Message",JOptionPane.INFORMATION_MESSAGE);
+                                cfm.setScene(ClientFrameMain.MENU_SCENE);
                                 break;
 
                             case 2: // Fail
                                 JOptionPane.showMessageDialog(null,
                                         "Cannot send new order. Please try again later",
                                         "Message",JOptionPane.ERROR_MESSAGE);
+                                break;
+
+                            case -1:
+                                JOptionPane.showMessageDialog(null,
+                                        "Not enough stock. Please add the correct amount.",
+                                        "Message",JOptionPane.WARNING_MESSAGE);
                                 break;
 
                             default:
@@ -138,21 +145,28 @@ public class ClientAppListener implements ActionListener, DocumentListener {
         }else if(e.getSource() instanceof JCheckBox) // hidden box
         {
             updateTotalPrice();
+        }else if(e.getSource() instanceof JFormattedTextField)
+        {
+            System.out.println("clicked jformatted");
         }
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
+        System.out.println("InsertUpdate");
         JPanelItemControl jpit = null;
 
         if(e.getDocument().getProperty("itemControl") != null)
         {
+            System.out.println("Itemcontrol not null");
             jpit = (JPanelItemControl) e.getDocument().getProperty("itemControl");
             Goods goods = jpit.getGoods();
             JFormattedTextField jft = jpit.getJtf();
 
-            int qty = (int)jft.getValue();
+            int qty = Integer.parseInt(jft.getText());
+            System.out.println("qty: " + qty);
             double tempTotal = goods.getPrice() * qty;
+            System.out.println("Has double: " + tempTotal);
             jpit.setTotalPrice(tempTotal);
         }
 
@@ -160,12 +174,12 @@ public class ClientAppListener implements ActionListener, DocumentListener {
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-
+        System.out.println("RemoveUpdate");
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-
+        System.out.println("ChangedUpdate");
     }
 
 

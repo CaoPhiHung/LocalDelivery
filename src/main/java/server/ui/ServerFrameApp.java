@@ -5,13 +5,18 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import main.java.app.ServerThread;
 import main.java.component.customJButton.JButtonColor;
+import main.java.component.customJPanel.JPanelItemDisplay;
 import main.java.model.*;
 import main.java.server.listeners.MainServerListener;
 import main.java.service.FileHandlingService;
+import main.java.service.OrderDetailService;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ServerFrameApp extends JFrame {
@@ -32,6 +37,7 @@ public class ServerFrameApp extends JFrame {
     public JPanel locationWrapper;
     public JLabel locationLabel;
     public JLabel locationValue;
+    public JButton clearBtn;
     private ArrayList<User> userList;
     private DefaultListModel listModel;
 
@@ -76,11 +82,13 @@ public class ServerFrameApp extends JFrame {
     }
 
     private void createUIComponents() {
-        detailsPanel = new JPanel();
+        this.detailsPanel = new JPanel();
+        this.detailsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         //List order
         listModel = new DefaultListModel();
         this.listOrder = new JList(listModel);
+        this.listOrder.addListSelectionListener(this.msl);
 
         //Location
         locationWrapper = new JPanel();
@@ -113,6 +121,10 @@ public class ServerFrameApp extends JFrame {
         // View Map
         viewMapButton = new JButton("View Map");
 
+        refreshBtn = new JButton();
+        clearBtn = new JButton();
+        refreshBtn.addActionListener(this.msl);
+        clearBtn.addActionListener(this.msl);
     }
 
     private void assignListeners() {
@@ -135,7 +147,7 @@ public class ServerFrameApp extends JFrame {
         this.listOrder.updateUI();
     }
 
-    public void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
+    private void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
         if (root != null) {
             createOrderJFrame(root.prev, listModel);
             System.out.print("display Order: " + root.data.displayOrder());
@@ -143,6 +155,67 @@ public class ServerFrameApp extends JFrame {
             model.getOrderIdList().add(root.data.orderId);
             createOrderJFrame(root.next, listModel);
         }
+    }
+
+    public void updateDetailsItem(int orderIndex) {
+        System.out.println("Clicked index: " + orderIndex);
+        try {
+            int orderId = this.model.getOrderIdList().get(orderIndex);
+
+            System.out.println("existed orderId?? " + orderId);
+            GenericNode<Order> temp = this.model.getOrderList().getRoot();
+            Order tempOrder = null;
+            while (temp != null) {
+                if (temp.data.orderId == orderId) {
+                    tempOrder = temp.data;
+                    break;
+                }
+                temp = temp.next;
+            }
+            if (tempOrder != null) {
+                locationValue.setText(tempOrder.destination.replace('-', ','));
+                locationWrapper.setVisible(true);
+            }
+
+            OrderDetailService ods = new OrderDetailService();
+            GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(orderId);
+            GenericNode<OrderDetail> singleOD = odlist.getHead();
+
+//            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            this.detailsPanel.removeAll();
+
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            while (singleOD != null) {
+                OrderDetail eachOD = singleOD.data;
+
+                // Display order detail
+//                System.out.println(eachOD.displayOrderDetail());
+
+                // Display good inside
+                GenericNode<Goods> singleGood = this.model.getGoodsList().getHead();
+                while (singleGood != null) {
+                    if (singleGood.data.getGoodsId() == eachOD.goodsId) {
+                        URL url = this.getClass().getResource("../../../resources/images/" + singleGood.data.getImgPath());
+
+                        this.detailsPanel.add(new JPanelItemDisplay(url, 130, 150,
+                                singleGood.data.getName() + " (" + formatter.format(singleGood.data.getPrice()) + ")",
+                                eachOD.quantity + "", new Color(183, 190, 243)));
+
+                        System.out.println(singleGood.data.displayGoods());
+                        break;
+                    }
+                    singleGood = singleGood.next;
+                }
+
+                singleOD = singleOD.next;
+            }
+            this.detailsPanel.updateUI();
+        } catch (IOException ioe) {
+            System.out.println("Error in Updating Details Item");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
@@ -224,13 +297,13 @@ public class ServerFrameApp extends JFrame {
         leftPanel.setOpaque(false);
         mainPanel.add(leftPanel, BorderLayout.WEST);
         topArea = new JPanel();
-        topArea.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        topArea.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         topArea.setOpaque(false);
         leftPanel.add(topArea, BorderLayout.NORTH);
         Font userComboFont = this.$$$getFont$$$("Courier", -1, 12, userCombo.getFont());
         if (userComboFont != null) userCombo.setFont(userComboFont);
         userCombo.setForeground(new Color(-9998707));
-        topArea.add(userCombo, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, -1), null, 0, false));
+        topArea.add(userCombo, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(100, -1), null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setBackground(new Color(-12762020));
         Font label1Font = this.$$$getFont$$$("Ayuthaya", Font.BOLD, 16, label1.getFont());
@@ -238,6 +311,20 @@ public class ServerFrameApp extends JFrame {
         label1.setForeground(new Color(-12762020));
         label1.setText("User List");
         topArea.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        refreshBtn.setBackground(new Color(-12762020));
+        refreshBtn.setBorderPainted(false);
+        refreshBtn.setDefaultCapable(true);
+        Font refreshBtnFont = this.$$$getFont$$$("Ayuthaya", Font.BOLD, 14, refreshBtn.getFont());
+        if (refreshBtnFont != null) refreshBtn.setFont(refreshBtnFont);
+        refreshBtn.setForeground(new Color(-593420));
+        refreshBtn.setOpaque(true);
+        refreshBtn.setText("Refresh");
+        refreshBtn.setVerifyInputWhenFocusTarget(false);
+        topArea.add(refreshBtn, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(10, 20), null, 0, false));
+        final Spacer spacer6 = new Spacer();
+        topArea.add(spacer6, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 5), null, 0, false));
+        final Spacer spacer7 = new Spacer();
+        topArea.add(spacer7, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(5, -1), null, 0, false));
         exitWrapper = new JPanel();
         exitWrapper.setLayout(new GridLayoutManager(1, 4, new Insets(10, 0, 10, 0), -1, 100));
         exitWrapper.setOpaque(false);
@@ -252,19 +339,20 @@ public class ServerFrameApp extends JFrame {
         exitBtn.setText("Exit");
         exitBtn.setVerifyInputWhenFocusTarget(false);
         exitArea.add(exitBtn, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        refreshBtn.setBackground(new Color(-12762020));
-        refreshBtn.setBorderPainted(false);
-        refreshBtn.setDefaultCapable(true);
-        Font refreshBtnFont = this.$$$getFont$$$("Ayuthaya", Font.BOLD, 14, refreshBtn.getFont());
-        if (refreshBtnFont != null) refreshBtn.setFont(refreshBtnFont);
-        refreshBtn.setForeground(new Color(-593420));
-        refreshBtn.setText("Refresh");
-        refreshBtn.setVerifyInputWhenFocusTarget(false);
-        exitWrapper.add(refreshBtn, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer6 = new Spacer();
-        exitWrapper.add(spacer6, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(5, -1), null, 0, false));
-        final Spacer spacer7 = new Spacer();
-        exitWrapper.add(spacer7, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(5, -1), null, 0, false));
+        final Spacer spacer8 = new Spacer();
+        exitWrapper.add(spacer8, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(5, -1), null, 0, false));
+        final Spacer spacer9 = new Spacer();
+        exitWrapper.add(spacer9, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(5, -1), null, 0, false));
+        clearBtn.setBackground(new Color(-12762020));
+        clearBtn.setBorderPainted(false);
+        clearBtn.setDefaultCapable(true);
+        Font clearBtnFont = this.$$$getFont$$$("Ayuthaya", Font.BOLD, 14, clearBtn.getFont());
+        if (clearBtnFont != null) clearBtn.setFont(clearBtnFont);
+        clearBtn.setForeground(new Color(-593420));
+        clearBtn.setOpaque(true);
+        clearBtn.setText("Clear");
+        clearBtn.setVerifyInputWhenFocusTarget(false);
+        exitWrapper.add(clearBtn, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         listOrderWrapper = new JPanel();
         listOrderWrapper.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         leftPanel.add(listOrderWrapper, BorderLayout.CENTER);
