@@ -20,6 +20,10 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ServerFrameApp extends JFrame {
+
+    private int appWidth = 800;
+    private int appHeight = 600;
+
     public JPanel mainPanel;
     public JList listOrder;
     public JButton exitBtn;
@@ -41,12 +45,9 @@ public class ServerFrameApp extends JFrame {
     private ArrayList<User> userList;
     private DefaultListModel listModel;
 
-    private int appWidth = 800;
-    private int appHeight = 600;
-
-    MainServerListener msl;
-    DefaultListModel userListModel;
+    private MainServerListener msl;
     private FileHandlingService fh;
+    private Order curOrder = null;
 
     ClientModel model;
 
@@ -75,10 +76,6 @@ public class ServerFrameApp extends JFrame {
 
     public void setAppHeight(int appHeight) {
         this.appHeight = appHeight;
-    }
-
-    public void refreshData() {
-        userListModel = new DefaultListModel();
     }
 
     private void createUIComponents() {
@@ -150,10 +147,33 @@ public class ServerFrameApp extends JFrame {
     private void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
         if (root != null) {
             createOrderJFrame(root.left, listModel);
-            System.out.print("display Order: " + root.data.displayOrder());
+            System.out.println("display Order: " + root.data.displayOrder());
             listModel.addElement(root.data.displayOrder());
             model.getOrderIdList().add(root.data.orderId);
             createOrderJFrame(root.right, listModel);
+        }
+    }
+
+    private Order retrieveCurrentOrder(GenericNode<Order> root, int orderId) {
+        if (root != null) {
+            if (root.data.orderId == orderId) {
+                return root.data;
+            } else {
+                Order leftOrder = retrieveCurrentOrder(root.left, orderId);
+                Order rightOrder;
+                if (leftOrder == null) {
+                    rightOrder = retrieveCurrentOrder(root.right, orderId);
+                    if (rightOrder == null) {
+                        return null;
+                    } else {
+                        return rightOrder;
+                    }
+                } else {
+                    return leftOrder;
+                }
+            }
+        } else {
+            return null;
         }
     }
 
@@ -164,16 +184,10 @@ public class ServerFrameApp extends JFrame {
 
             System.out.println("existed orderId?? " + orderId);
             GenericNode<Order> temp = this.model.getOrderList().getRoot();
-            Order tempOrder = null;
-            while (temp != null) {
-                if (temp.data.orderId == orderId) {
-                    tempOrder = temp.data;
-                    break;
-                }
-                temp = temp.next;
-            }
-            if (tempOrder != null) {
-                locationValue.setText(tempOrder.destination.replace('-', ','));
+            this.curOrder = retrieveCurrentOrder(temp, orderId);
+
+            if (this.curOrder != null) {
+                locationValue.setText(this.curOrder.destination.replace('-', ','));
                 locationWrapper.setVisible(true);
             }
 
@@ -216,6 +230,10 @@ public class ServerFrameApp extends JFrame {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public Order getCurOrder() {
+        return curOrder;
     }
 
     /**

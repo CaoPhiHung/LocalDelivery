@@ -1,5 +1,5 @@
-1,Orange,4,0,orange.png
-2,Wine,12,80,wine.png
-3,Rice,15,85,rice.png
-4,Apple,4.5,30,apple.png
-5,Banana,3,40,banana.png
+1,Orange,4,44,orange.png
+2,Wine,12,67,wine.png
+3,Rice,15,77,rice.png
+4,Apple,4.5,17,apple.png
+5,Banana,3,24,banana.png

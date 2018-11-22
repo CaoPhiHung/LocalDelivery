@@ -26,13 +26,14 @@ public class MainServerListener implements ActionListener, ListSelectionListener
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        ServerFrameMain sfm = (ServerFrameMain)jf;
+
         if(e.getSource() instanceof JButton)
         {
             JButton clickedBtn = (JButton)e.getSource();
 
             if(clickedBtn.getText().equals("Exit"))
             {
-                ServerFrameMain sfm = (ServerFrameMain)jf;
                 sfm.setVisible(false);
                 sfm.dispose();
                 System.exit(0);
@@ -44,15 +45,16 @@ public class MainServerListener implements ActionListener, ListSelectionListener
                 Maze.frame.setLocationRelativeTo(null);
 
                 //Fake location
+                Order curOrder = sfm.getSfa().getCurOrder();
+                String[] locArr = curOrder.destination.split("-");
+
                 ArrayList<String> arrLoc = new ArrayList<>();
-                arrLoc.add("3");
-                arrLoc.add("5");
+                arrLoc.add(locArr[0]);
+                arrLoc.add(locArr[1]);
                 Maze.setTargetFromAL(arrLoc);
                 Maze.solveMaze(Maze.alpPoints);
             }else if(clickedBtn.getText().equals("Refresh"))
             {
-                ServerFrameMain sfm = (ServerFrameMain)jf;
-
                 FileHandlingService fh = new FileHandlingService();
                 fh.setReadType(0);
                 fh.readFile("User.txt");
@@ -72,6 +74,8 @@ public class MainServerListener implements ActionListener, ListSelectionListener
                 }
 
                 ((DefaultListModel)sfm.getSfa().listOrder.getModel()).removeAllElements();
+                sfm.getModel().getOrderIdList().clear();
+//                sfm.getSfa().
                 sfm.getSfa().detailsPanel.removeAll();
                 sfm.getSfa().detailsPanel.updateUI();
 
@@ -79,7 +83,6 @@ public class MainServerListener implements ActionListener, ListSelectionListener
 
             }else if(clickedBtn.getText().equals("Clear"))
             {
-                ServerFrameMain sfm = (ServerFrameMain)jf;
                 sfm.getSfa().listOrder.clearSelection();
                 sfm.getSfa().detailsPanel.removeAll();
                 sfm.getSfa().detailsPanel.updateUI();
@@ -92,8 +95,6 @@ public class MainServerListener implements ActionListener, ListSelectionListener
 
             if(selectedIndex > 0)
             {
-                ServerFrameMain sfm = (ServerFrameMain)jf;
-
                 //Set user
                 User selectedUser = sfm.getSfa().getUserList().get(selectedIndex);
                 sfm.getModel().setLoginUser(selectedUser);
