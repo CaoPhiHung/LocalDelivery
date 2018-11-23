@@ -25,7 +25,6 @@ public class Point {
 		return sResult;
 	}
 	
-	
 	public String sExport() {
 		String sResult = "";
 		sResult = Integer.toString(iX)+ "," + Integer.toString(iY) +","+ sStatus + "\n";

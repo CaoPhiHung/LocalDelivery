@@ -3,6 +3,7 @@ package main.java.service;
 import main.java.app.ServerMain;
 import main.java.model.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,7 +22,13 @@ public class ClientConnectService {
                 + " , " + (new Date()).toString());
 
         try {
-            socket = new Socket(ServerMain.IP, ServerMain.PORT);
+            // Pop ip address
+            String inputServer = JOptionPane.
+                    showInputDialog(null,
+                            "Please enter server IP address",
+                            "Server Input",JOptionPane.INFORMATION_MESSAGE);
+
+            socket = new Socket(inputServer, ServerMain.PORT);
             ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 

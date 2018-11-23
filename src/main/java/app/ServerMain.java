@@ -2,6 +2,7 @@ package main.java.app;
 
 import main.java.server.ServerFrameMain;
 
+import javax.swing.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class ServerMain {
         try {
             ip = InetAddress.getLocalHost();
             IP = ip.getHostAddress();
+            JOptionPane.showMessageDialog(null, "Server address: " + IP);
             System.out.println("IP address of the server: " + ip.getHostAddress());
             System.out.println("Creating a socket - " + (new Date()).toString());
             System.out.println("Main Server done");
