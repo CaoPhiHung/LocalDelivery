@@ -27,10 +27,11 @@ public class ServerMain {
             System.out.println("Main Server done");
             
             ServerSocket serverSocket = new ServerSocket(PORT);
-            
             ServerWaitingClient swc = new ServerWaitingClient(serverSocket);
             Thread tr = new Thread(swc);
             tr.start();
+
+            System.out.println("Log 4");
 
             ServerFrameMain sfm = new ServerFrameMain();
           

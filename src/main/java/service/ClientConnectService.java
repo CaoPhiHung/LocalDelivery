@@ -7,8 +7,12 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.TimerTask;
+import java.util.Timer;
 
 public class ClientConnectService {
 
@@ -28,36 +32,43 @@ public class ClientConnectService {
                             "Please enter server IP address",
                             "Server Input",JOptionPane.INFORMATION_MESSAGE);
 
-            socket = new Socket(inputServer, ServerMain.PORT);
-            ois = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(inputServer, ServerMain.PORT),3000);
 
-            user = new User();
-            user.username = username;
-            user.password = password;
-
-            EventAction event = new EventAction();
-            event.eventType = 0;
-            event.user = user;
-
-            oos.writeObject(event);
-
-            if((event = (EventAction)ois.readObject()) != null) {
-                System.out.println("This is my email: " + event.user.email);
-                this.user = event.user;
-                socket.close();
-                return this.user;
-            }else
+//            socket.setSoTimeout(3000);
+            if(socket != null)
             {
-                socket.close();
-            }
+                ois = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
+                user = new User();
+                user.username = username;
+                user.password = password;
+
+                EventAction event = new EventAction();
+                event.eventType = 0;
+                event.user = user;
+
+                oos.writeObject(event);
+
+                if((event = (EventAction)ois.readObject()) != null) {
+                    System.out.println("This is my email: " + event.user.email);
+                    this.user = event.user;
+                    socket.close();
+                    return this.user;
+                }else
+                {
+                    socket.close();
+                }
+            }
+        }catch (UnknownHostException e){
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (Exception ex)
         {
-            ex.getMessage();
+            System.out.println(ex.getMessage());
         }
 
 //        socket.close();
