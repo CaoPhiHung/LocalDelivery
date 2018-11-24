@@ -52,7 +52,7 @@ public class MainServerListener implements ActionListener, ListSelectionListener
                 arrLoc.add(locArr[0]);
                 arrLoc.add(locArr[1]);
                 Maze.setTargetFromAL(arrLoc);
-                Maze.solveMaze(Maze.alpPoints);
+                Maze.solveMaze();
             }else if(clickedBtn.getText().equals("Refresh"))
             {
                 FileHandlingService fh = new FileHandlingService();

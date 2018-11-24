@@ -2,6 +2,7 @@ package main.java.server.map;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -12,52 +13,52 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIDefaults;
-
+//To draw the map
 public class Draw {
-	
-	public static void drawPoints(int iRow, int iColumn, JPanel jpMap, ArrayList<String> alsResult,ArrayList<Point>
-	alpInput) {
+	//Draw points base on the array list of string (points info)
+	public static void drawPoints(ArrayList<String> alsResult) {
 		Maze.alpPoints = new ArrayList<Point>();
 		if (alsResult.size() > 0) {
+			//The 1st line of string array list is the map dimension
 			String[] asDimension = alsResult.get(0).split(",");
 			Maze.ROW = Integer.parseInt(asDimension[0]);
 			Maze.COLUMN = Integer.parseInt(asDimension[1]);
 		}	
-		for (int x = 0; x < iRow ; ++x) {
-			for (int y = 0; y < iColumn; ++y) {
+		//Go through map points
+		for (int x = 0; x < Maze.ROW ; ++x) {
+			for (int y = 0; y < Maze.COLUMN; ++y) {
 				JButton btn = new JButton(y + "," + x);
-				//For clicking the point case, switch between Normal Barrier Target(Normal)
+				//For clicking the point case, switch between Normal, Barrier and
+				//Target( status = Normal)
 				btn.setName("1");
 				Point pTemp = new Point();
 				pTemp.btnT = btn;
 				pTemp.iX = y;
 				pTemp.iY = x;
 				pTemp.sStatus = "normal";
-				pTemp.coBg = Color.CYAN;
-				pTemp.btnT.setBorderPainted(true);
-				
-				//Try to reset button shape
-				  UIDefaults def = new UIDefaults();
-				  def.put("Button.contentMargins", new Insets(0,0,0,0));
-				  pTemp.btnT.putClientProperty("Nimbus.Overrides", def);
-				  
+				pTemp.coBg = Color.CYAN;  
 				pTemp.btnT.setBackground(pTemp.coBg);
+				//Set points to be Barrier or Normal base on the input 
 				Point.modifyPoint(pTemp,alsResult);
-				jpMap.add(pTemp.btnT);
+				Maze.pnlPoint.add(pTemp.btnT);
 				pTemp.btnT.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						JButton jb = (JButton) e.getSource();
+						//Now we used the name that we set previously to go between 1 2 3
 						int iCurrent =Integer.parseInt(jb.getName()) ;
+						//If the target is set already, just go between 1 2
 						if (Maze.bHasTarget ) {
 							if (iCurrent > 2)
 								iCurrent = 1;
 						}
+						//Otherwise, go between 1 2 3
 						else {
 							if (iCurrent > 3)
 								iCurrent = 1;
 						}
 						switch (iCurrent ) {
+						//Case 1: Barrier
 						case 1 :
 							if (pTemp.coBg == Color.BLACK) {
 								Maze.bHasTarget = false;
@@ -67,7 +68,7 @@ public class Draw {
 							}
 							Point.Barrier(pTemp);
 							break;
-						
+						//Case 2: Normal
 						case 2:
 							if (pTemp.coBg == Color.BLACK) {
 								Maze.bHasTarget = false;
@@ -77,7 +78,7 @@ public class Draw {
 							}
 							Point.Normal(pTemp);
 							break;
-						
+						//Case 3: Target
 						case 3:
 							if (Maze.bHasTarget == false) {
 								pTemp.coBg = Color.BLACK;
@@ -92,7 +93,7 @@ public class Draw {
 								JOptionPane.showMessageDialog(null,"We can choose only 1 target at 1 time,"
 										+ "please");
 							}	
-//						case 4:
+//						case 4: Starting point
 //							if (Maze.bStartSet == false) {
 //								pTemp.coBg = Color.WHITE;
 //								Maze.iXStart = pTemp.iX;
@@ -109,6 +110,7 @@ public class Draw {
 						default:				
 							break;
 						}	
+						//Increase the index and set it back to the button
 						int iNext = iCurrent + 1;
 						String sNext = Integer.toString(iNext);
 						jb.setName(sNext);
@@ -118,7 +120,9 @@ public class Draw {
 			}	
 		}
 	}
-	
+	//Draw the map with 2 options:
+	//True: get input from file
+	//False: get input from user (user has to draw it by themselves
 	public static ArrayList<Point> drawMaze( Boolean bImport) {
 		ArrayList<String> alsResult = new ArrayList<String>();
 		if (bImport) {
@@ -140,28 +144,24 @@ public class Draw {
 		Maze.pnlPoint = new JPanel();
 		Maze.pnlPoint.setLayout(new GridLayout(Maze.ROW,Maze.COLUMN));
 		Maze.frame.add(Maze.pnlPoint,BorderLayout.CENTER);
-		Maze.frame.setExtendedState(Maze.frame.MAXIMIZED_BOTH);
-		
-		Draw.drawPoints(Maze.ROW, Maze.COLUMN, Maze.pnlPoint, alsResult, Maze.alpPoints);
-		JButton btnSolve = new JButton("Solve");
+		Maze.frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		Draw.drawPoints( alsResult);
+		//A panel to store buttons
 		JPanel pnlButtons = new JPanel();
 		pnlButtons.setLayout(new GridLayout(4, 4));
-		pnlButtons.add(btnSolve );
+		//Add the button panel to the south
 		Maze.frame.getContentPane().add(pnlButtons, BorderLayout.SOUTH);
+		//Solve the map
+		JButton btnSolve = new JButton("Solve");
+		pnlButtons.add(btnSolve );
 		btnSolve.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Maze.solveMaze(Maze.alpPoints);
+				Maze.solveMaze();
 			}
 		});
-		JButton btnReset = new JButton("Reset");
-		pnlButtons.add(btnReset);
-		JButton btnExport = new JButton("Export map to file");
-		pnlButtons.add(btnExport);
+		//Import the file to build the map
 		JButton btnImport = new JButton("Import file to map");
-		//For debug: set default Enter to Reset
-				Maze.frame.getRootPane().setDefaultButton(btnImport);
-				
 		btnImport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -169,24 +169,30 @@ public class Draw {
 				Maze.importMaze();
 			}
 		});
+		//For debug: set default Enter to Reset
+		Maze.frame.getRootPane().setDefaultButton(btnImport);
 		pnlButtons.add(btnImport);
+		//Export map to file
+		JButton btnExport = new JButton("Export map to file");
+		pnlButtons.add(btnExport);
 		btnExport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Export.exportToFile(Maze.alpPoints);	
+				Export.exportToFile();	
 			}
 		});
+		//Reset the map for a new path finding process
+		JButton btnReset = new JButton("Reset");
+		pnlButtons.add(btnReset);
 		btnReset.addActionListener(new ActionListener() {
 			@Override	
 			public void actionPerformed(ActionEvent arg0) {
-				//Reset function
-				Maze.resetMaze(Maze.alpPoints);
+				Maze.resetMaze();
 			}
 		});
 		//Export to JPEG
 		JButton btnExportToJPEG = new JButton("Export to jpeg file");
 		btnExportToJPEG.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Maze.exportMapToJPEG();
@@ -197,36 +203,28 @@ public class Draw {
 		JButton btnTypeTarget = new JButton("Type target point");
 		pnlButtons.add(btnTypeTarget);
 		btnTypeTarget.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//TypeTarget is for the case user type it here
 //				Maze.typeTarget();
-				
 				//SetTargetFromAL is for the case we get input from file
 				ArrayList<String> alsInput = new ArrayList<>();
+				//For testing, assign a new string array list {3,5} (Since setTargetFromAL
+				// will be invoke lately
 				alsInput.add("3");
 				alsInput.add("5");
 				Maze.setTargetFromAL(alsInput);
-				
 			}
 		});
-		//Close
+		//Close this frame
 		JButton btnClose = new JButton("Close");
 		pnlButtons.add(btnClose);
-		btnClose.addActionListener(new ActionListener() {
-			
+		btnClose.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Maze.frame.dispose();
-				
 			}
 		});
-		
-		
 		return Maze.alpPoints;	
-		
-		
-		
 	}
 }

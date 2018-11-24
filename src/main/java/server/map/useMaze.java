@@ -29,7 +29,6 @@ public class useMaze {
 					window.frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
-//					System.exit(0);
 				}
 			}
 		});

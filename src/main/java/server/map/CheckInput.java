@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+//Class to check format of every input 
 public class CheckInput {
-	
+	//Check if a string is a positive integer
 	public static boolean bIsPositiveInteger (String s) {
 		try {
 			int iInput = Integer.parseInt(s);
@@ -18,7 +18,7 @@ public class CheckInput {
 			return false;
 		}
 	}
-	
+	//Check if a string is a positive integer and return it, otherwise show the error message
 	public static int iGetInt (String sMessage) {
 		int iResult = 0;
 		boolean bValid = false;
@@ -34,7 +34,7 @@ public class CheckInput {
 		}
 		return iResult;
 	}
-	
+	//If the map text file has error, show which line has error to user
 	public static void checkMapFile( ArrayList<Integer> aliErrorLines) {
 		String sError = "";
 		if (aliErrorLines.size() == 1) {
@@ -48,16 +48,16 @@ public class CheckInput {
 		JOptionPane.showMessageDialog(null,"Input file is corrupted, please check following line(s): \n"
 				+ sError );
 	}
-	
+	//Get the row and column of the map
 	public static ArrayList<Integer> aliGetRowCol () {
 		ArrayList<Integer> aliRowCol = new ArrayList<Integer>();
 		aliRowCol.add(CheckInput.iGetInt("Please specify the row of maze: "));
 		aliRowCol.add(CheckInput.iGetInt("Please specify the column of maze: "));
 		return aliRowCol;
 	}
-	
+	//Load the map on frame
 	public static void loadingMap(JFrame frame, int ROW, int COLUMN) {
-		//For testing Reset button
+		//For testing Reset button, we will replace following whole code with the code above
 //		int iInputMaze = JOptionPane.showConfirmDialog(null, "Do you want to load map file?\n Otherwise please"
 //				+ " put input for the maze!");
 //		if (iInputMaze == JOptionPane.YES_OPTION) {
