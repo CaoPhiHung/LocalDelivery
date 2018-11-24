@@ -1,6 +1,8 @@
 package main.java.service;
 
+import main.java.app.ClientMain;
 import main.java.app.ServerMain;
+import main.java.client.ClientFrameMain;
 import main.java.model.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,7 +21,7 @@ public class OrderService {
     	System.out.println("Trying to connect server ");
 
 		try {
-			socket = new Socket(ServerMain.IP, ServerMain.PORT);
+			socket = new Socket(ClientMain.IP_address, ServerMain.PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
 	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 			
@@ -48,7 +50,7 @@ public class OrderService {
     public int createNewOrder(Order order, ArrayList<OrderDetail> ods) throws IOException {
     	System.out.println("Trying to connect server ");
 		try {
-			socket = new Socket(ServerMain.IP, ServerMain.PORT);
+			socket = new Socket(ClientMain.IP_address, ServerMain.PORT);
 			ois = new ObjectInputStream(socket.getInputStream());
 	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 			

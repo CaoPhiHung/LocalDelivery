@@ -1,6 +1,8 @@
 package main.java.service;
 
+import main.java.app.ClientMain;
 import main.java.app.ServerMain;
+import main.java.client.ClientFrameMain;
 import main.java.model.*;
 
 import javax.swing.*;
@@ -31,9 +33,10 @@ public class ClientConnectService {
                     showInputDialog(null,
                             "Please enter server IP address",
                             "Server Input",JOptionPane.INFORMATION_MESSAGE);
+            ClientMain.IP_address = inputServer;
 
             socket = new Socket();
-            socket.connect(new InetSocketAddress(inputServer, ServerMain.PORT),3000);
+            socket.connect(new InetSocketAddress(ClientMain.IP_address, ServerMain.PORT),3000);
 
 //            socket.setSoTimeout(3000);
             if(socket != null)
