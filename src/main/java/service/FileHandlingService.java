@@ -283,22 +283,4 @@ public class FileHandlingService {
 		}
 	}
 	
-	public static void main(String[] args){
-		FileHandlingService fh = new FileHandlingService();
-//		fh.setReadType(1);
-//		fh.setNewOrder(new Order(1, 46, "hello"));
-//		fh.writeFile("Order.txt");
-		
-//		fh.setReadType(3);
-//		OrderDetail od1 = new OrderDetail(0, 1, 100, 101);
-//		OrderDetail od2 = new OrderDetail(0, 1, 100, 102);
-//		OrderDetail od3 = new OrderDetail(0, 1, 100, 103);
-//		ArrayList<OrderDetail> odl = new ArrayList<>();
-//		odl.add(od1);
-//		odl.add(od2);
-//		odl.add(od3);
-//		fh.setNewOrderDetail(odl);
-//		fh.writeFile("OrderDetail.txt");
-	}
-	
 }

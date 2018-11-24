@@ -162,19 +162,19 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		return null;
 	}
 	
-	public static void main(String arg[]){
-		GenericAVLTree<Integer> tree = new GenericAVLTree<Integer>();
-		tree.root = tree.insert(tree.root, 10); 
-		tree.root = tree.insert(tree.root, 20); 
-		tree.root = tree.insert(tree.root, 30); 
-		tree.root = tree.insert(tree.root, 40); 
-		tree.root = tree.insert(tree.root, 50); 
-		tree.root = tree.insert(tree.root, 25);
-		System.out.println("Preorder traversal" + 
-				" of constructed tree is : "); 
-		tree.preOrder(tree.root);
-		System.out.println("");
-		System.out.println("Size: " + tree.size());
-		System.out.println("Search 50: " + tree.search(50).data);
-	}
+//	public static void main(String arg[]){
+//		GenericAVLTree<Integer> tree = new GenericAVLTree<Integer>();
+//		tree.root = tree.insert(tree.root, 10);
+//		tree.root = tree.insert(tree.root, 20);
+//		tree.root = tree.insert(tree.root, 30);
+//		tree.root = tree.insert(tree.root, 40);
+//		tree.root = tree.insert(tree.root, 50);
+//		tree.root = tree.insert(tree.root, 25);
+//		System.out.println("Preorder traversal" +
+//				" of constructed tree is : ");
+//		tree.preOrder(tree.root);
+//		System.out.println("");
+//		System.out.println("Size: " + tree.size());
+//		System.out.println("Search 50: " + tree.search(50).data);
+//	}
 }

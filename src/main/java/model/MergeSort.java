@@ -71,26 +71,26 @@ public class MergeSort<T extends Comparable<T>> {
     } 
   
     // Driver program to test above functions 
-    public static void main(String[] args) { 
-    	GenericDLinkedList<Integer> dll = new GenericDLinkedList<>();
-    	dll.addAtTheEnd(10);
-    	dll.addAtTheEnd(30);
-    	dll.addAtTheEnd(3);
-    	dll.addAtTheEnd(4);
-    	dll.addAtTheEnd(20);
-    	dll.addAtTheEnd(5);
-    	
-    	System.out.println("Size: " + dll.size());
-    	
-    	MergeSort<Integer> mergeSort = new MergeSort<>();
-    	mergeSort.print(dll.getHead());
-    	
-    	
-    	System.out.println("");
-    	
-    	dll.setHead(mergeSort.mergeSort(dll.getHead()));
-    	mergeSort.print(dll.getHead());
-    	
-    } 
+//    public static void main(String[] args) {
+//    	GenericDLinkedList<Integer> dll = new GenericDLinkedList<>();
+//    	dll.addAtTheEnd(10);
+//    	dll.addAtTheEnd(30);
+//    	dll.addAtTheEnd(3);
+//    	dll.addAtTheEnd(4);
+//    	dll.addAtTheEnd(20);
+//    	dll.addAtTheEnd(5);
+//
+//    	System.out.println("Size: " + dll.size());
+//
+//    	MergeSort<Integer> mergeSort = new MergeSort<>();
+//    	mergeSort.print(dll.getHead());
+//
+//
+//    	System.out.println("");
+//
+//    	dll.setHead(mergeSort.mergeSort(dll.getHead()));
+//    	mergeSort.print(dll.getHead());
+//
+//    }
 	
 }

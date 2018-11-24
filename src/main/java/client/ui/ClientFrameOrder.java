@@ -36,7 +36,7 @@ public class ClientFrameOrder extends JFrame {
     public JLabel locationLabel;
     public JLabel locationValue;
     private ClientOrderListener col;
-
+    private Order curOrder = null;
 
     public ClientFrameOrder(ClientModel mo, ClientOrderListener col) {
         this.col = col;
@@ -97,6 +97,29 @@ public class ClientFrameOrder extends JFrame {
         }
     }
 
+    private Order retrieveCurrentOrder(GenericNode<Order> root, int orderId) {
+        if (root != null) {
+            if (root.data.orderId == orderId) {
+                return root.data;
+            } else {
+                Order leftOrder = retrieveCurrentOrder(root.left, orderId);
+                Order rightOrder;
+                if (leftOrder == null) {
+                    rightOrder = retrieveCurrentOrder(root.right, orderId);
+                    if (rightOrder == null) {
+                        return null;
+                    } else {
+                        return rightOrder;
+                    }
+                } else {
+                    return leftOrder;
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+
     public void updateDetailsItem(int orderIndex) {
         System.out.println("Clicked index: " + orderIndex);
         try {
@@ -104,16 +127,10 @@ public class ClientFrameOrder extends JFrame {
 
             System.out.println("existed orderId?? " + orderId);
             GenericNode<Order> temp = this.model.getOrderList().getRoot();
-            Order tempOrder = null;
-            while (temp != null) {
-                if (temp.data.orderId == orderId) {
-                    tempOrder = temp.data;
-                    break;
-                }
-                temp = temp.next;
-            }
-            if (tempOrder != null) {
-                locationValue.setText(tempOrder.destination.replace('-', ','));
+            this.curOrder = retrieveCurrentOrder(temp, orderId);
+
+            if (this.curOrder != null) {
+                locationValue.setText(this.curOrder.destination.replace('-', ','));
                 locationWrapper.setVisible(true);
             }
 
