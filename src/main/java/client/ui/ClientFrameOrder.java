@@ -88,6 +88,11 @@ public class ClientFrameOrder extends JFrame {
         this.listOrder.addListSelectionListener(col);
     }
 
+    /**
+     * Add to Model the data of order
+     * @param root
+     * @param listModel
+     */
     public void createOrderJFrame(GenericNode<Order> root, DefaultListModel listModel) {
         if (root != null) {
             createOrderJFrame(root.left, listModel);
@@ -97,6 +102,12 @@ public class ClientFrameOrder extends JFrame {
         }
     }
 
+    /**
+     * Retrieve order in Binary Tree using recursive
+     * @param root - root Node
+     * @param orderId - orderId of Order
+     * @return
+     */
     private Order retrieveCurrentOrder(GenericNode<Order> root, int orderId) {
         if (root != null) {
             if (root.data.orderId == orderId) {
@@ -120,12 +131,16 @@ public class ClientFrameOrder extends JFrame {
         }
     }
 
+    /**
+     * This is to update the details item in View Order function
+     * @param orderIndex - index when choosing JList
+     */
     public void updateDetailsItem(int orderIndex) {
-        System.out.println("Clicked index: " + orderIndex);
+//        System.out.println("Clicked index: " + orderIndex);
         try {
             int orderId = this.model.getOrderIdList().get(orderIndex);
 
-            System.out.println("existed orderId?? " + orderId);
+//            System.out.println("existed orderId?? " + orderId);
             GenericNode<Order> temp = this.model.getOrderList().getRoot();
             this.curOrder = retrieveCurrentOrder(temp, orderId);
 
@@ -138,7 +153,6 @@ public class ClientFrameOrder extends JFrame {
             GenericDLinkedList<OrderDetail> odlist = ods.getAllOrderDetailList(orderId);
             GenericNode<OrderDetail> singleOD = odlist.getHead();
 
-//            this.userItemList = new JPanel(new FlowLayout(FlowLayout.LEFT));
             this.userItemList.removeAll();
 
             NumberFormat formatter = NumberFormat.getCurrencyInstance();

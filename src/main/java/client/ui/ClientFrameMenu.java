@@ -54,8 +54,8 @@ public class ClientFrameMenu extends JFrame {
         logOutButton = new JButton();
 
         menuWrapper = new JPanel();
-        JButtonColor jbc = new JButtonColor("3475", Color.BLACK, Color.BLUE);
-        menuWrapper.add(jbc);
+//        JButtonColor jbc = new JButtonColor("3475", Color.BLACK, Color.BLUE);
+//        menuWrapper.add(jbc);
     }
 
     private void assignListeners() {

@@ -1,3 +1,6 @@
+/**
+ * This is main server program
+ */
 package main.java.app;
 
 import main.java.server.ServerFrameMain;

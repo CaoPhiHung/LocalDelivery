@@ -30,6 +30,7 @@ public class ClientMenuListener implements ActionListener {
                 getAllGoods();
                 ClientFrameMain cfm = (ClientFrameMain) jf;
                 cfm.setScene(ClientFrameMain.MAIN_SCENE); // Change to main scene
+
             }else if(clickedBtn.getText().equals("View Orders"))
             {
                 ClientFrameMain cfm = (ClientFrameMain) jf;
@@ -49,14 +50,14 @@ public class ClientMenuListener implements ActionListener {
                     GenericNode<Order> ord = cfm.getModel().getOrderList().getRoot();
                     while(ord != null)
                     {
-                        System.out.println(ord.data.displayOrder());
+//                        System.out.println(ord.data.displayOrder());
                         ord = ord.next;
                     }
 
                     GenericNode<OrderDetail> ordDe = cfm.getModel().getOrderListDetail().getHead();
                     while(ordDe != null)
                     {
-                        System.out.println(ordDe.data.displayOrderDetail());
+//                        System.out.println(ordDe.data.displayOrderDetail());
                         ordDe = ordDe.next;
                     }
 
@@ -76,6 +77,9 @@ public class ClientMenuListener implements ActionListener {
         }
     }
 
+    /**
+     * Get goods list from service and put to model
+     */
     private void getAllGoods()
     {
         ClientFrameMain cfm = (ClientFrameMain) jf;

@@ -35,13 +35,19 @@ public class ClientOrderListener implements ActionListener, ListSelectionListene
         }
     }
 
+    /**
+     * Trigger by Clicking on JList
+     * @param e
+     */
     @Override
     public void valueChanged(ListSelectionEvent e) {
 
-        if(e.getSource() instanceof JList && !e.getValueIsAdjusting())
+        if(e.getSource() instanceof JList && !e.getValueIsAdjusting()) // Make sure only trigger once
         {
             ClientFrameMain cfm = (ClientFrameMain)jf;
             JList jl = (JList)e.getSource();
+
+            //Get index and update items
             int ind = jl.getSelectedIndex();
             cfm.getClientFrameOrder().updateDetailsItem(ind);
         }

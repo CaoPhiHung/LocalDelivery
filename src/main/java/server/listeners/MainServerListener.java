@@ -131,6 +131,10 @@ public class MainServerListener implements ActionListener, ListSelectionListener
         }
     }
 
+    /**
+     * Get all goods from service
+     */
+
     private void getAllGoods()
     {
         ServerFrameMain sfm = (ServerFrameMain)jf;
@@ -144,6 +148,11 @@ public class MainServerListener implements ActionListener, ListSelectionListener
 
         }
     }
+
+    /**
+     * Server select list
+     * @param e
+     */
 
     @Override
     public void valueChanged(ListSelectionEvent e) {

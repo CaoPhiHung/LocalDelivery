@@ -31,6 +31,9 @@ public class ClientAppListener implements ActionListener, DocumentListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        /*
+            JBUTTON LISTENER
+         */
         if(e.getSource() instanceof JButton)
         {
             JButton clickedBtn = (JButton)e.getSource();
@@ -142,31 +145,44 @@ public class ClientAppListener implements ActionListener, DocumentListener {
                 }
 
             }
+
+            /*
+            CHECKBOX LISTENER
+             */
         }else if(e.getSource() instanceof JCheckBox) // hidden box
         {
             updateTotalPrice();
+
+            /*
+            JFORMATTEDTEXTFIELD LISTENER
+             */
         }else if(e.getSource() instanceof JFormattedTextField)
         {
             System.out.println("clicked jformatted");
         }
     }
 
+    /*
+        DOCUMENT LISTENER FOR JFORMATTED TEXT FIELD
+     */
     @Override
     public void insertUpdate(DocumentEvent e) {
-        System.out.println("InsertUpdate");
+//        System.out.println("InsertUpdate");
         JPanelItemControl jpit = null;
+
 
         if(e.getDocument().getProperty("itemControl") != null)
         {
-            System.out.println("Itemcontrol not null");
+//            System.out.println("Itemcontrol not null");
             jpit = (JPanelItemControl) e.getDocument().getProperty("itemControl");
             Goods goods = jpit.getGoods();
             JFormattedTextField jft = jpit.getJtf();
 
+            // Update price based on changing quantity
             int qty = Integer.parseInt(jft.getText());
-            System.out.println("qty: " + qty);
+//            System.out.println("qty: " + qty);
             double tempTotal = goods.getPrice() * qty;
-            System.out.println("Has double: " + tempTotal);
+//            System.out.println("Has double: " + tempTotal);
             jpit.setTotalPrice(tempTotal);
         }
 
@@ -174,15 +190,17 @@ public class ClientAppListener implements ActionListener, DocumentListener {
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        System.out.println("RemoveUpdate");
+
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        System.out.println("ChangedUpdate");
+
     }
 
-
+    /*
+        UPDATE Total price in Client ordering frame
+     */
     public void updateTotalPrice()
     {
         ClientFrameMain cfm = (ClientFrameMain)jf;
