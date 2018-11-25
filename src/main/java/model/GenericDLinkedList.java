@@ -44,6 +44,11 @@ public class GenericDLinkedList<T> implements Serializable {
       }      
     }
 	
+	/**
+	 * search 1 node
+	 * @param obj
+	 * @return
+	 */
 	public GenericNode<T> search(T obj){
 		GenericNode<T> found = head;
 		

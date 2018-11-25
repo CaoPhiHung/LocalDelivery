@@ -25,6 +25,11 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		return (a > b) ? a : b; 
 	} 
 	
+	/**
+	 * rotate 1 node to the right
+	 * @param y
+	 * @return
+	 */
 	public GenericNode<T> rightRotate(GenericNode<T> y) { 
 		GenericNode<T> x = y.left; 
 		GenericNode<T> T2 = x.right; 
@@ -41,6 +46,11 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		return x; 
 	} 
 	
+	/**
+	 * rotate 1 node to the left
+	 * @param x
+	 * @return
+	 */
 	public GenericNode<T> leftRotate(GenericNode<T> x) { 
 		GenericNode<T> y = x.right; 
 		GenericNode<T> T2 = y.left; 
@@ -57,6 +67,11 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		return y; 
 	} 
 	
+	/**
+	 * balance the tree
+	 * @param N
+	 * @return
+	 */
 	public int getBalance(GenericNode<T> N) { 
 		if (N == null) 
 			return 0; 
@@ -64,6 +79,12 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		return getHeight(N.left) - getHeight(N.right); 
 	}
 	
+	/**
+	 * insert new node to the avl tree
+	 * @param node
+	 * @param key
+	 * @return
+	 */
 	public GenericNode<T> insert(GenericNode<T> node, T key) { 
 
 		/* 1. Perform the normal BST insertion */
@@ -126,7 +147,10 @@ public class GenericAVLTree<T extends Comparable<T>> implements Serializable {
 		} 
 	}
 	
-	
+	/**
+	 * get size of the tree
+	 * @return
+	 */
 	public int size(){
 	    GenericNode<T> y = root;
 	    if (y == null) {

@@ -18,9 +18,14 @@ public class GoodsService {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
+    /**
+     * 
+     * @return
+     * @throws IOException
+     */
     public GenericDLinkedList<Goods> getAllGoodsList() throws IOException {
-    	System.out.println("Trying to connect - " + ServerMain.IP + ":" + ServerMain.PORT 
-				+ " , " + (new Date()).toString());
+//    	System.out.println("Trying to connect - " + ServerMain.IP + ":" + ServerMain.PORT 
+//				+ " , " + (new Date()).toString());
 
 		try {
 			socket = new Socket(ClientMain.IP_address, ServerMain.PORT);

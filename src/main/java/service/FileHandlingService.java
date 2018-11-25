@@ -15,7 +15,6 @@ import java.util.Scanner;
 import main.java.model.GenericAVLTree;
 import main.java.model.GenericDLinkedList;
 import main.java.model.Goods;
-import main.java.model.Message;
 import main.java.model.Order;
 import main.java.model.OrderDetail;
 import main.java.model.User;
@@ -26,7 +25,6 @@ public class FileHandlingService {
 	private int checkUserId;
 	private int checkOrderId;
 	private int statusCode = 0;
-	private ArrayList<Message> messagelist;
 	public Order newOrder;
 	public ArrayList<OrderDetail> new_order_detail_list;
 
@@ -36,9 +34,6 @@ public class FileHandlingService {
 	public GenericAVLTree<Order> order_list = new GenericAVLTree<Order>();
 	public GenericDLinkedList<OrderDetail> order_detail_list = new GenericDLinkedList<OrderDetail>();
 
-	public ArrayList<Message> getMessage(){
-		return this.messagelist;
-	}
 	
 	public int getStatuscCode(){
 		return this.statusCode;
@@ -221,6 +216,13 @@ public class FileHandlingService {
         return filename;
 	}
 	
+	/**
+	 * 
+	 * @param toUpdate - update line
+	 * @param updated - new line
+	 * @param filename
+	 * @return
+	 */
 	private int update(String toUpdate, String updated, String filename){
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(getFilePath(filename)));
@@ -245,7 +247,14 @@ public class FileHandlingService {
 		}
 		
 	}
-
+	
+	/**
+	 * 
+	 * @param goodsId is goods id
+	 * @param orderQuantity is quantity of the order
+	 * @param filename  
+	 * @return 1 is success -1 is fail
+	 */
 	private int updateGoods(int goodsId, int orderQuantity , String filename){
 		try {
 			FileReader f = new FileReader(getFilePath(filename));
@@ -260,14 +269,12 @@ public class FileHandlingService {
 				if(goodsId == Integer.parseInt(parts[0])){
 					quantity = Integer.parseInt(parts[3]) -  orderQuantity;
 					if(quantity < 0) {
-						messagelist.add(new Message(-1, goodsId, "Goods quantity is not enough!!!"));
 						return -1;
 					}
 					updated = parts[0] + "," + parts[1] + "," + parts[2] + ","
 							+ quantity + "," + parts[4];
 					found = true;
 					if(update(toUpdate, updated, filename) < 0) {
-						messagelist.add(new Message(0, goodsId, "Can not update is goods quantity!!!"));
 						return - 1;
 					}
 				}

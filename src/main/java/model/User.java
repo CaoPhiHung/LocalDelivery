@@ -18,6 +18,16 @@ public class User implements Serializable {
 		
 	}
 	
+	/**
+	 * 
+	 * @param userId
+	 * @param username
+	 * @param fullname
+	 * @param password
+	 * @param email
+	 * @param phone
+	 * @param address
+	 */
 	public User(int userId, String username, String fullname, String password, String email, String phone , String address){
 		this.userId = userId;
 		this.username = username;
@@ -28,6 +38,11 @@ public class User implements Serializable {
 		this.phone = phone;
 	}
 	
+	/**
+	 * 
+	 * @param checkUser
+	 * @return
+	 */
 	public boolean checkAuthenticate(User checkUser){
 		if(checkUser.username != null && checkUser.password != null
             && this.username.equals(checkUser.username) && this.password.equals(checkUser.password)){

@@ -17,6 +17,12 @@ public class OrderService {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
+    /**
+     * 
+     * @param userId
+     * @return
+     * @throws IOException
+     */
     public GenericAVLTree<Order> getAllOrderList(int userId) throws IOException {
     	System.out.println("Trying to connect server ");
 
@@ -47,6 +53,13 @@ public class OrderService {
 		
     }
     
+    /**
+     * 
+     * @param order
+     * @param ods
+     * @return
+     * @throws IOException
+     */
     public int createNewOrder(Order order, ArrayList<OrderDetail> ods) throws IOException {
     	System.out.println("Trying to connect server ");
 		try {

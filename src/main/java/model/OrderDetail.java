@@ -9,6 +9,13 @@ public class OrderDetail implements Serializable {
 	public int goodsId;
 	public int quantity;
 	
+	/**
+	 * 
+	 * @param id
+	 * @param orderId
+	 * @param goodsId
+	 * @param quantity
+	 */
 	public OrderDetail(int id, int orderId, int goodsId, int quantity) {
 		this.orderDetailId = id;
 		this.orderId = orderId;
@@ -16,10 +23,20 @@ public class OrderDetail implements Serializable {
 		this.quantity = quantity;
 	}
 
+	/**
+	 * 
+	 * @param orderId
+	 * @param goodsId
+	 * @param quantity
+	 */
     public OrderDetail(int orderId, int goodsId, int quantity) {
         this(0,orderId,goodsId,quantity);
     }
 
+    /**
+     * 
+     * @return
+     */
     public String displayOrderDetail()
     {
         String toReturn = "odID: " + orderDetailId + "- quantity: " + quantity + "- goodsId: " + goodsId;
